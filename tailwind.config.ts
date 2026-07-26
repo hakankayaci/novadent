@@ -64,6 +64,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        menu: ["var(--font-menu)", "var(--font-sans)", "system-ui", "sans-serif"],
       },
       fontSize: {
         // Fluid scale, ratio >= 1.25 between steps. Display ceiling stays under 6rem.

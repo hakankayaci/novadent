@@ -25,7 +25,7 @@ type AnchorProps = CommonProps &
 
 const BASE =
   "sheen group relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-xl " +
-  "font-semibold leading-tight transition-[transform,box-shadow,background-color,color] duration-300 " +
+  "font-menu font-semibold leading-tight transition-[transform,box-shadow,background-color,color] duration-300 " +
   "ease-out will-change-transform focus-visible:outline-offset-4 active:translate-y-0 active:scale-[0.98] " +
   "text-center [text-wrap:balance]";
 

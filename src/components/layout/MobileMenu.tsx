@@ -82,7 +82,7 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
         role="dialog"
         aria-modal="true"
         aria-label={c.a11y.mainNav}
-        className="absolute inset-y-0 right-0 flex w-full max-w-sm animate-scale-in flex-col overflow-y-auto bg-navy-950 text-white shadow-panel"
+        className="font-menu absolute inset-y-0 right-0 flex w-full max-w-sm animate-scale-in flex-col overflow-y-auto bg-navy-950 text-white shadow-panel"
       >
         <div className="flex items-center justify-between gap-3 border-b border-white/10 p-5">
           <LogoOnDark alt={c.a11y.logoAlt} />

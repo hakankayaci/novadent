@@ -50,7 +50,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-header w-full border-b transition-[background-color,box-shadow,border-color,padding] duration-300 ease-out ${
+        className={`font-menu sticky top-0 z-header w-full border-b transition-[background-color,box-shadow,border-color,padding] duration-300 ease-out ${
           scrolled
             ? "border-navy-950/10 bg-white/90 py-2.5 shadow-card backdrop-blur-xl"
             : "border-transparent bg-paper py-4"

@@ -82,7 +82,7 @@ export function LanguageSelector({ tone = "light" }: { tone?: "light" | "dark" }
             setOpen(true);
           }
         }}
-        className={`flex min-h-[44px] items-center gap-2 rounded-xl px-3 text-body-sm font-semibold transition-colors duration-200 ${
+        className={`font-menu flex min-h-[44px] items-center gap-2 rounded-xl px-3 text-body-sm font-semibold transition-colors duration-200 ${
           dark
             ? "border border-white/15 bg-white/10 text-white hover:bg-white/16"
             : "border border-navy-800/15 bg-white text-navy-900 hover:border-navy-800/30 hover:bg-navy-50"

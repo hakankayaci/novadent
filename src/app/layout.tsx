@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fira_Sans } from "next/font/google";
+import { Fira_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { generateSiteMetadata } from "@/lib/metadata";
 import {
@@ -18,6 +18,16 @@ const firaSans = Fira_Sans({
   display: "swap",
 });
 
+/**
+ * Plus Jakarta Sans for modern navigation menus and interactive CTAs.
+ */
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700", "800"],
+  variable: "--font-menu",
+  display: "swap",
+});
+
 export const metadata: Metadata = generateSiteMetadata();
 
 export const viewport: Viewport = {
@@ -31,7 +41,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr" className={firaSans.variable}>
+    <html lang="tr" className={`${firaSans.variable} ${plusJakartaSans.variable}`}>
       <head>
         <script type="application/ld+json">
           {serializeSchema(generateDentistCareSchema())}

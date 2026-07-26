@@ -1,45 +1,93 @@
 "use client";
 
-import { CalendarCheck, MapPin, PhoneCall, UserRound } from "lucide-react";
+import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
+import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/LanguageContext";
+import { shortHours } from "@/lib/hours";
+import { trackEvent } from "@/lib/analytics";
 
-const ICONS = [MapPin, UserRound, CalendarCheck, PhoneCall];
-
-/**
- * A specification strip rather than four identical cards: hairline dividers, no boxes,
- * so it reads as one continuous band of facts under the hero.
- */
 export function TrustHighlights() {
   const { c } = useLanguage();
 
+  const whatsAppUrl = `${business.phone.whatsAppLink}?text=${encodeURIComponent(c.whatsAppDefaultMessage)}`;
+
+  const cards = [
+    {
+      icon: Phone,
+      title: c.quickActions.callTitle,
+      desc: business.phone.display,
+      href: business.phone.telLink,
+      target: undefined,
+      color: "text-navy-800 bg-navy-50 border-navy-100 hover:border-navy-300",
+      iconColor: "text-navy-800",
+      event: () => trackEvent("quick_action_click", { action: "phone" }),
+    },
+    {
+      icon: MessageCircle,
+      title: c.quickActions.whatsAppTitle,
+      desc: c.quickActions.whatsAppDesc,
+      href: whatsAppUrl,
+      target: "_blank",
+      color: "text-[#1da851] bg-emerald-50 border-emerald-100 hover:border-emerald-300",
+      iconColor: "text-[#25D366]",
+      event: () => trackEvent("quick_action_click", { action: "whatsapp" }),
+    },
+    {
+      icon: MapPin,
+      title: c.quickActions.directionsTitle,
+      desc: "Fatih Mah. Tahsin Şipka Cad. Edirne",
+      href: business.maps.directionsUrl,
+      target: "_blank",
+      color: "text-cyan-700 bg-cyan-50 border-cyan-100 hover:border-cyan-300",
+      iconColor: "text-cyan-600",
+      event: () => trackEvent("quick_action_click", { action: "directions" }),
+    },
+    {
+      icon: Clock,
+      title: c.quickActions.hoursTitle,
+      desc: shortHours(c),
+      href: "#iletisim",
+      target: undefined,
+      color: "text-slate-800 bg-slate-50 border-slate-200 hover:border-slate-300",
+      iconColor: "text-slate-700",
+      event: () => trackEvent("quick_action_click", { action: "hours" }),
+    },
+  ];
+
   return (
-    <section className="border-b border-pine-950/8 bg-white">
+    <section className="border-b border-navy-950/10 bg-white py-8">
       <Container>
-        <ul className="grid divide-y divide-pine-950/8 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
-          {c.trust.map((item, index) => {
-            const Icon = ICONS[index] ?? MapPin;
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {cards.map((card, index) => {
+            const Icon = card.icon;
             return (
               <Reveal
-                as="li"
-                key={item.title}
-                delay={index * 70}
-                className={`py-7 sm:px-6 lg:px-7 ${
-                  index > 0 ? "sm:border-l sm:border-pine-950/8" : ""
-                } ${index === 2 ? "sm:border-l-0 lg:border-l" : ""} ${
-                  index >= 2 ? "sm:border-t sm:border-pine-950/8 lg:border-t-0" : ""
-                } ${index === 0 ? "sm:pl-0" : ""} ${index === 3 ? "sm:pr-0" : ""}`}
+                key={card.title}
+                delay={index * 60}
               >
-                <Icon className="h-6 w-6 text-leaf-700" aria-hidden />
-                <h3 className="mt-4 text-display-sm font-semibold text-pine-950">
-                  {item.title}
-                </h3>
-                <p className="mt-2 max-w-prose text-body-sm text-ink-soft">{item.desc}</p>
+                <a
+                  href={card.href}
+                  target={card.target}
+                  rel={card.target ? "noopener noreferrer" : undefined}
+                  onClick={card.event}
+                  className={`group flex min-h-[100px] flex-col justify-between rounded-card border p-5 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-card ${card.color}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-body-sm font-bold tracking-tight text-navy-950">
+                      {card.title}
+                    </span>
+                    <Icon className={`h-5 w-5 ${card.iconColor}`} aria-hidden />
+                  </div>
+                  <p className="mt-2 text-xs font-semibold text-ink-soft line-clamp-2">
+                    {card.desc}
+                  </p>
+                </a>
               </Reveal>
             );
           })}
-        </ul>
+        </div>
       </Container>
     </section>
   );

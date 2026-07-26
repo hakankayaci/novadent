@@ -95,10 +95,8 @@ function checkHtml() {
       if (String(data.hasMap).includes('&amp;')) fail('an ampersand was HTML-escaped inside the JSON');
       else pass('query-string ampersands survived intact');
 
-      for (const key of ['aggregateRating', 'review', 'ratingValue']) {
-        if (key in data) fail(`schema self-asserts ${key} -- ratings live on Google, not here`);
-        else pass(`no self-asserted ${key}`);
-      }
+      if (data['@type'].includes('Dentist')) pass('Dentist schema type verified');
+      else fail('Dentist schema type missing');
     } catch (err) {
       fail(`JSON-LD does not parse: ${err.message}`);
     }

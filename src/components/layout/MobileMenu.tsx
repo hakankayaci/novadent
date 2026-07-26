@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { Instagram, MapPin, PhoneCall, X } from "lucide-react";
+import { Instagram, MapPin, Phone, X, MessageCircle } from "lucide-react";
 import { business } from "@/data/site";
 import { navItems } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
 import { LogoOnDark } from "@/components/ui/Logo";
 import { LanguageSelector } from "./LanguageSelector";
 import { useLanguage } from "@/lib/LanguageContext";
-import { weekdayRange, sundayRange } from "@/lib/hours";
+import { weekdayRange, saturdayRange } from "@/lib/hours";
 
 interface MobileMenuProps {
   open: boolean;
@@ -40,7 +40,6 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
       }
       if (event.key !== "Tab") return;
 
-      // Keep Tab inside the drawer while it owns the screen.
       const nodes = panelRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE);
       if (!nodes?.length) return;
       const first = nodes[0];
@@ -65,16 +64,16 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
 
   if (!open) return null;
 
+  const whatsAppUrl = `${business.phone.whatsAppLink}?text=${encodeURIComponent(c.whatsAppDefaultMessage)}`;
+
   return (
-    // Must match the trigger's breakpoint in Header.tsx (xl:hidden). If the drawer hides
-    // at a narrower width than the button that opens it, the button silently does nothing.
     <div className="fixed inset-0 z-drawer xl:hidden">
       <button
         type="button"
         tabIndex={-1}
         aria-label={c.a11y.closeMenu}
         onClick={onClose}
-        className="absolute inset-0 animate-fade-in cursor-default bg-pine-950/70 backdrop-blur-sm"
+        className="absolute inset-0 animate-fade-in cursor-default bg-navy-950/75 backdrop-blur-sm"
       />
 
       <div
@@ -83,7 +82,7 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
         role="dialog"
         aria-modal="true"
         aria-label={c.a11y.mainNav}
-        className="absolute inset-y-0 right-0 flex w-full max-w-sm animate-scale-in flex-col overflow-y-auto bg-pine-950 text-white shadow-panel"
+        className="absolute inset-y-0 right-0 flex w-full max-w-sm animate-scale-in flex-col overflow-y-auto bg-navy-950 text-white shadow-panel"
       >
         <div className="flex items-center justify-between gap-3 border-b border-white/10 p-5">
           <LogoOnDark alt={c.a11y.logoAlt} />
@@ -114,14 +113,14 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
                     style={{ animationDelay: `${40 + index * 28}ms` }}
                     className={`flex min-h-[48px] animate-rise-in items-center gap-3 rounded-xl px-4 text-body-lg font-semibold transition-colors duration-200 ${
                       isActive
-                        ? "bg-white/10 text-leaf-300"
-                        : "text-pine-100/85 hover:bg-white/5 hover:text-white"
+                        ? "bg-white/10 text-cyan-300"
+                        : "text-navy-100/85 hover:bg-white/5 hover:text-white"
                     }`}
                   >
                     <span
                       aria-hidden
                       className={`h-1.5 w-1.5 shrink-0 rounded-full transition-colors duration-200 ${
-                        isActive ? "bg-leaf-400" : "bg-white/20"
+                        isActive ? "bg-cyan-400" : "bg-white/20"
                       }`}
                     />
                     {item.label(c)}
@@ -133,32 +132,46 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
         </nav>
 
         <div className="space-y-3 border-t border-white/10 p-5">
-          <dl className="mb-1 space-y-1 text-body-sm text-pine-100/70">
+          <dl className="mb-1 space-y-1 text-body-sm text-navy-100/70">
             <div className="flex items-baseline justify-between gap-3">
-              <dt>{c.hours.weekdaysLabel}</dt>
-              <dd className="tabular-nums text-white">{weekdayRange}</dd>
+              <dt>Pzt – Cuma</dt>
+              <dd className="tabular-nums font-semibold text-white">{weekdayRange}</dd>
             </div>
             <div className="flex items-baseline justify-between gap-3">
-              <dt>{c.hours.sundayLabel}</dt>
-              <dd className="tabular-nums text-white">{sundayRange}</dd>
+              <dt>Cumartesi</dt>
+              <dd className="tabular-nums font-semibold text-white">{saturdayRange}</dd>
+            </div>
+            <div className="flex items-baseline justify-between gap-3">
+              <dt>Pazar</dt>
+              <dd className="font-semibold text-cyan-400">{c.hours.closed}</dd>
             </div>
           </dl>
 
           <Button
-            variant="emergency"
+            variant="whatsapp"
+            fullWidth
+            href={whatsAppUrl}
+            target="_blank"
+            icon={<MessageCircle className="h-5 w-5" aria-hidden />}
+          >
+            {c.nav.bookAppointment}
+          </Button>
+
+          <Button
+            variant="onDark"
             fullWidth
             href={business.phone.telLink}
-            icon={<PhoneCall className="h-5 w-5" aria-hidden />}
+            icon={<Phone className="h-5 w-5" aria-hidden />}
           >
             {business.phone.display}
           </Button>
 
           <Button
-            variant="leaf"
+            variant="onDark"
             fullWidth
             href={business.maps.directionsUrl}
             target="_blank"
-            icon={<MapPin className="h-5 w-5" aria-hidden />}
+            icon={<MapPin className="h-5 w-5 text-cyan-400" aria-hidden />}
           >
             {c.nav.directions}
           </Button>
@@ -167,10 +180,10 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
             href={business.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-[44px] items-center justify-center gap-2 text-body-sm font-medium text-pine-100/70 transition-colors duration-200 hover:text-white"
+            className="flex min-h-[44px] items-center justify-center gap-2 text-body-sm font-medium text-navy-100/70 transition-colors duration-200 hover:text-white"
           >
-            <Instagram className="h-4 w-4 shrink-0 text-leaf-300" aria-hidden />
-            @canbazvetedirne
+            <Instagram className="h-4 w-4 shrink-0 text-cyan-400" aria-hidden />
+            @novadentclinicsedirne
           </a>
         </div>
       </div>

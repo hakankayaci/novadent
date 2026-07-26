@@ -1,105 +1,91 @@
 "use client";
 
-import Image from "next/image";
-import { Check, Instagram, Phone } from "lucide-react";
+import { Calendar, Info, MessageCircle, Phone } from "lucide-react";
 import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
+const STEP_ICONS = [Phone, MessageCircle, Calendar];
+
 export function Veterinarian() {
   const { c } = useLanguage();
-  const { veterinarian, phone } = business;
+
+  const whatsAppUrl = `${business.phone.whatsAppLink}?text=${encodeURIComponent(c.whatsAppDefaultMessage)}`;
 
   return (
     <section
-      id="veteriner-hekim"
-      className="relative isolate scroll-mt-24 overflow-hidden bg-pine-950 py-section text-white"
+      id="randevu-sureci"
+      className="scroll-mt-24 bg-paper py-section"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-[12%] top-[12%] h-[30rem] w-[30rem] rounded-full bg-pine-700/22 blur-3xl"
-      />
-
       <Container>
-        <div className="relative grid items-center gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:gap-16">
-          <Reveal from="scale" className="mx-auto w-full max-w-xs lg:max-w-none">
-            <div className="relative aspect-square overflow-hidden rounded-panel ring-1 ring-white/12">
-              <Image
-                src="/images/team/berk-canbaz-avatar.webp"
-                alt={c.vet.photoAlt}
-                fill
-                sizes="(max-width: 1024px) 20rem, 28vw"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
+        <SectionHeading
+          kicker={c.steps.badge}
+          title={c.steps.title}
+          lede={c.steps.desc}
+          align="center"
+        />
 
-          <div>
-            <Reveal>
-              <div className="mb-5 flex items-center gap-3">
-                <span aria-hidden className="h-px w-8 bg-leaf-300/60" />
-                <span className="text-label font-semibold text-leaf-300">
-                  {c.vet.badge}
-                </span>
-              </div>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {c.steps.items.map((step, index) => {
+            const Icon = STEP_ICONS[index] ?? Calendar;
 
-              <h2 className="text-display-lg font-bold text-white">
-                {veterinarian.name}
-              </h2>
-              <p className="mt-2 text-body-lg text-pine-100/70">{c.vet.role}</p>
-            </Reveal>
+            return (
+              <Reveal key={step.number} delay={index * 80}>
+                <div className="relative flex h-full flex-col justify-between rounded-card border border-navy-950/10 bg-white p-7 shadow-card transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-lift">
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-display-md font-extrabold text-cyan-600/30">
+                        {step.number}
+                      </span>
+                      <div className="grid h-12 w-12 place-items-center rounded-xl bg-navy-50 text-navy-800">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                    </div>
 
-            <Reveal delay={90}>
-              <p className="mt-6 max-w-prose text-body-lg text-pine-100/85">
-                {c.vet.summary}
-              </p>
-            </Reveal>
-
-            <Reveal delay={160}>
-              <ul className="mt-8 space-y-3 border-t border-white/12 pt-7">
-                {c.vet.bullets.map((bullet) => (
-                  <li key={bullet} className="flex items-start gap-3">
-                    <span
-                      aria-hidden
-                      className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-leaf-300/15"
-                    >
-                      <Check className="h-3.5 w-3.5 text-leaf-300" />
-                    </span>
-                    <span className="text-body text-pine-100/85">{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-
-            <Reveal delay={230}>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Button
-                  variant="leaf"
-                  href={phone.telLink}
-                  onClick={() => trackEvent("phone_click", { location: "vet" })}
-                  icon={<Phone className="h-5 w-5" aria-hidden />}
-                >
-                  {c.vet.ctaCall}
-                  <span className="ml-1.5 hidden font-normal tabular-nums opacity-80 sm:inline">
-                    {phone.display}
-                  </span>
-                </Button>
-
-                <Button
-                  variant="onDark"
-                  href={veterinarian.instagramUrl}
-                  target="_blank"
-                  icon={<Instagram className="h-5 w-5 text-leaf-300" aria-hidden />}
-                >
-                  {veterinarian.handle}
-                </Button>
-              </div>
-            </Reveal>
-          </div>
+                    <h3 className="mt-5 text-display-sm font-bold text-navy-950">
+                      {step.title}
+                    </h3>
+                    <p className="mt-2 text-body-sm text-ink-soft">
+                      {step.desc}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
+
+        <Reveal delay={240} className="mt-10">
+          <div className="mx-auto max-w-3xl rounded-2xl border border-navy-800/10 bg-white p-6 text-center shadow-card">
+            <p className="flex items-center justify-center gap-2 text-body-sm font-semibold text-navy-900">
+              <Info className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
+              <span>{c.steps.disclaimer}</span>
+            </p>
+            <div className="mt-5 flex flex-wrap justify-center gap-3">
+              <Button
+                variant="whatsapp"
+                href={whatsAppUrl}
+                target="_blank"
+                onClick={() => trackEvent("whatsapp_click", { location: "steps" })}
+                icon={<MessageCircle className="h-4 w-4" aria-hidden />}
+              >
+                {c.nav.bookAppointment}
+              </Button>
+              <Button
+                variant="outline"
+                href={business.phone.telLink}
+                onClick={() => trackEvent("phone_click", { location: "steps" })}
+                icon={<Phone className="h-4 w-4" aria-hidden />}
+              >
+                {c.hero.ctaCall} ({business.phone.display})
+              </Button>
+            </div>
+          </div>
+        </Reveal>
       </Container>
     </section>
   );

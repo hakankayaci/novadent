@@ -1,25 +1,26 @@
 "use client";
 
-import { Navigation, Phone, Siren } from "lucide-react";
+import { Calendar, MessageCircle, Phone } from "lucide-react";
 import { business } from "@/data/site";
 import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
 /**
- * Fixed bottom bar on small screens. `body` carries matching bottom padding in
- * globals.css so nothing on the page ever ends up underneath it.
+ * Fixed bottom bar on small screens for quick conversion actions.
  */
 export function MobileActionBar() {
   const { c } = useLanguage();
 
   const tile =
-    "sheen flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-xl px-1 " +
-    "text-[0.6875rem] font-semibold leading-tight transition-transform duration-200 ease-out active:scale-95";
+    "sheen flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-xl px-1 " +
+    "text-[0.7rem] font-bold leading-tight transition-transform duration-200 ease-out active:scale-95";
+
+  const whatsAppUrl = `${business.phone.whatsAppLink}?text=${encodeURIComponent(c.whatsAppDefaultMessage)}`;
 
   return (
     <nav
       aria-label={c.a11y.mobileBar}
-      className="fixed inset-x-0 bottom-0 z-sticky border-t border-white/10 bg-pine-950/95 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-sticky border-t border-white/10 bg-navy-950/95 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-xl lg:hidden"
     >
       <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
         <a
@@ -27,28 +28,28 @@ export function MobileActionBar() {
           onClick={() => trackEvent("mobile_action_click", { action: "phone" })}
           className={`${tile} border border-white/15 bg-white/10 text-white`}
         >
-          <Phone className="h-5 w-5 text-leaf-300" aria-hidden />
-          {c.mobile.call}
+          <Phone className="h-4.5 w-4.5 text-cyan-400" aria-hidden />
+          <span>{c.quickActions.callTitle}</span>
         </a>
 
         <a
-          href={business.maps.directionsUrl}
+          href={whatsAppUrl}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => trackEvent("mobile_action_click", { action: "directions" })}
-          className={`${tile} bg-leaf-300 text-pine-950`}
+          onClick={() => trackEvent("mobile_action_click", { action: "whatsapp" })}
+          className={`${tile} bg-[#25D366] text-white`}
         >
-          <Navigation className="h-5 w-5" aria-hidden />
-          {c.mobile.directions}
+          <MessageCircle className="h-4.5 w-4.5" aria-hidden />
+          <span>WhatsApp</span>
         </a>
 
         <a
-          href={business.phone.telLink}
-          onClick={() => trackEvent("mobile_action_click", { action: "emergency" })}
-          className={`${tile} bg-alert-600 text-white`}
+          href="#iletisim"
+          onClick={() => trackEvent("mobile_action_click", { action: "appointment" })}
+          className={`${tile} bg-cyan-500 text-navy-950`}
         >
-          <Siren className="h-5 w-5" aria-hidden />
-          {c.mobile.emergency}
+          <Calendar className="h-4.5 w-4.5" aria-hidden />
+          <span>{c.nav.bookAppointment}</span>
         </a>
       </div>
     </nav>

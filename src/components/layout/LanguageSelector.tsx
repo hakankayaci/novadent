@@ -85,10 +85,10 @@ export function LanguageSelector({ tone = "light" }: { tone?: "light" | "dark" }
         className={`flex min-h-[44px] items-center gap-2 rounded-xl px-3 text-body-sm font-semibold transition-colors duration-200 ${
           dark
             ? "border border-white/15 bg-white/10 text-white hover:bg-white/16"
-            : "border border-pine-700/15 bg-white text-pine-800 hover:border-pine-700/30 hover:bg-pine-50"
+            : "border border-navy-800/15 bg-white text-navy-900 hover:border-navy-800/30 hover:bg-navy-50"
         }`}
       >
-        <Languages className={`h-4 w-4 shrink-0 ${dark ? "text-leaf-300" : "text-pine-600"}`} aria-hidden />
+        <Languages className={`h-4 w-4 shrink-0 ${dark ? "text-cyan-400" : "text-cyan-600"}`} aria-hidden />
         <span className="uppercase tracking-wide">{current.code}</span>
         <ChevronDown
           className={`h-4 w-4 shrink-0 transition-transform duration-300 ease-out ${open ? "rotate-180" : ""}`}
@@ -100,7 +100,7 @@ export function LanguageSelector({ tone = "light" }: { tone?: "light" | "dark" }
         <div
           role="menu"
           aria-label={c.a11y.langHeading}
-          className="absolute right-0 z-drawer mt-2 w-52 origin-top-right animate-scale-in overflow-hidden rounded-2xl border border-pine-700/10 bg-white p-1.5 shadow-panel"
+          className="absolute right-0 z-drawer mt-2 w-52 origin-top-right animate-scale-in overflow-hidden rounded-2xl border border-navy-800/10 bg-white p-1.5 shadow-panel"
         >
           {languages.map((option, index) => {
             const selected = option.code === lang;
@@ -126,22 +126,22 @@ export function LanguageSelector({ tone = "light" }: { tone?: "light" | "dark" }
                 }}
                 className={`flex w-full min-h-[44px] items-center justify-between gap-3 rounded-xl px-3 text-left text-body-sm transition-colors duration-150 ${
                   selected
-                    ? "bg-pine-50 font-semibold text-pine-800"
-                    : "text-ink-soft hover:bg-pine-50 hover:text-pine-800"
+                    ? "bg-navy-50 font-semibold text-navy-900"
+                    : "text-ink-soft hover:bg-navy-50 hover:text-navy-900"
                 }`}
               >
                 <span className="flex items-center gap-2.5">
                   <span
                     aria-hidden
                     className={`w-7 shrink-0 text-[0.6875rem] font-bold uppercase tracking-wider ${
-                      selected ? "text-pine-700" : "text-ink-muted"
+                      selected ? "text-cyan-600" : "text-ink-muted"
                     }`}
                   >
                     {option.code}
                   </span>
                   <span>{option.nativeName}</span>
                 </span>
-                {selected && <Check className="h-4 w-4 shrink-0 text-leaf-700" aria-hidden />}
+                {selected && <Check className="h-4 w-4 shrink-0 text-cyan-600" aria-hidden />}
               </button>
             );
           })}

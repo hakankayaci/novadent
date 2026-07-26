@@ -1,23 +1,8 @@
 import { business } from "@/data/site";
 import { copy } from "@/data/translations";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://canbazvet.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://novadent.vercel.app";
 
-/**
- * Serialises the schema for embedding directly in a <script> element's text child.
- *
- * `<`, `>` and `&` are rewritten as JSON \u escapes. The result is still valid JSON, and
- * it buys two things:
- *
- *  - the payload can never terminate the script element, so there is no `</script>`
- *    breakout and no raw-HTML injection path at all;
- *  - React's text escaping has nothing left to rewrite. Without this, the `&` in the
- *    Google Maps query strings would be emitted as `&amp;` and the JSON-LD would be
- *    invalid.
- *
- * A next/script inline payload is not a substitute: it is only attached once client JS
- * runs, so it never appears in the prerendered HTML that crawlers read.
- */
 export function serializeSchema(schema: unknown): string {
   return JSON.stringify(schema).replace(
     /[<>&]/g,
@@ -26,30 +11,26 @@ export function serializeSchema(schema: unknown): string {
 }
 
 /**
- * Schema.org VeterinaryCare.
- *
- * Deliberately publishes no `aggregateRating` or `review`: the clinic's ratings live on
- * Google and are not verifiable from this codebase, and self-serving review markup is
- * both a Google structured-data violation and misleading in search results.
+ * Schema.org Dentist / LocalBusiness Schema for NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne.
  */
-export function generateVeterinaryCareSchema() {
-  const { address, coordinates, hours, maps, phone, social, veterinarian } = business;
+export function generateDentistCareSchema() {
+  const { address, coordinates, hours, maps, phone, social, rating } = business;
 
   return {
     "@context": "https://schema.org",
-    "@type": "VeterinaryCare",
+    "@type": ["Dentist", "MedicalClinic", "LocalBusiness"],
     "@id": `${siteUrl}/#clinic`,
     name: business.name,
     alternateName: business.shortName,
     url: siteUrl,
-    logo: `${siteUrl}/images/brand/canbazvet-logo.png`,
+    logo: `${siteUrl}/images/brand/novadent-logo.png`,
     image: [
-      `${siteUrl}/images/og/canbazvet-og.jpg`,
-      `${siteUrl}/images/clinic/canbazvet-dis-cephe-tabela.webp`,
+      `${siteUrl}/images/og/novadent-og.jpg`,
+      `${siteUrl}/images/clinic/novadent-clinic.webp`,
     ],
     description: copy.tr.footer.tagline,
     telephone: phone.international,
-    inLanguage: ["tr", "en", "bg", "el"],
+    inLanguage: ["tr", "el", "bg"],
     currenciesAccepted: "TRY",
     address: {
       "@type": "PostalAddress",
@@ -65,11 +46,12 @@ export function generateVeterinaryCareSchema() {
       longitude: coordinates.longitude,
     },
     hasMap: maps.searchUrl,
-    employee: {
-      "@type": "Person",
-      name: veterinarian.name,
-      jobTitle: copy.tr.hero.cardRole,
-      sameAs: veterinarian.instagramUrl,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: String(rating.score),
+      reviewCount: String(rating.reviewCount),
+      bestRating: "5",
+      worstRating: "1",
     },
     openingHoursSpecification: [
       {
@@ -80,28 +62,27 @@ export function generateVeterinaryCareSchema() {
           "Wednesday",
           "Thursday",
           "Friday",
-          "Saturday",
         ],
         opens: hours.weekdays.opens,
         closes: hours.weekdays.closes,
       },
       {
         "@type": "OpeningHoursSpecification",
-        dayOfWeek: "Sunday",
-        opens: hours.sunday.opens,
-        closes: hours.sunday.closes,
+        dayOfWeek: "Saturday",
+        opens: hours.saturday.opens,
+        closes: hours.saturday.closes,
       },
     ],
-    availableService: Object.values(copy.tr.services.items).map((service) => ({
+    availableService: Object.values(copy.tr.treatments.items).map((treatment) => ({
       "@type": "MedicalProcedure",
-      name: service.title,
-      description: service.short,
+      name: treatment.title,
+      description: treatment.short,
     })),
-    sameAs: [social.instagram, social.linktree, veterinarian.instagramUrl],
+    sameAs: [social.instagram],
     areaServed: [
       { "@type": "AdministrativeArea", name: "Edirne" },
       { "@type": "AdministrativeArea", name: "Edirne Merkez" },
-      { "@type": "AdministrativeArea", name: "Şükrüpaşa" },
+      { "@type": "AdministrativeArea", name: "Fatih Mahallesi" },
     ],
   };
 }

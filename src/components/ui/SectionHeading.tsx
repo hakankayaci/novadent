@@ -47,10 +47,10 @@ export function SectionHeading({
         >
           <span
             aria-hidden
-            className={`h-px w-8 ${dark ? "bg-leaf-300/60" : "bg-pine-700/30"}`}
+            className={`h-px w-8 ${dark ? "bg-cyan-400/60" : "bg-navy-800/30"}`}
           />
           <span
-            className={`text-label font-semibold ${dark ? "text-leaf-300" : "text-pine-700"}`}
+            className={`text-label font-bold uppercase tracking-wider ${dark ? "text-cyan-400" : "text-cyan-700"}`}
           >
             {kicker}
           </span>
@@ -66,7 +66,7 @@ export function SectionHeading({
       >
         <h2
           id={id}
-          className={`text-display-lg font-bold ${dark ? "text-white" : "text-pine-950"}`}
+          className={`text-display-lg font-bold ${dark ? "text-white" : "text-navy-950"}`}
         >
           {title}
         </h2>
@@ -75,7 +75,7 @@ export function SectionHeading({
           <p
             className={`max-w-prose text-body-lg ${
               align === "center" ? "mx-auto mt-4" : ""
-            } ${dark ? "text-pine-100/80" : "text-ink-soft"}`}
+            } ${dark ? "text-navy-100/80" : "text-ink-soft"}`}
           >
             {lede}
           </p>
@@ -85,10 +85,6 @@ export function SectionHeading({
   );
 }
 
-/**
- * A pill that carries live information -- a location, an open/closed state. Used
- * sparingly and never as decoration above a heading.
- */
 export function StatusPill({
   children,
   theme = "dark",
@@ -105,14 +101,14 @@ export function StatusPill({
     <span
       className={`inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-body-sm font-semibold ${
         dark
-          ? "border border-leaf-300/25 bg-pine-900/70 text-leaf-300"
-          : "border border-pine-700/15 bg-white text-pine-800 shadow-card"
+          ? "border border-cyan-400/25 bg-navy-900/80 text-cyan-300 backdrop-blur-sm"
+          : "border border-navy-800/15 bg-white text-navy-900 shadow-card"
       } ${className}`}
     >
       {pulse && (
         <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
-          <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-leaf-400" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-leaf-400" />
+          <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-cyan-400" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
         </span>
       )}
       {children}

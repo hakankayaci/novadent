@@ -7,7 +7,11 @@ type EventName =
   | "service_click"
   | "map_open"
   | "social_post_click"
-  | "mobile_action_click";
+  | "mobile_action_click"
+  | "whatsapp_click"
+  | "treatment_whatsapp_click"
+  | "quick_action_click"
+  | "contact_form_whatsapp_submit";
 
 export function trackEvent(eventName: EventName, properties?: Record<string, unknown>): void {
   if (typeof window === "undefined") return;

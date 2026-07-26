@@ -16,7 +16,7 @@ import {
   type Language,
 } from "@/data/translations";
 
-const STORAGE_KEY = "canbazvet_lang";
+const STORAGE_KEY = "novadent_lang";
 
 interface LanguageContextValue {
   lang: Language;
@@ -32,23 +32,37 @@ const LanguageContext = createContext<LanguageContextValue>({
 });
 
 /**
- * Turkish is the default and only an explicit, previously-saved choice overrides it.
- *
- * Deliberately no `navigator.language` negotiation: this is a neighbourhood clinic in
- * Edirne whose visitors are overwhelmingly Turkish, and a great many of them run their
- * phone or browser in English. Auto-switching on browser locale would have served those
- * local visitors an English page they never asked for. The language button in the header
- * is the affordance instead, and the choice sticks.
- */
+  * Language behaviour:
+  * - Detect browser language on the first visit.
+  * - Use Greek when the browser language begins with "el".
+  * - Use Bulgarian when it begins with "bg".
+  * - Otherwise use Turkish.
+  * - Save the selected language in localStorage.
+  */
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>("tr");
 
   useEffect(() => {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (isLanguage(stored) && stored !== "tr") setLangState(stored);
+      if (isLanguage(stored)) {
+        setLangState(stored);
+        return;
+      }
     } catch {
-      // Private mode or blocked storage: stay on the Turkish default.
+      // Storage unavailable: fall through to browser detection
+    }
+
+    // Browser language negotiation
+    if (typeof navigator !== "undefined" && navigator.language) {
+      const browserLang = navigator.language.toLowerCase();
+      if (browserLang.startsWith("el")) {
+        setLangState("el");
+      } else if (browserLang.startsWith("bg")) {
+        setLangState("bg");
+      } else {
+        setLangState("tr");
+      }
     }
   }, []);
 

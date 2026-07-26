@@ -1,14 +1,14 @@
 {
-  "name": "CanbazVet Veteriner Kliniği",
-  "short_name": "CanbazVet",
-  "description": "Edirne Şükrüpaşa'da kedi ve köpekler için muayene, aşı, cerrahi ve 7/24 acil değerlendirme. Veteriner Hekim Berk Canbaz.",
+  "name": "NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne",
+  "short_name": "Novadent Clinics",
+  "description": "Novadent Clinics Edirne; implant tedavisi, gülüş tasarımı, estetik diş hekimliği ve ağız-diş sağlığı hizmetleri.",
   "lang": "tr",
   "dir": "ltr",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#F7FAF7",
-  "theme_color": "#04231A",
+  "background_color": "#F7FAFC",
+  "theme_color": "#021D45",
   "icons": [
     {
       "src": "/icon-192.png",

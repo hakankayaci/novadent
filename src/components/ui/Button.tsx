@@ -1,6 +1,6 @@
 import React from "react";
 
-type Variant = "emergency" | "leaf" | "pine" | "outline" | "ghost" | "onDark";
+type Variant = "cyan" | "navy" | "whatsapp" | "emergency" | "leaf" | "pine" | "outline" | "ghost" | "onDark";
 type Size = "sm" | "md" | "lg";
 
 interface CommonProps {
@@ -27,21 +27,20 @@ const BASE =
   "sheen group relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-xl " +
   "font-semibold leading-tight transition-[transform,box-shadow,background-color,color] duration-300 " +
   "ease-out will-change-transform focus-visible:outline-offset-4 active:translate-y-0 active:scale-[0.98] " +
-  // Long BG/EL labels must wrap instead of bursting out of the button.
   "text-center [text-wrap:balance]";
 
 const VARIANTS: Record<Variant, string> = {
-  emergency:
-    "bg-alert-600 text-white shadow-alert hover:-translate-y-0.5 hover:bg-alert-500 hover:shadow-lift",
-  leaf:
-    "bg-leaf-300 text-pine-950 shadow-card hover:-translate-y-0.5 hover:bg-leaf-400 hover:shadow-lift",
-  pine:
-    "bg-pine-700 text-white shadow-card hover:-translate-y-0.5 hover:bg-pine-600 hover:shadow-lift",
+  cyan: "bg-cyan-500 text-navy-950 shadow-card hover:-translate-y-0.5 hover:bg-cyan-400 hover:shadow-lift font-bold",
+  navy: "bg-navy-800 text-white shadow-card hover:-translate-y-0.5 hover:bg-navy-700 hover:shadow-lift font-bold",
+  whatsapp: "bg-[#25D366] text-white shadow-card hover:-translate-y-0.5 hover:bg-[#20bd5a] hover:shadow-lift font-bold",
+  emergency: "bg-[#25D366] text-white shadow-card hover:-translate-y-0.5 hover:bg-[#20bd5a] hover:shadow-lift font-bold",
+  leaf: "bg-cyan-500 text-navy-950 shadow-card hover:-translate-y-0.5 hover:bg-cyan-400 hover:shadow-lift font-bold",
+  pine: "bg-navy-800 text-white shadow-card hover:-translate-y-0.5 hover:bg-navy-700 hover:shadow-lift font-bold",
   outline:
-    "border-2 border-pine-700/25 bg-white text-pine-800 hover:-translate-y-0.5 hover:border-pine-700/50 hover:bg-pine-50 hover:shadow-card",
-  ghost: "text-pine-800 hover:bg-pine-50",
+    "border-2 border-navy-800/20 bg-white text-navy-950 hover:-translate-y-0.5 hover:border-navy-800/40 hover:bg-navy-50 hover:shadow-card font-semibold",
+  ghost: "text-navy-900 hover:bg-navy-50 font-semibold",
   onDark:
-    "border border-white/20 bg-white/10 text-white backdrop-blur-sm hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/16",
+    "border border-white/20 bg-white/10 text-white backdrop-blur-sm hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/16 font-semibold",
 };
 
 const SIZES: Record<Size, string> = {

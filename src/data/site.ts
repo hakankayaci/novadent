@@ -1,103 +1,90 @@
 import type {
   BusinessInfo,
   GalleryImage,
-  ServiceItem,
   SocialImage,
+  TreatmentItem,
 } from "@/types/site";
 
-const LAT = 41.6657747;
-const LNG = 26.584173;
+// Query-based location search URL for Novadent Ağız ve Diş Sağlığı Polikliniği Edirne
+const MAPS_QUERY = "NOVADENT+A%C4%9F%C4%B1z+ve+Di%C5%9F+Sa%C4%9Fl%C4%B1%C4%9F%C4%B1+Poliklini%C4%9Fi+Edirne+Fatih+Mahallesi+Tahsin+%C5%9Eipka+Caddesi+No+14+1";
+const MAPS_DIRECTIONS = `https://www.google.com/maps/dir/?api=1&destination=${MAPS_QUERY}`;
+const MAPS_SEARCH = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`;
+const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&hl=tr&z=17&output=embed`;
 
 export const business: BusinessInfo = {
-  name: "CanbazVet Veteriner Kliniği",
-  shortName: "CanbazVet",
-  veterinarian: {
-    name: "Berk Canbaz",
-    handle: "@berkcanbaz22",
-    instagramUrl: "https://www.instagram.com/berkcanbaz22/",
+  name: "NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne",
+  shortName: "Novadent Clinics",
+  category: "Diş Kliniği / Ağız ve Diş Sağlığı Polikliniği",
+  rating: {
+    score: 5.0,
+    reviewCount: 140,
   },
   phone: {
-    display: "0541 325 76 82",
-    international: "+90 541 325 76 82",
-    telLink: "tel:+905413257682",
-    whatsAppLink: "https://wa.me/905413257682",
+    display: "0501 130 15 22",
+    international: "+90 501 130 15 22",
+    telLink: "tel:+905011301522",
+    whatsAppLink: "https://wa.me/905011301522",
   },
   address: {
-    street: "İlhami Ertem Caddesi, 136. Sokak No:8",
-    neighborhood: "Şükrüpaşa Mahallesi",
+    street: "Tahsin Şipka Caddesi No:14/1, İç Kapı No:10",
+    neighborhood: "Fatih Mahallesi",
     district: "Edirne Merkez",
     city: "Edirne",
     postalCode: "22100",
     country: "TR",
   },
-  coordinates: { latitude: LAT, longitude: LNG },
+  coordinates: { latitude: 41.6658, longitude: 26.5842 },
   maps: {
-    directionsUrl: `https://www.google.com/maps/dir/?api=1&destination=${LAT},${LNG}`,
-    searchUrl: `https://www.google.com/maps/search/?api=1&query=${LAT},${LNG}`,
-    embedUrl: `https://www.google.com/maps?q=${LAT},${LNG}&hl=tr&z=17&output=embed`,
-    reviewsUrl:
-      process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL ||
-      `https://www.google.com/maps/search/?api=1&query=${LAT},${LNG}`,
+    directionsUrl: MAPS_DIRECTIONS,
+    searchUrl: MAPS_SEARCH,
+    embedUrl: MAPS_EMBED,
+    reviewsUrl: MAPS_SEARCH,
   },
   hours: {
-    weekdays: { opens: "09:30", closes: "19:30" },
-    sunday: { opens: "12:00", closes: "17:00" },
+    weekdays: { opens: "09:00", closes: "18:30" },
+    saturday: { opens: "09:00", closes: "17:00" },
+    sunday: { closed: true },
   },
   social: {
-    instagram: "https://www.instagram.com/canbazvetedirne/",
-    linktree: "https://linktr.ee/canbazvet",
+    instagram: "https://www.instagram.com/novadentclinicsedirne/",
   },
 };
 
-export const services: ServiceItem[] = [
-  { id: "koruyucu-hekimlik", iconName: "ShieldCheck", featured: true },
-  { id: "dahiliye", iconName: "Stethoscope", featured: true },
-  { id: "cerrahi", iconName: "Activity", featured: true },
-  { id: "acil", iconName: "PhoneCall", featured: true },
-  { id: "laboratuvar", iconName: "Microscope" },
-  { id: "goruntuleme", iconName: "Scan" },
-  { id: "dis-sagligi", iconName: "Sparkles" },
-  { id: "pet-bakim", iconName: "Scissors" },
+export const treatments: TreatmentItem[] = [
+  { id: "implant-tedavisi", iconName: "Sparkles", featured: true },
+  { id: "gulus-tasarimi", iconName: "Smile", featured: true },
+  { id: "estetik-dis-hekimligi", iconName: "HeartPulse", featured: true },
+  { id: "dis-beyazlatma", iconName: "Sun", featured: true },
+  { id: "kanal-tedavisi", iconName: "ShieldCheck", featured: true },
+  { id: "dis-eti-tedavileri", iconName: "Activity", featured: true },
+  { id: "cocuk-dis-hekimligi", iconName: "UserCheck", featured: true },
+  { id: "genel-dis-sagligi", iconName: "Stethoscope", featured: true },
 ];
 
-/**
- * Ordered as a visit unfolds: the door, the waiting room, the shop, consultation,
- * diagnostics, surgery, then recovery. Sizes are the real intrinsic pixel dimensions
- * so next/image never has to guess an aspect ratio.
- */
 export const gallery: GalleryImage[] = [
-  { id: "dis-cephe", src: "/images/clinic/canbazvet-dis-cephe-tabela.webp", width: 1360, height: 1020, shape: "wide" },
-  { id: "bekleme", src: "/images/clinic/canbazvet-bekleme-alani-ve-resepsiyon.webp", width: 1360, height: 1020, shape: "square" },
-  { id: "yatakli", src: "/images/clinic/canbazvet-yatakli-hasta-unitesi.webp", width: 910, height: 1020, shape: "tall" },
-  { id: "muayene", src: "/images/clinic/canbazvet-muayene-odasi.webp", width: 1360, height: 1020, shape: "square" },
-  { id: "muayene-masasi", src: "/images/clinic/canbazvet-muayene-masasi-ve-ekipmanlar.webp", width: 1360, height: 1020, shape: "square" },
-  { id: "ameliyathane", src: "/images/clinic/canbazvet-ameliyathane.webp", width: 1360, height: 1020, shape: "wide" },
-  { id: "operasyon-detay", src: "/images/clinic/canbazvet-operasyon-masasi-detay.webp", width: 1360, height: 1020, shape: "square" },
-  { id: "reyon", src: "/images/clinic/canbazvet-mama-ve-urun-reyonu.webp", width: 1360, height: 1020, shape: "square" },
-  { id: "muayene-dikey", src: "/images/clinic/canbazvet-muayene-odasi-dikey.webp", width: 765, height: 1020, shape: "square" },
+  { id: "novadent-reception", src: "/images/clinic/novadent-reception.webp", width: 1360, height: 1020, shape: "wide" },
+  { id: "novadent-treatment-room", src: "/images/clinic/novadent-treatment-room.webp", width: 1360, height: 1020, shape: "square" },
+  { id: "novadent-clinic-interior", src: "/images/clinic/novadent-clinic.webp", width: 1360, height: 1020, shape: "wide" },
+  { id: "novadent-dental-equipment", src: "/images/clinic/novadent-equipment.webp", width: 1360, height: 1020, shape: "square" },
 ];
 
-/** Real clinic photography used for the Instagram strip. No invented engagement data. */
 export const socialImages: SocialImage[] = [
-  { id: "hekim-ve-klinik", src: "/images/social/canbazvet-hekim-ve-klinik.webp" },
-  { id: "muayene-odasi", src: "/images/social/canbazvet-muayene-odasi.webp" },
-  { id: "ameliyathane", src: "/images/social/canbazvet-ameliyathane.webp" },
-  { id: "yatakli-hasta-unitesi", src: "/images/social/canbazvet-yatakli-hasta-unitesi.webp" },
-  { id: "bekleme-alani", src: "/images/social/canbazvet-bekleme-alani.webp" },
-  { id: "klinik-girisi", src: "/images/social/canbazvet-klinik-girisi.webp" },
+  { id: "novadent-hero-social", src: "/images/social/novadent-hero.webp" },
+  { id: "novadent-reception-social", src: "/images/social/novadent-reception.webp" },
+  { id: "novadent-treatment-social", src: "/images/social/novadent-treatment.webp" },
+  { id: "novadent-equipment-social", src: "/images/social/novadent-equipment.webp" },
 ];
 
 export const NAV_SECTIONS = [
   "anasayfa",
-  "hizmetler",
-  "hakkimizda",
-  "veteriner-hekim",
-  "klinik",
-  "acil-hat",
-  "yorumlar",
+  "tedaviler",
+  "neden-novadent",
+  "uluslararasi",
+  "galeri",
+  "degerlendirmeler",
+  "randevu-sureci",
   "sss",
   "iletisim",
 ] as const;
 
-/** Kept as a namespace export so existing `siteData.business.…` call sites still read well. */
-export const siteData = { business, services, gallery, socialImages };
+export const siteData = { business, treatments, gallery, socialImages };

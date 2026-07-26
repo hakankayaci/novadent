@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { business } from "@/data/site";
 import { copy, languages } from "@/data/translations";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://canbazvet.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://novadent.vercel.app";
 
 export function generateSiteMetadata(): Metadata {
   const { title, description, ogAlt } = copy.tr.meta;
@@ -13,18 +13,18 @@ export function generateSiteMetadata(): Metadata {
     description,
     applicationName: business.name,
     keywords: [
-      "Edirne veteriner",
-      "Edirne veteriner kliniği",
-      "Şükrüpaşa veteriner",
-      "Edirne Merkez veteriner",
-      "Edirne acil veteriner",
-      "Berk Canbaz veteriner",
-      "CanbazVet",
-      "Edirne kedi veterineri",
-      "Edirne köpek veterineri",
-      "Edirne 7/24 veteriner",
+      "Edirne diş kliniği",
+      "Edirne diş hekimi",
+      "Edirne implant tedavisi",
+      "Edirne gülüş tasarımı",
+      "Edirne estetik diş hekimliği",
+      "Edirne diş beyazlatma",
+      "Edirne kanal tedavisi",
+      "Novadent Clinics",
+      "Novadent Edirne",
+      "Edirne Fatih Mahallesi diş kliniği",
     ],
-    authors: [{ name: business.veterinarian.name, url: business.veterinarian.instagramUrl }],
+    authors: [{ name: business.name, url: siteUrl }],
     creator: business.name,
     publisher: business.name,
     formatDetection: { telephone: true, address: true, email: false },
@@ -39,7 +39,7 @@ export function generateSiteMetadata(): Metadata {
       siteName: business.name,
       images: [
         {
-          url: "/images/og/canbazvet-og.jpg",
+          url: "/images/og/novadent-og.jpg",
           width: 1200,
           height: 630,
           alt: ogAlt,
@@ -50,7 +50,7 @@ export function generateSiteMetadata(): Metadata {
       card: "summary_large_image",
       title,
       description,
-      images: ["/images/og/canbazvet-og.jpg"],
+      images: ["/images/og/novadent-og.jpg"],
     },
     icons: {
       icon: [

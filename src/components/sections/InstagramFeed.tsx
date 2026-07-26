@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink, Instagram } from "lucide-react";
+import { Instagram } from "lucide-react";
 import { business, socialImages } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
@@ -11,69 +11,53 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { weekdayRange } from "@/lib/hours";
 import { trackEvent } from "@/lib/analytics";
 
-/**
- * A branded photo strip, not a replica of Instagram's interface.
- *
- * The previous version imitated the Instagram profile UI complete with a blue verified
- * checkmark, follower/post counts and per-post like and comment numbers -- none of which
- * came from Instagram. Everything shown here is either a real clinic photograph or a
- * fact from src/data/site.ts.
- */
 export function InstagramFeed() {
   const { c } = useLanguage();
-  const { social, phone, veterinarian } = business;
+  const { social, phone } = business;
 
   return (
     <section className="bg-paper py-section">
       <Container>
         <SectionHeading
-          kicker={c.instagram.badge}
-          title={c.instagram.title}
-          lede={c.instagram.desc}
+          kicker="Instagram"
+          title="Poliklinik Yaşamı & Paylaşımlar"
+          lede="Sosyal medya hesabımızdan poliklinik ortamımız ve güncel duyurularımız."
           className="mb-12"
         />
 
         <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-12">
           <Reveal>
-            <div className="rounded-panel border border-pine-950/8 bg-white p-7 shadow-card">
+            <div className="rounded-panel border border-navy-950/10 bg-white p-7 shadow-card">
               <a
                 href={social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[44px] items-center gap-2 text-display-sm font-bold text-pine-950 transition-colors duration-200 hover:text-pine-700"
+                className="inline-flex min-h-[44px] items-center gap-2 text-display-sm font-extrabold text-navy-950 transition-colors duration-200 hover:text-cyan-600"
               >
-                <Instagram className="h-5 w-5 shrink-0 text-leaf-700" aria-hidden />
-                @canbazvetedirne
+                <Instagram className="h-5 w-5 shrink-0 text-cyan-600" aria-hidden />
+                @novadentclinicsedirne
                 <span className="sr-only">({c.a11y.newTab})</span>
               </a>
 
-              <dl className="mt-6 space-y-4 border-t border-pine-950/8 pt-6 text-body-sm">
+              <dl className="mt-6 space-y-4 border-t border-navy-950/10 pt-6 text-body-sm">
                 <div>
-                  <dt className="text-ink-muted">{c.instagram.bioVetLabel}</dt>
-                  <dd className="font-semibold text-pine-950">
-                    {veterinarian.name}
-                    <a
-                      href={veterinarian.instagramUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="ml-2 inline-flex min-h-[36px] items-center font-medium text-leaf-700 hover:underline"
-                    >
-                      {veterinarian.handle}
-                    </a>
+                  <dt className="text-ink-muted">Poliklinik Adı</dt>
+                  <dd className="font-bold text-navy-950">
+                    NOVADENT Ağız ve Diş Sağlığı Polikliniği
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-ink-muted">{c.instagram.bioHours}</dt>
-                  <dd className="mt-0.5 font-semibold tabular-nums text-pine-950">
-                    {weekdayRange}
+                  <dt className="text-ink-muted">{c.contact.hoursLabel}</dt>
+                  <dd className="mt-0.5 font-semibold tabular-nums text-navy-950">
+                    Pzt–Cuma {weekdayRange}
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-ink-muted">{c.instagram.bioEmergency}</dt>
+                  <dt className="text-ink-muted">İletişim Hattı</dt>
                   <dd>
                     <a
                       href={phone.telLink}
-                      className="inline-flex min-h-[40px] items-center font-semibold tabular-nums text-pine-950 hover:text-pine-700"
+                      className="inline-flex min-h-[40px] items-center font-bold tabular-nums text-navy-950 hover:text-cyan-600"
                     >
                       {phone.display}
                     </a>
@@ -83,37 +67,28 @@ export function InstagramFeed() {
 
               <div className="mt-7 flex flex-col gap-3">
                 <Button
-                  variant="pine"
+                  variant="navy"
                   href={social.instagram}
                   target="_blank"
-                  onClick={() => trackEvent("instagram_click", { location: "social" })}
+                  onClick={() => trackEvent("instagram_click", { location: "social_card" })}
                   icon={<Instagram className="h-5 w-5" aria-hidden />}
                   fullWidth
                 >
-                  {c.instagram.followCta}
-                </Button>
-                <Button
-                  variant="outline"
-                  href={social.linktree}
-                  target="_blank"
-                  iconAfter={<ExternalLink className="h-4 w-4" aria-hidden />}
-                  fullWidth
-                >
-                  {c.instagram.linkCta}
+                  Instagram'da Takip Et
                 </Button>
               </div>
             </div>
           </Reveal>
 
           <div>
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-2">
               {socialImages.map((item, index) => (
                 <Reveal
                   as="li"
                   key={item.id}
                   from="scale"
-                  delay={(index % 3) * 80}
-                  className="group relative aspect-square overflow-hidden rounded-card bg-pine-100 shadow-card"
+                  delay={(index % 2) * 80}
+                  className="group relative aspect-square overflow-hidden rounded-card bg-navy-100 shadow-card"
                 >
                   <a
                     href={social.instagram}
@@ -124,26 +99,22 @@ export function InstagramFeed() {
                   >
                     <Image
                       src={item.src}
-                      alt={c.instagram.gridAlt}
+                      alt="Novadent Clinics"
                       fill
                       loading="lazy"
-                      sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 20vw"
-                      className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
+                      sizes="(max-width: 640px) 46vw, 25vw"
+                      className="object-cover transition-transform duration-[700ms] ease-out group-hover:scale-[1.06]"
                     />
                     <span
                       aria-hidden
-                      className="absolute inset-0 grid place-items-center bg-pine-950/0 opacity-0 transition-all duration-300 group-hover:bg-pine-950/45 group-hover:opacity-100"
+                      className="absolute inset-0 grid place-items-center bg-navy-950/0 opacity-0 transition-all duration-300 group-hover:bg-navy-950/50 group-hover:opacity-100"
                     >
-                      <Instagram className="h-7 w-7 text-white" />
+                      <Instagram className="h-8 w-8 text-white" />
                     </span>
                   </a>
                 </Reveal>
               ))}
             </ul>
-
-            <Reveal delay={120}>
-              <p className="mt-5 text-body-sm text-ink-muted">{c.instagram.note}</p>
-            </Reveal>
           </div>
         </div>
       </Container>

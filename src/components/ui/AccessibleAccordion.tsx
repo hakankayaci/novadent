@@ -31,7 +31,7 @@ export function AccessibleAccordion({ items }: { items: AccordionItem[] }) {
   };
 
   return (
-    <div className="divide-y divide-pine-950/10 border-y border-pine-950/10">
+    <div className="divide-y divide-navy-950/10 border-y border-navy-950/10">
       {items.map((item, index) => {
         const isOpen = open === index;
         const panelId = `faq-panel-${index}`;
@@ -53,8 +53,8 @@ export function AccessibleAccordion({ items }: { items: AccordionItem[] }) {
                 className="group flex w-full min-h-[64px] items-center justify-between gap-5 py-5 text-left transition-colors duration-200"
               >
                 <span
-                  className={`text-display-sm font-semibold transition-colors duration-200 ${
-                    isOpen ? "text-pine-700" : "text-pine-950 group-hover:text-pine-700"
+                  className={`text-display-sm font-bold transition-colors duration-200 ${
+                    isOpen ? "text-cyan-600" : "text-navy-950 group-hover:text-cyan-600"
                   }`}
                 >
                   {item.q}
@@ -63,11 +63,11 @@ export function AccessibleAccordion({ items }: { items: AccordionItem[] }) {
                   aria-hidden
                   className={`grid h-9 w-9 shrink-0 place-items-center rounded-full transition-all duration-300 ease-out ${
                     isOpen
-                      ? "rotate-45 bg-pine-700 text-white"
-                      : "bg-pine-50 text-pine-700 group-hover:bg-pine-100"
+                      ? "rotate-45 bg-cyan-500 text-navy-950 font-bold"
+                      : "bg-navy-50 text-navy-800 group-hover:bg-navy-100"
                   }`}
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-4 w-4 stroke-[2.5]" />
                 </span>
               </button>
             </h3>

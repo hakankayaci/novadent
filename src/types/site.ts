@@ -7,10 +7,10 @@
 export interface BusinessInfo {
   name: string;
   shortName: string;
-  veterinarian: {
-    name: string;
-    handle: string;
-    instagramUrl: string;
+  category: string;
+  rating: {
+    score: number;
+    reviewCount: number;
   };
   phone: {
     display: string;
@@ -30,46 +30,41 @@ export interface BusinessInfo {
   maps: { directionsUrl: string; searchUrl: string; embedUrl: string; reviewsUrl: string };
   hours: {
     weekdays: { opens: string; closes: string };
-    sunday: { opens: string; closes: string };
+    saturday: { opens: string; closes: string };
+    sunday: { closed: true };
   };
-  social: { instagram: string; linktree: string };
+  social: { instagram: string };
 }
 
-/** Service ids double as translation keys. */
-export type ServiceId =
-  | "koruyucu-hekimlik"
-  | "dahiliye"
-  | "cerrahi"
-  | "laboratuvar"
-  | "goruntuleme"
-  | "dis-sagligi"
-  | "pet-bakim"
-  | "acil";
+/** Treatment ids double as translation keys. */
+export type TreatmentId =
+  | "implant-tedavisi"
+  | "gulus-tasarimi"
+  | "estetik-dis-hekimligi"
+  | "dis-beyazlatma"
+  | "kanal-tedavisi"
+  | "dis-eti-tedavileri"
+  | "cocuk-dis-hekimligi"
+  | "genel-dis-sagligi";
 
-export interface ServiceItem {
-  id: ServiceId;
+export interface TreatmentItem {
+  id: TreatmentId;
   iconName: string;
   featured?: boolean;
 }
 
 /** Gallery ids double as translation keys. */
 export type GalleryId =
-  | "dis-cephe"
-  | "bekleme"
-  | "reyon"
-  | "muayene"
-  | "muayene-dikey"
-  | "muayene-masasi"
-  | "ameliyathane"
-  | "operasyon-detay"
-  | "yatakli";
+  | "novadent-reception"
+  | "novadent-treatment-room"
+  | "novadent-clinic-interior"
+  | "novadent-dental-equipment";
 
 export interface GalleryImage {
   id: GalleryId;
   src: string;
   width: number;
   height: number;
-  /** Wide tiles take two columns on large screens; tall tiles take two rows. */
   shape: "wide" | "tall" | "square";
 }
 

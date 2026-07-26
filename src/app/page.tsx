@@ -29,9 +29,9 @@ export default function Home() {
         <TrustHighlights />
         <Services />
         <About />
+        <EmergencySection />
         <Veterinarian />
         <ClinicGallery />
-        <EmergencySection />
         <Reviews />
         <InstagramFeed />
         <FAQ />

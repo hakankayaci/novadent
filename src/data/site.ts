@@ -13,7 +13,7 @@ const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&hl=tr&z=17&outpu
 
 export const business: BusinessInfo = {
   name: "NOVADENT Ağız ve Diş Sağlığı Polikliniği",
-  shortName: "Novadent Clinics",
+  shortName: "Novadent",
   category: "Diş Kliniği / Ağız ve Diş Sağlığı Polikliniği",
   rating: {
     score: 5.0,
@@ -46,7 +46,7 @@ export const business: BusinessInfo = {
     sunday: { closed: true },
   },
   social: {
-    instagram: "https://www.instagram.com/novadentclinics/",
+    instagram: "https://www.instagram.com/novadentclinicsedirne/",
     facebook: "https://www.facebook.com/novadentclinics",
     linktree: "https://linktr.ee/novadentclinics",
   },

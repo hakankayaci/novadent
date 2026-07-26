@@ -218,8 +218,8 @@ const tr: Copy = {
   },
   hero: {
     badge: "Edirne Merkez Diş Kliniği",
-    titleLead: "Sağlıklı ve Özgüvenli Bir Gülüş İçin",
-    titleAccent: "Modern Diş Hekimliği",
+    titleLead: "Edirne'nin En Donanımlı",
+    titleAccent: "Diş Kliniği",
     desc: "Edirne’de ağız ve diş sağlığınız için modern yaklaşımlar, kişiye özel değerlendirme ve güven veren bir klinik deneyimi sunuyoruz.",
     ctaAppointment: "Randevu Oluştur",
     ctaCall: "Kliniği Ara",
@@ -491,8 +491,8 @@ const el: Copy = {
   },
   hero: {
     badge: "Οδοντιατρική Κλινική Αδριανούπολη",
-    titleLead: "Για ένα Υγιές και Λαμπερό Χαμόγελο",
-    titleAccent: "Σύγχρονη Οδοντιατρική",
+    titleLead: "Η Πιο Εξοπλισμένη",
+    titleAccent: "Οδοντιατρική Κλινική της Αδριανούπολης",
     desc: "Προσφέρουμε σύγχρονες οδοντιατρικές θεραπείες, εξατομικευμένη φροντίδα και υψηλής ποιότητας υπηρεσίες στην Αδριανούπολη (Edirne).",
     ctaAppointment: "Κλείστε Ραντεβού",
     ctaCall: "Καλέστε την Κλινική",
@@ -760,8 +760,8 @@ const bg: Copy = {
   },
   hero: {
     badge: "Дентална Клиника в Одрин",
-    titleLead: "За Здрава и Уверена Усмивка",
-    titleAccent: "Модерна Стоматология",
+    titleLead: "Най-Добре Оборудваната",
+    titleAccent: "Дентална Клиника в Одрин",
     desc: "Предлагаме съвременни дентални лечения, индивидуална грижа и висококачествено обслужване в Одрин (Edirne).",
     ctaAppointment: "Запишете Час",
     ctaCall: "Обадете се в Клиниката",

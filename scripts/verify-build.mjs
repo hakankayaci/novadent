@@ -6,6 +6,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import sharp from 'sharp';
 
 let failures = 0;
 const pass = (msg) => console.log(`  PASS  ${msg}`);
@@ -115,10 +116,41 @@ function checkHtml() {
     if (html.includes(needle)) fail(`fabricated social proof is back: ${label} ("${needle}")`);
     else pass(`no ${label}`);
   }
+
+  if (
+    html.includes('property="og:image"') &&
+    html.includes('https://novadent-psi.vercel.app/images/og/novadent-og.jpg')
+  ) {
+    pass('Open Graph preview points to the production NOVADENT image');
+  } else {
+    fail('Open Graph preview image is missing or points to the wrong host');
+  }
+
+  if (html.includes('name="twitter:card" content="summary_large_image"')) {
+    pass('X/Twitter large-image card metadata is present');
+  } else {
+    fail('X/Twitter large-image card metadata is missing');
+  }
+}
+
+async function checkOgImage() {
+  console.log('\nSocial preview image');
+  const file = 'public/images/og/novadent-og.jpg';
+  if (!fs.existsSync(file)) return fail(`${file} missing`);
+
+  const metadata = await sharp(file).metadata();
+  if (metadata.width === 1200 && metadata.height === 630) {
+    pass(`${file}: 1200x630`);
+  } else {
+    fail(`${file}: expected 1200x630, got ${metadata.width}x${metadata.height}`);
+  }
+  if (metadata.format === 'jpeg') pass(`${file}: JPEG format verified`);
+  else fail(`${file}: expected JPEG, got ${metadata.format}`);
 }
 
 checkCss();
 checkHtml();
+await checkOgImage();
 
 console.log(failures === 0 ? '\nAll build guards passed.\n' : `\n${failures} guard failure(s).\n`);
 process.exit(failures === 0 ? 0 : 1);

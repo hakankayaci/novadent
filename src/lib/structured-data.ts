@@ -1,7 +1,6 @@
 import { business } from "@/data/site";
 import { copy } from "@/data/translations";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://novadent.vercel.app";
+import { siteUrl } from "@/lib/site-url";
 
 export function serializeSchema(schema: unknown): string {
   return JSON.stringify(schema).replace(

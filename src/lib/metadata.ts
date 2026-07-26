@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { business } from "@/data/site";
 import { copy, languages } from "@/data/translations";
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://novadent.vercel.app";
+import { siteUrl } from "@/lib/site-url";
 
 export function generateSiteMetadata(): Metadata {
   const { title, description, ogAlt } = copy.tr.meta;
@@ -43,6 +42,7 @@ export function generateSiteMetadata(): Metadata {
           width: 1200,
           height: 630,
           alt: ogAlt,
+          type: "image/jpeg",
         },
       ],
     },

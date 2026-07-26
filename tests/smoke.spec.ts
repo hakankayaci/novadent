@@ -9,6 +9,27 @@ async function setLanguage(page: Page, lang: string) {
 }
 
 test.describe("Core content", () => {
+  test("social sharing metadata exposes a large NOVADENT preview image", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      "content",
+      "https://novadent-psi.vercel.app/images/og/novadent-og.jpg",
+    );
+    await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+      "content",
+      "1200",
+    );
+    await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute(
+      "content",
+      "630",
+    );
+    await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+      "content",
+      "summary_large_image",
+    );
+  });
+
   test("home page renders a single H1 with the brand promise", async ({ page }) => {
     await page.goto("/");
     const h1 = page.locator("h1");

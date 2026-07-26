@@ -6,7 +6,6 @@ import {
   ExternalLink,
   Instagram,
   MapPin,
-  MessageCircle,
   Navigation,
   Phone,
   CheckCircle,
@@ -17,6 +16,7 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { useLanguage } from "@/lib/LanguageContext";
 import { saturdayRange, weekdayRange } from "@/lib/hours";
 import { trackEvent } from "@/lib/analytics";
@@ -334,7 +334,7 @@ export function Contact() {
                     variant="whatsapp"
                     fullWidth
                     size="lg"
-                    icon={<MessageCircle className="h-5 w-5" aria-hidden />}
+                    icon={<WhatsAppIcon className="h-5 w-5" aria-hidden />}
                     className="mt-2"
                   >
                     {c.contact.submitButton}

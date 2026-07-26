@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { Clock, MapPin, Navigation, Phone, Star, MessageCircle } from "lucide-react";
+import { Clock, MapPin, Navigation, Phone, Star } from "lucide-react";
 import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { StatusPill } from "@/components/ui/SectionHeading";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { useLanguage } from "@/lib/LanguageContext";
 import { shortHours } from "@/lib/hours";
 import { trackEvent } from "@/lib/analytics";
@@ -91,7 +92,7 @@ export function Hero() {
                 href={whatsAppUrl}
                 target="_blank"
                 onClick={() => trackEvent("whatsapp_click", { location: "hero" })}
-                icon={<MessageCircle className="h-5 w-5" aria-hidden />}
+                icon={<WhatsAppIcon className="h-5 w-5" aria-hidden />}
               >
                 {c.hero.ctaAppointment}
               </Button>

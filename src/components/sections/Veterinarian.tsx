@@ -1,15 +1,16 @@
 "use client";
 
-import { Calendar, Info, MessageCircle, Phone } from "lucide-react";
+import { Calendar, Info, Phone } from "lucide-react";
 import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
-const STEP_ICONS = [Phone, MessageCircle, Calendar];
+const STEP_ICONS = [Phone, WhatsAppIcon, Calendar];
 
 export function Veterinarian() {
   const { c } = useLanguage();
@@ -71,7 +72,7 @@ export function Veterinarian() {
                 href={whatsAppUrl}
                 target="_blank"
                 onClick={() => trackEvent("whatsapp_click", { location: "steps" })}
-                icon={<MessageCircle className="h-4 w-4" aria-hidden />}
+                icon={<WhatsAppIcon className="h-4 w-4" aria-hidden />}
               >
                 {c.nav.bookAppointment}
               </Button>

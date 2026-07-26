@@ -119,6 +119,29 @@ test.describe("Internationalisation", () => {
 });
 
 test.describe("Navigation affordances", () => {
+  test("mobile header uses a warm pearl surface distinct from the navy hero", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    const colors = await page.evaluate(() => ({
+      header: getComputedStyle(document.querySelector("header")!).backgroundColor,
+      hero: getComputedStyle(document.querySelector("#anasayfa")!).backgroundColor,
+    }));
+
+    expect(colors.header).toBe("rgb(244, 240, 232)");
+    expect(colors.header).not.toBe(colors.hero);
+  });
+
+  test("WhatsApp actions use the recognizable WhatsApp mark", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    const mark = page
+      .getByTestId("mobile-action-bar")
+      .locator('a[href^="https://wa.me/"] [data-icon="whatsapp"]');
+    await expect(mark).toBeVisible();
+  });
+
   // Regression: the inline nav was hidden below 1280px while the trigger only appeared
   // below 768px, so 768-1279px had no navigation at all. Exactly one of the two must be
   // present at any width, and the trigger must actually open the drawer.

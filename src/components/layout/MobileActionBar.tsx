@@ -1,6 +1,7 @@
 "use client";
 
-import { Calendar, MessageCircle, Phone } from "lucide-react";
+import { Calendar, Phone } from "lucide-react";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { business } from "@/data/site";
 import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
@@ -40,7 +41,7 @@ export function MobileActionBar() {
           onClick={() => trackEvent("mobile_action_click", { action: "whatsapp" })}
           className={`${tile} bg-[#25D366] text-navy-950`}
         >
-          <MessageCircle className="h-4.5 w-4.5" aria-hidden />
+          <WhatsAppIcon className="h-4.5 w-4.5" aria-hidden />
           <span>WhatsApp</span>
         </a>
 

@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MessageCircle, Menu, Phone } from "lucide-react";
+import { Menu, Phone } from "lucide-react";
 import { business, NAV_SECTIONS } from "@/data/site";
 import { primaryNavItems } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { LanguageSelector } from "./LanguageSelector";
 import { MobileMenu } from "./MobileMenu";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -52,8 +53,8 @@ export function Header() {
       <header
         className={`font-menu sticky top-0 z-header w-full border-b transition-[background-color,box-shadow,border-color,padding] duration-300 ease-out ${
           scrolled
-            ? "border-navy-950/10 bg-white/90 py-2.5 shadow-card backdrop-blur-xl"
-            : "border-transparent bg-paper py-4"
+            ? "border-surface-pearl-line bg-surface-pearl/95 py-2.5 shadow-card backdrop-blur-xl xl:border-navy-950/10 xl:bg-white/90"
+            : "border-surface-pearl-line bg-surface-pearl py-4 xl:border-transparent xl:bg-paper"
         }`}
       >
         <div className="mx-auto flex max-w-[80rem] items-center gap-2 px-4 sm:gap-4 sm:px-6 lg:px-8">
@@ -109,7 +110,7 @@ export function Header() {
               href={whatsAppUrl}
               target="_blank"
               onClick={() => trackEvent("whatsapp_click", { location: "header" })}
-              icon={<MessageCircle className="h-4 w-4" aria-hidden />}
+              icon={<WhatsAppIcon className="h-4 w-4" aria-hidden />}
               className="hidden shrink-0 whitespace-nowrap sm:inline-flex"
             >
               {c.nav.bookAppointment}

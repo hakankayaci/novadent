@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { Instagram, MapPin, Phone, X, MessageCircle } from "lucide-react";
+import { Instagram, MapPin, Phone, X } from "lucide-react";
 import { business } from "@/data/site";
 import { navItems } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
 import { LogoOnDark } from "@/components/ui/Logo";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { LanguageSelector } from "./LanguageSelector";
 import { useLanguage } from "@/lib/LanguageContext";
 import { weekdayRange, saturdayRange } from "@/lib/hours";
@@ -152,7 +153,7 @@ export function MobileMenu({ open, onClose, activeId }: MobileMenuProps) {
             fullWidth
             href={whatsAppUrl}
             target="_blank"
-            icon={<MessageCircle className="h-5 w-5" aria-hidden />}
+            icon={<WhatsAppIcon className="h-5 w-5" aria-hidden />}
           >
             {c.nav.bookAppointment}
           </Button>

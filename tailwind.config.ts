@@ -56,6 +56,10 @@ const config: Config = {
           DEFAULT: "#F7FAFC",
           warm: "#F1F5F9",
         },
+        surface: {
+          pearl: "#F4F0E8",
+          "pearl-line": "#D8D0C2",
+        },
         ink: {
           DEFAULT: "#0F172A",
           soft: "#334155",

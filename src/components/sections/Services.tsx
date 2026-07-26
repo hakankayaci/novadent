@@ -11,7 +11,6 @@ import {
   Stethoscope,
   Sun,
   UserCheck,
-  MessageCircle,
 } from "lucide-react";
 import { business, treatments } from "@/data/site";
 import { Container } from "@/components/ui/Container";

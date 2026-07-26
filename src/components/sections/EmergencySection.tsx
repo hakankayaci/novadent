@@ -1,11 +1,12 @@
 "use client";
 
-import { Globe, MapPin, MessageCircle, Navigation } from "lucide-react";
+import { Globe, MapPin, Navigation } from "lucide-react";
 import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { StatusPill } from "@/components/ui/SectionHeading";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
@@ -61,7 +62,7 @@ export function EmergencySection() {
                   href={whatsAppUrl}
                   target="_blank"
                   onClick={() => trackEvent("whatsapp_click", { location: "international" })}
-                  icon={<MessageCircle className="h-5 w-5" aria-hidden />}
+                  icon={<WhatsAppIcon className="h-5 w-5" aria-hidden />}
                   className="w-full sm:w-auto"
                 >
                   {c.international.whatsAppCta}

@@ -1,9 +1,10 @@
 "use client";
 
-import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, MapPin, Phone } from "lucide-react";
 import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { useLanguage } from "@/lib/LanguageContext";
 import { shortHours } from "@/lib/hours";
 import { trackEvent } from "@/lib/analytics";
@@ -25,7 +26,7 @@ export function TrustHighlights() {
       event: () => trackEvent("quick_action_click", { action: "phone" }),
     },
     {
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       title: c.quickActions.whatsAppTitle,
       desc: c.quickActions.whatsAppDesc,
       href: whatsAppUrl,

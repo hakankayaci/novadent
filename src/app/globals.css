@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    color: #0E1F1B;
+    background-color: #FAFBF8;
+  }
+
+  /* Accessibility focus styles */
+  :focus-visible {
+    outline: 2px solid #B9D63C;
+    outline-offset: 2px;
+  }
+
+  /* Remove tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer utilities {
+  /* Fluid typography utilities if needed */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -3,26 +3,19 @@ import React from "react";
 interface ContainerProps {
   children: React.ReactNode;
   className?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
+  size?: "narrow" | "prose" | "default" | "wide";
 }
 
-export function Container({
-  children,
-  className = "",
-  size = "lg",
-}: ContainerProps) {
-  const sizeClasses = {
-    sm: "max-w-4xl",
-    md: "max-w-5xl",
-    lg: "max-w-7xl",
-    xl: "max-w-[1400px]",
-    full: "max-w-full",
-  };
+const SIZES = {
+  narrow: "max-w-3xl",
+  prose: "max-w-4xl",
+  default: "max-w-[78rem]",
+  wide: "max-w-[88rem]",
+} as const;
 
+export function Container({ children, className = "", size = "default" }: ContainerProps) {
   return (
-    <div
-      className={`w-full mx-auto px-4 sm:px-6 lg:px-8 ${sizeClasses[size]} ${className}`}
-    >
+    <div className={`mx-auto w-full px-4 sm:px-7 lg:px-10 ${SIZES[size]} ${className}`}>
       {children}
     </div>
   );

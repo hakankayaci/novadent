@@ -1,142 +1,154 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { Phone, Menu, MapPin } from "lucide-react";
-import { siteData } from "@/data/site";
+import React, { useEffect, useState } from "react";
+import { MapPin, Menu, Phone } from "lucide-react";
+import { business, NAV_SECTIONS } from "@/data/site";
+import { primaryNavItems } from "@/data/nav";
 import { Button } from "@/components/ui/Button";
+import { Logo } from "@/components/ui/Logo";
 import { LanguageSelector } from "./LanguageSelector";
 import { MobileMenu } from "./MobileMenu";
 import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
-const navItems = [
-  { labelKey: "nav_home", href: "#anasayfa" },
-  { labelKey: "nav_services", href: "#hizmetler" },
-  { labelKey: "nav_about", href: "#hakkimizda" },
-  { labelKey: "nav_vet", href: "#veteriner-hekim" },
-  { labelKey: "nav_clinic", href: "#klinik" },
-  { labelKey: "nav_emergency", href: "#acil-hat" },
-  { labelKey: "nav_reviews", href: "#yorumlar" },
-  { labelKey: "nav_faq", href: "#sss" },
-  { labelKey: "nav_contact", href: "#iletisim" },
-];
-
 export function Header() {
-  const { t } = useLanguage();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { c } = useLanguage();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState<string>("anasayfa");
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Scroll-spy so the current section is always indicated in the nav.
+  useEffect(() => {
+    const sections = NAV_SECTIONS.map((id) => document.getElementById(id)).filter(
+      (el): el is HTMLElement => Boolean(el),
+    );
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   return (
     <>
-      {/* Skip to Content - Strictly hidden unless focused */}
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-brand-lime-500 focus:text-brand-teal-950 font-extrabold rounded-xl shadow-2xl"
-      >
-        {t("skip_content")}
-      </a>
-
       <header
-        className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-          isScrolled
-            ? "bg-brand-teal-950/95 backdrop-blur-md shadow-xl border-b border-brand-teal-800/40 py-3"
-            : "bg-brand-teal-950 py-4 border-b border-brand-teal-800/20"
+        className={`sticky top-0 z-header w-full border-b transition-[background-color,box-shadow,border-color,padding] duration-300 ease-out ${
+          scrolled
+            ? "border-pine-950/10 bg-white/85 py-2.5 shadow-card backdrop-blur-xl"
+            : "border-transparent bg-paper py-4"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-          {/* Brand Logo (Matching signboard exactly) */}
+        <div className="mx-auto flex max-w-[78rem] items-center gap-2 px-4 sm:gap-4 sm:px-7 lg:px-10">
           <a
             href="#anasayfa"
-            className="flex items-center gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-lime-500 rounded-lg p-1 shrink-0"
+            aria-label={c.a11y.logoAlt}
+            className="-m-1 shrink-0 rounded-lg p-1 transition-transform duration-300 ease-out hover:scale-[1.02]"
           >
-            <div className="relative w-44 sm:w-52 h-10 sm:h-12">
-              <Image
-                src="/images/brand/canbazvet-logo-light.svg"
-                alt="CanbazVet Veteriner Kliniği Logo"
-                fill
-                priority
-                className="object-contain object-left"
-              />
-            </div>
+            {/*
+              The lockup has to shrink at 320px or the language button and the menu
+              trigger get pushed past the right edge of the viewport.
+            */}
+            <Logo
+              alt={c.a11y.logoAlt}
+              priority
+              width={196}
+              className={`h-auto transition-all duration-300 ease-out ${
+                scrolled
+                  ? "w-[132px] sm:w-[164px] lg:w-[176px]"
+                  : "w-[132px] sm:w-[176px] lg:w-[196px]"
+              }`}
+            />
           </a>
 
-          {/* Desktop Navigation */}
-          <nav
-            aria-label="Ana Navigasyon"
-            className="hidden xl:flex items-center gap-1"
-          >
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="px-3 py-2 text-sm font-semibold text-brand-teal-100 hover:text-brand-lime-400 rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-lime-500 whitespace-nowrap"
-              >
-                {t(item.labelKey)}
-              </a>
-            ))}
+          {/*
+            The inline nav only appears at xl. At lg the six labels plus the logo, phone,
+            directions button and language picker overflow the viewport -- and Bulgarian
+            and Greek labels are longer still, so the threshold is set for the worst case,
+            not for Turkish.
+          */}
+          <nav aria-label={c.a11y.mainNav} className="ml-auto hidden xl:block">
+            <ul className="flex items-center gap-0.5">
+              {primaryNavItems.map((item) => {
+                const id = item.href.slice(1);
+                const isActive = active === id;
+                return (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      aria-current={isActive ? "true" : undefined}
+                      className={`relative block whitespace-nowrap rounded-lg px-2.5 py-2 text-body-sm font-medium transition-colors duration-200 xl:px-3 ${
+                        isActive ? "text-pine-800" : "text-ink-soft hover:text-pine-800"
+                      }`}
+                    >
+                      {item.label(c)}
+                      <span
+                        aria-hidden
+                        className={`absolute inset-x-2.5 -bottom-0.5 h-0.5 rounded-full bg-leaf-500 transition-transform duration-300 ease-out xl:inset-x-3 ${
+                          isActive ? "scale-x-100" : "scale-x-0"
+                        }`}
+                      />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
 
-          {/* Desktop Header Actions */}
-          <div className="hidden md:flex items-center gap-3 shrink-0">
-            {/* Phone Number */}
+          <div className="ml-auto flex items-center gap-2 xl:ml-4 xl:gap-2.5">
             <a
-              href={siteData.business.phone.telLink}
+              href={business.phone.telLink}
               onClick={() => trackEvent("phone_click", { location: "header" })}
-              className="flex items-center gap-2 text-xs sm:text-sm font-bold text-white hover:text-brand-lime-400 px-3 py-2 transition-colors whitespace-nowrap"
+              className="hidden min-h-[44px] shrink-0 items-center gap-2 whitespace-nowrap rounded-xl px-3 text-body-sm font-semibold text-pine-800 transition-colors duration-200 hover:bg-pine-50 md:flex xl:hidden 2xl:flex"
             >
-              <Phone className="w-4 h-4 text-brand-lime-500 shrink-0" />
-              <span className="whitespace-nowrap">{siteData.business.phone.display}</span>
+              <Phone className="h-4 w-4 shrink-0 text-leaf-700" aria-hidden />
+              <span className="tabular-nums">{business.phone.display}</span>
             </a>
 
-            {/* Glowing 3D Animated Yol Tarifi Button */}
             <Button
-              variant="headerLime"
+              variant="leaf"
               size="sm"
-              href={siteData.business.maps.directionsUrl}
+              href={business.maps.directionsUrl}
               target="_blank"
-              icon={<MapPin className="w-4 h-4 text-brand-teal-950 shrink-0 animate-bounce" />}
-              className="whitespace-nowrap shadow-xl"
+              onClick={() => trackEvent("directions_click", { location: "header" })}
+              icon={<MapPin className="h-4 w-4" aria-hidden />}
+              className="hidden shrink-0 whitespace-nowrap sm:inline-flex"
             >
-              {t("nav_directions")}
+              {c.nav.directions}
             </Button>
 
-            {/* Language Selector Dropdown */}
-            <LanguageSelector />
-          </div>
-
-          {/* Mobile Menu & Language Wrapper */}
-          <div className="flex items-center gap-2 md:hidden">
             <LanguageSelector />
 
             <button
               type="button"
-              aria-expanded={isMobileMenuOpen}
+              aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              aria-label="Menüyü aç"
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="p-2.5 rounded-xl bg-brand-teal-900 text-brand-teal-100 hover:text-white hover:bg-brand-teal-800 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-lime-500 min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
+              aria-label={c.a11y.openMenu}
+              onClick={() => setMenuOpen(true)}
+              className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-pine-700/15 bg-white text-pine-800 transition-colors duration-200 hover:bg-pine-50 xl:hidden"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="h-5 w-5" aria-hidden />
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Menu Drawer */}
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-        navItems={navItems}
-      />
+      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} activeId={active} />
     </>
   );
 }

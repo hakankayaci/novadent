@@ -1,64 +1,124 @@
-# CanbazVet Master Design System & UI/UX Architecture
+# CanbazVet — Tasarım Sistemi
 
-**Marka:** CanbazVet Veteriner Kliniği (Edirne)  
-**Hedef:** Güven, şefkat, hekim erişilebilirliği, yüksek dönüşüm (telefon & yol tarifi), yerel SEO mükemmelliği  
-**Estetik Yönelim:** Editorial veterinary healthcare, warm professional, dark teal & lime accent palette, high contrast typography, mobile-first responsive.  
+**Marka:** CanbazVet Veteriner Kliniği (Edirne Şükrüpaşa)
+**Hedef:** Güven, hekim erişilebilirliği, yüksek dönüşüm (telefon & yol tarifi), yerel SEO
+**Diller:** Türkçe (varsayılan), İngilizce, Bulgarca, Yunanca
 
----
-
-## 1. Color Palette (Renk Paleti)
-
-Tabela ve gerçek klinik görsellerinden hassas olarak örneklenmiş renk sistemi:
-
-### Primary Brand Colors
-- **Brand Dark Teal 950:** `#00352C` (Hero zeminleri, acil hat alanları, footer)
-- **Brand Dark Teal 900:** `#004D40` (Ana marka rengi, kart zeminleri, buton hover)
-- **Brand Teal 800:** `#006654` (Başlıklar, ikincil arka planlar)
-- **Brand Teal 700:** `#087565` (Vurgu metinleri, simge halkaları)
-
-### Accent & Highlight Colors
-- **Brand Lime Green 500:** `#B9D63C` (Tabeladaki "Vet" rengi, aktif durum noktaları, alt çizgiler, birincil badge)
-- **Brand Lime Green 400:** `#C7E34B` (Lime hover durumları)
-- **Brand Emergency Red 600:** `#E2292E` (Tabeladaki "ACİL" rozeti rengi, acil arama butonu)
-- **Brand Emergency Red 500:** `#EF353A` (Red hover durumları)
-
-### Neutral Surface & Text Colors
-- **Surface Pure White:** `#FFFFFF` (Kart zeminleri, temiz alanlar)
-- **Surface Warm Off-White:** `#F7F9F6` (Ana sayfa arka planı)
-- **Surface Warm Light Green:** `#EEF4EC` (İkincil kartlar ve rozet arka planı)
-- **Surface Soft Blush:** `#FBF2F4` (Dış cephe pembe dokusundan ilham alan yumuşak vurgu yüzeyi)
-- **Text Primary (Dark):** `#0E1F1B` (Gövde metinleri, yüksek okunabilirlik, WCAG AAA)
-- **Text Secondary:** `#4A5F57` (Açıklama metinleri, alt yazılar)
-- **Text Muted:** `#71867E` (Tarih, meta veriler, pasif ikonlar)
+Bu dosya kodda **fiilen ne olduğunu** anlatır. Kaynak `tailwind.config.ts` ve
+`src/app/globals.css`; burada yazılanla kod çelişirse kod doğrudur.
 
 ---
 
-## 2. Typography System (Tipografi Sistemi)
+## 1. Renk paleti
 
-**Font Family:** `Plus Jakarta Sans` veya `Outfit` + `Inter` (Google Fonts, Next/Font optimizasyonu ile sıfır layout shift).
+Renkler tahmin edilmedi: `public/images/brand/canbazvet-logo.png` dosyasından
+**piksel örneklenerek** alındı (bkz. `tailwind.config.ts` başındaki not).
 
-### Fluid Typography Scale (`clamp` tabanlı):
-- **Hero Title (H1):** `clamp(2.5rem, 5vw + 1rem, 5.25rem)` — Bold (700/800), Tracking tight (-0.03em)
-- **Section Heading (H2):** `clamp(2rem, 3.5vw + 0.8rem, 3.5rem)` — SemiBold/Bold (700)
-- **Subheading (H3):** `clamp(1.25rem, 2vw + 0.5rem, 2rem)` — Medium/SemiBold (600)
-- **Body Large:** `clamp(1.05rem, 1.2vw + 0.5rem, 1.25rem)` — Regular/Medium (400/500)
-- **Body Base:** `1rem` (16px standard, 1.6 line height)
-- **Caption / Label:** `0.875rem` (14px) — Medium/SemiBold, Tracking wider for badges
+| Token | Hex | Kaynak / kullanım |
+| --- | --- | --- |
+| `pine.700` | `#016351` | Logodaki **"Canbaz"** mürekkebi. Ana marka rengi, butonlar, bağlantılar. |
+| `pine.950` | `#04231A` | Hero, hekim bölümü, acil hat, footer zeminleri. |
+| `pine.900` / `pine.800` | `#05372A` / `#044A3A` | Koyu zemin katmanları, kart içi yüzeyler. |
+| `pine.100` / `pine.50` | `#DCEFE8` / `#EFF7F3` | Açık yüzeyler, ikon kutuları. |
+| `leaf.500` | `#8DCA36` | Logodaki **"Vet"** yeşili. Grafik vurgu. |
+| `leaf.300` | `#BCEA30` | Amblem highlight'ı. Koyu zeminde vurgu metni + birincil buton. |
+| `leaf.700` | `#4F7D14` | **Açık zeminde yeşil metin için tek geçerli ton.** |
+| `alert.600` | `#C10E1F` | Tabeladaki **"ACİL"** rozeti kırmızısı. Acil CTA'lar. |
+| `paper` | `#F7FAF7` | Sayfa zemini. |
+| `ink` / `ink.soft` / `ink.muted` | `#0B1F19` / `#3D5A50` / `#586F66` | Gövde metni kademeleri. |
+
+### Kontrast kuralları (denetlendi, sRGB)
+
+Bunlar tercih değil, **kural**:
+
+- `leaf.500` **hiçbir zaman açık zeminde metin olamaz** — beyaz üzerinde 1.97:1.
+  Açık zeminde yeşil metin gerekiyorsa `leaf.700` (4.91:1) kullanılır.
+- `pine.700` üzerinde `leaf.500` yalnızca büyük metin (3.66:1); normal metin için
+  `leaf.300` (5.15:1) veya `pine.100` (6.04:1).
+- `ink.muted` gövde metni için **izin verilen en açık ton** (`paper` üzerinde 5.15:1).
+- Beyaz metin: `pine.700` 7.23:1, `pine.950` 16.66:1, `alert.600` 5.86:1 — hepsi geçer.
 
 ---
 
-## 3. Micro-Interactions & Animation Guidelines
+## 2. Tipografi
 
-- **Easing:** `cubic-bezier(0.16, 1, 0.3, 1)` (Smooth springless transition)
-- **Hover Lift:** `transform: translateY(-3px)` with soft shadow `0 12px 24px -6px rgba(0, 53, 44, 0.08)`
-- **Duration:** 200ms – 350ms max.
-- **Accessibility:** `prefers-reduced-motion: reduce` uygulandığında tüm transform ve opacity animasyonları anında sonlanacak şekilde ayarlanır.
+**Fira Sans** (`next/font/google`), tek aile, ağırlık kontrastıyla kullanılır.
+
+Seçim gerekçesi teknik: site Türkçe + Bulgarca + Yunanca yayın yapıyor, dolayısıyla
+gövde fontunun **latin-ext (ı İ ğ ş) + Kiril + Yunan** alfabelerini taşıması zorunlu.
+Önceki font (Plus Jakarta Sans) Kiril ve Yunan alfabelerinin **hiçbirini** içermiyordu;
+bu yüzden BG ve EL metinleri sessizce sistem yedek fontuna düşüyordu.
+
+Ölçek `tailwind.config.ts` içinde `clamp()` tabanlı token'lar olarak tanımlı:
+
+| Token | Kullanım |
+| --- | --- |
+| `text-display-xl` | Yalnızca H1 (hero). Üst sınır 5.25rem. |
+| `text-display-lg` | Bölüm başlıkları (H2). |
+| `text-display-md` / `-sm` | Panel başlıkları, kart başlıkları (H3/H4). |
+| `text-body-lg` / `text-body` / `text-body-sm` | Gövde kademeleri. |
+| `text-label` | Bölüm adı çipleri. |
+
+- Satır uzunluğu `max-w-prose` (68ch) ile sınırlı.
+- `h1–h3` için `text-wrap: balance`, paragraflar için `text-wrap: pretty`.
+- Display letter-spacing tabanı `-0.032em`; bundan daha sıkı **kullanılmaz**.
 
 ---
 
-## 4. Component Standards & Impeccable Rules
+## 3. Hareket (motion)
 
-- **Zero Generic SaaS Cards:** Tüm bölümler birbirinin aynısı kutulardan oluşmayacak; asimetrik layout'lar, büyük gerçek fotoğraflar ve tipografik hiyerarşi kullanılacaktır.
-- **No Icon Bloat:** Her başlığın üstüne gereksiz icon koyulmayacak; yalnızca aksiyon yönlendiren sade Lucide SVG simgeleri tercih edilecektir.
-- **Touch Target Standard:** Tüm mobilde tıklanabilir öğeler minimum `44px x 44px` yüksekliğinde/genişliğinde olacaktır.
-- **Safe Area Insets:** Mobil alt aksiyon barında `env(safe-area-inset-bottom)` kullanılarak iOS Home Indicator çakışması önlenecektir.
+- Easing yalnızca eksponansiyel ease-out: `cubic-bezier(0.16, 1, 0.3, 1)`. Bounce/elastic yok.
+- Hero girişi: `animate-rise-in` / `animate-scale-in`, 80–280 ms kademeli gecikme.
+- Scroll reveal: `Reveal` bileşeni.
+  **Kritik kural — içerik varsayılan olarak görünürdür.** Sunucu hiçbir `data-reveal`
+  niteliği basmaz; bileşen yalnızca **hâlâ ekranın altında olan** öğeleri `pending`
+  durumuna alır. JS kapalıysa, tarayıcı bir crawler'sa veya sayfa headless
+  render ediliyorsa hiçbir şey gizli kalmaz.
+- `prefers-reduced-motion: reduce` altında reveal'lar anında çözülür (boş sayfa değil).
+- Doğrulama: `node scratch/motion-check.mjs` (JS kapalı / reduced-motion / normal).
+
+---
+
+## 4. Bileşen standartları
+
+- **Dokunma hedefi:** etkileşimli her öğe ≥ 44px yüksek. Satır içi metin
+  bağlantılarında `inline-flex min-h-[36..44px] items-center` ile alan verilir.
+  Playwright bunu her viewport'ta doğrular.
+- **z-index:** yalnızca semantik ölçek (`z-sticky`, `z-header`, `z-drawer`, `z-skip`).
+  Ham sayı (999 vb.) kullanılmaz.
+- **Kart enflasyonu yok:** Hizmetler ve güven şeridi kart ızgarası değil, hairline
+  ayraçlı liste. Aynı boyutlu ikon+başlık+metin kartlarının tekrarı yasak.
+- **Her başlığın üstünde küçük büyük-harf etiket yok.** Bölüm adı, başlıkla aynı
+  hizada ince bir çizginin yanında durur. Canlı bilgi taşıyan çip (`StatusPill`)
+  yalnızca hero ve acil hat bölümünde kullanılır.
+- **Gradient metin yasak** (`background-clip: text`). Vurgu düz renkle yapılır.
+- **Safe area:** mobil aksiyon barında `env(safe-area-inset-bottom)`; `body` bunun
+  yüksekliği kadar alt dolgu taşır, böylece içerik barın altında kalmaz.
+
+---
+
+## 5. Breakpoint sözleşmesi
+
+Header'da gezinme eşiği **`xl` (1280px)**:
+
+- `< 1280px` → hamburger görünür, `MobileMenu` açılır.
+- `≥ 1280px` → satır içi nav görünür, hamburger gizli.
+
+`MobileMenu` ve tetikleyici **aynı** eşiği kullanmak zorundadır (`xl:hidden`). Eşikler
+ayrışırsa buton hiçbir şey açmayan ölü bir kontrole dönüşür — bu hata bir kez oluştu
+(nav `lg`, buton `md` idi; 768–1279 arası tamamen gezinmesiz kaldı).
+
+Eşik `lg` değil `xl`: altı nav etiketi + logo + telefon + yol tarifi + dil seçici
+1024px'e sığmıyor ve Bulgarca/Yunanca etiketler Türkçeden uzun. Eşik en kötü dile göre
+seçildi. Doğrulama: `node scratch/matrix.mjs` (14 genişlik × 4 dil).
+
+---
+
+## 6. globals.css'te asla yapılmayacak şey
+
+`@layer` bloğu içine **seçicisiz bildirim yazılmaz.** Bir kez yazıldı
+(`-webkit-tap-highlight-color: transparent;`), minifier iki `.sr-only` bloğunu tek
+kurala katladı, tarayıcı `-webkit-tap-highlight-color:transparent;.sr-only { … }`
+ifadesini tek geçersiz seçici olarak ayrıştırdı ve **`.sr-only` kuralını tamamen
+attı** — "İçeriğe geç" bağlantısı production'da header'ın üstünde kalıcı beyaz bir
+şerit olarak göründü. Regresyon testi: `node scratch/checkcss.mjs`.

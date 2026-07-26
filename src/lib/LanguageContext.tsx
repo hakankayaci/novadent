@@ -1,44 +1,78 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { Language, translations } from "@/data/translations";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import {
+  copy,
+  isLanguage,
+  languages,
+  type Copy,
+  type Language,
+} from "@/data/translations";
 
-interface LanguageContextType {
+const STORAGE_KEY = "canbazvet_lang";
+
+interface LanguageContextValue {
   lang: Language;
   setLang: (lang: Language) => void;
-  t: (key: string) => string;
+  /** The full, fully-typed copy object for the active language. */
+  c: Copy;
 }
 
-const LanguageContext = createContext<LanguageContextType>({
+const LanguageContext = createContext<LanguageContextValue>({
   lang: "tr",
   setLang: () => {},
-  t: (key: string) => key,
+  c: copy.tr,
 });
 
+/**
+ * Turkish is the default and only an explicit, previously-saved choice overrides it.
+ *
+ * Deliberately no `navigator.language` negotiation: this is a neighbourhood clinic in
+ * Edirne whose visitors are overwhelmingly Turkish, and a great many of them run their
+ * phone or browser in English. Auto-switching on browser locale would have served those
+ * local visitors an English page they never asked for. The language button in the header
+ * is the affordance instead, and the choice sticks.
+ */
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>("tr");
 
   useEffect(() => {
-    const saved = localStorage.getItem("canbazvet_lang") as Language;
-    if (saved && ["tr", "en", "bg", "el"].includes(saved)) {
-      setLangState(saved);
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (isLanguage(stored) && stored !== "tr") setLangState(stored);
+    } catch {
+      // Private mode or blocked storage: stay on the Turkish default.
     }
   }, []);
 
-  const setLang = (newLang: Language) => {
-    setLangState(newLang);
-    localStorage.setItem("canbazvet_lang", newLang);
-  };
+  // Keep <html lang> truthful: it drives screen-reader pronunciation and hyphenation.
+  useEffect(() => {
+    const option = languages.find((l) => l.code === lang);
+    if (option) document.documentElement.lang = option.htmlLang;
+  }, [lang]);
 
-  const t = (key: string): string => {
-    return translations[lang]?.[key] || translations["tr"]?.[key] || key;
-  };
+  const setLang = useCallback((next: Language) => {
+    setLangState(next);
+    try {
+      window.localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // Persisting is a convenience, not a requirement.
+    }
+  }, []);
 
-  return (
-    <LanguageContext.Provider value={{ lang, setLang, t }}>
-      {children}
-    </LanguageContext.Provider>
+  const value = useMemo<LanguageContextValue>(
+    () => ({ lang, setLang, c: copy[lang] }),
+    [lang, setLang],
   );
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {

@@ -1,59 +1,121 @@
 import React from "react";
-import { Sparkles } from "lucide-react";
+import { Reveal } from "./Reveal";
 
 interface SectionHeadingProps {
-  badge?: string;
-  title: string;
-  description?: string;
-  align?: "left" | "center";
+  /** Short section name, rendered inline beside a hairline rule -- not as a stacked eyebrow. */
+  kicker?: string;
+  title: React.ReactNode;
+  lede?: string;
   theme?: "light" | "dark";
+  align?: "split" | "center";
   className?: string;
+  id?: string;
 }
 
+/**
+ * Section opener.
+ *
+ * Deliberately not "small uppercase label stacked above every heading" -- that reads as
+ * template scaffolding once it appears on eight sections in a row. Instead the section
+ * name sits on the same baseline as a hairline rule, and the lede moves into a second
+ * column on wide screens so the heading gets to be the only large thing in the row.
+ */
 export function SectionHeading({
-  badge,
+  kicker,
   title,
-  description,
-  align = "left",
+  lede,
   theme = "light",
+  align = "split",
   className = "",
+  id,
 }: SectionHeadingProps) {
-  const isDark = theme === "dark";
+  const dark = theme === "dark";
 
   return (
-    <div
-      className={`flex flex-col ${
-        align === "center" ? "items-center text-center mx-auto max-w-3xl" : "items-start text-left max-w-3xl"
+    <Reveal
+      as="header"
+      className={[
+        align === "center" ? "mx-auto max-w-3xl text-center" : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
+      {kicker && (
+        <div
+          className={`mb-5 flex items-center gap-3 ${align === "center" ? "justify-center" : ""}`}
+        >
+          <span
+            aria-hidden
+            className={`h-px w-8 ${dark ? "bg-leaf-300/60" : "bg-pine-700/30"}`}
+          />
+          <span
+            className={`text-label font-semibold ${dark ? "text-leaf-300" : "text-pine-700"}`}
+          >
+            {kicker}
+          </span>
+        </div>
+      )}
+
+      <div
+        className={
+          align === "split" && lede
+            ? "grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-end lg:gap-14"
+            : ""
+        }
+      >
+        <h2
+          id={id}
+          className={`text-display-lg font-bold ${dark ? "text-white" : "text-pine-950"}`}
+        >
+          {title}
+        </h2>
+
+        {lede && (
+          <p
+            className={`max-w-prose text-body-lg ${
+              align === "center" ? "mx-auto mt-4" : ""
+            } ${dark ? "text-pine-100/80" : "text-ink-soft"}`}
+          >
+            {lede}
+          </p>
+        )}
+      </div>
+    </Reveal>
+  );
+}
+
+/**
+ * A pill that carries live information -- a location, an open/closed state. Used
+ * sparingly and never as decoration above a heading.
+ */
+export function StatusPill({
+  children,
+  theme = "dark",
+  pulse = false,
+  className = "",
+}: {
+  children: React.ReactNode;
+  theme?: "light" | "dark";
+  pulse?: boolean;
+  className?: string;
+}) {
+  const dark = theme === "dark";
+  return (
+    <span
+      className={`inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-body-sm font-semibold ${
+        dark
+          ? "border border-leaf-300/25 bg-pine-900/70 text-leaf-300"
+          : "border border-pine-700/15 bg-white text-pine-800 shadow-card"
       } ${className}`}
     >
-      {badge && (
-        <span
-          className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest mb-4 shadow-sm backdrop-blur-md transition-all ${
-            isDark
-              ? "bg-brand-teal-900/90 text-brand-lime-400 border border-brand-lime-500/30"
-              : "bg-white text-brand-teal-950 border border-brand-teal-900/15 shadow-sm"
-          }`}
-        >
-          <Sparkles className="w-3.5 h-3.5 text-brand-lime-500 shrink-0" />
-          <span>{badge}</span>
+      {pulse && (
+        <span className="relative flex h-2 w-2 shrink-0" aria-hidden>
+          <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-leaf-400" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-leaf-400" />
         </span>
       )}
-      <h2
-        className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight ${
-          isDark ? "text-white" : "text-brand-teal-950"
-        }`}
-      >
-        {title}
-      </h2>
-      {description && (
-        <p
-          className={`mt-4 text-base sm:text-lg leading-relaxed ${
-            isDark ? "text-brand-teal-100/90" : "text-text-secondary"
-          }`}
-        >
-          {description}
-        </p>
-      )}
-    </div>
+      {children}
+    </span>
   );
 }

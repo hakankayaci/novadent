@@ -1,94 +1,100 @@
 import React from "react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "emergency" | "outline" | "ghost" | "lime" | "headerLime";
-  size?: "sm" | "md" | "lg";
-  href?: string;
-  target?: string;
-  rel?: string;
+type Variant = "emergency" | "leaf" | "pine" | "outline" | "ghost" | "onDark";
+type Size = "sm" | "md" | "lg";
+
+interface CommonProps {
+  variant?: Variant;
+  size?: Size;
   children: React.ReactNode;
   icon?: React.ReactNode;
-  iconPosition?: "left" | "right";
+  iconAfter?: React.ReactNode;
   fullWidth?: boolean;
+  className?: string;
 }
 
-export function Button({
-  variant = "primary",
-  size = "md",
-  href,
-  target,
-  rel,
-  children,
-  icon,
-  iconPosition = "left",
-  fullWidth = false,
-  className = "",
-  onClick,
-  ...props
-}: ButtonProps) {
-  const baseClasses =
-    "inline-flex items-center justify-center font-bold transition-all duration-300 rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.97] cursor-pointer select-none min-h-[44px] btn-shimmer";
-
-  const variantClasses = {
-    primary:
-      "bg-gradient-to-r from-brand-teal-900 to-brand-teal-950 text-white hover:from-brand-teal-800 hover:to-brand-teal-900 focus-visible:ring-brand-teal-900 shadow-md hover:shadow-xl hover:-translate-y-0.5 border border-brand-teal-700/40",
-    secondary:
-      "bg-white text-brand-teal-950 hover:bg-brand-teal-50 focus-visible:ring-brand-teal-800 border-2 border-brand-teal-800/20 shadow-sm hover:shadow-md hover:-translate-y-0.5",
-    emergency:
-      "bg-gradient-to-r from-brand-red-600 to-brand-red-500 text-white hover:from-brand-red-500 hover:to-brand-red-600 focus-visible:ring-brand-red-600 shadow-emergency hover:glow-red hover:-translate-y-0.5 border border-red-400/30",
-    lime:
-      "bg-gradient-to-r from-brand-lime-500 to-brand-lime-400 text-brand-teal-950 hover:from-brand-lime-400 hover:to-brand-lime-500 focus-visible:ring-brand-lime-500 shadow-md hover:glow-lime hover:-translate-y-0.5 font-extrabold border border-brand-lime-300/40",
-    headerLime:
-      "bg-gradient-to-r from-brand-lime-500 via-brand-lime-400 to-brand-lime-500 text-brand-teal-950 hover:from-brand-lime-400 hover:to-brand-lime-300 focus-visible:ring-brand-lime-500 shadow-lg hover:glow-lime hover:scale-105 transition-all duration-300 border-2 border-brand-lime-300/60 font-black",
-    outline:
-      "border-2 border-brand-teal-900 text-brand-teal-900 hover:bg-brand-teal-900 hover:text-white focus-visible:ring-brand-teal-900 shadow-sm hover:-translate-y-0.5",
-    ghost:
-      "text-brand-teal-900 hover:bg-brand-teal-50 focus-visible:ring-brand-teal-800",
+type ButtonProps = CommonProps &
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children"> & {
+    href?: undefined;
   };
 
-  const sizeClasses = {
-    sm: "px-4 py-2 text-xs sm:text-sm gap-2 min-w-[100px]",
-    md: "px-5 py-3 text-sm sm:text-base gap-2.5 min-w-[120px]",
-    lg: "px-7 py-4 text-base sm:text-lg gap-3 min-w-[140px]",
+type AnchorProps = CommonProps &
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "className" | "children"> & {
+    href: string;
   };
 
-  const combinedClasses = `
-    ${baseClasses}
-    ${variantClasses[variant]}
-    ${sizeClasses[size]}
-    ${fullWidth ? "w-full" : ""}
-    ${className}
-  `.trim();
+const BASE =
+  "sheen group relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-xl " +
+  "font-semibold leading-tight transition-[transform,box-shadow,background-color,color] duration-300 " +
+  "ease-out will-change-transform focus-visible:outline-offset-4 active:translate-y-0 active:scale-[0.98] " +
+  // Long BG/EL labels must wrap instead of bursting out of the button.
+  "text-center [text-wrap:balance]";
 
-  const content = (
+const VARIANTS: Record<Variant, string> = {
+  emergency:
+    "bg-alert-600 text-white shadow-alert hover:-translate-y-0.5 hover:bg-alert-500 hover:shadow-lift",
+  leaf:
+    "bg-leaf-300 text-pine-950 shadow-card hover:-translate-y-0.5 hover:bg-leaf-400 hover:shadow-lift",
+  pine:
+    "bg-pine-700 text-white shadow-card hover:-translate-y-0.5 hover:bg-pine-600 hover:shadow-lift",
+  outline:
+    "border-2 border-pine-700/25 bg-white text-pine-800 hover:-translate-y-0.5 hover:border-pine-700/50 hover:bg-pine-50 hover:shadow-card",
+  ghost: "text-pine-800 hover:bg-pine-50",
+  onDark:
+    "border border-white/20 bg-white/10 text-white backdrop-blur-sm hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/16",
+};
+
+const SIZES: Record<Size, string> = {
+  sm: "px-4 py-2.5 text-body-sm",
+  md: "px-5 py-3 text-body",
+  lg: "px-6 py-4 text-body-lg",
+};
+
+function classes({ variant = "pine", size = "md", fullWidth, className = "" }: CommonProps) {
+  return [BASE, VARIANTS[variant], SIZES[size], fullWidth ? "w-full" : "", className]
+    .filter(Boolean)
+    .join(" ");
+}
+
+function Content({ icon, iconAfter, children }: Pick<CommonProps, "icon" | "iconAfter" | "children">) {
+  return (
     <>
-      {icon && iconPosition === "left" && (
-        <span className="shrink-0 transition-transform group-hover:scale-110">{icon}</span>
-      )}
-      <span className="whitespace-nowrap">{children}</span>
-      {icon && iconPosition === "right" && (
-        <span className="shrink-0 transition-transform group-hover:scale-110">{icon}</span>
+      {icon && <span className="shrink-0">{icon}</span>}
+      <span>{children}</span>
+      {iconAfter && (
+        <span className="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-0.5">
+          {iconAfter}
+        </span>
       )}
     </>
   );
+}
 
-  if (href) {
+export function Button(props: ButtonProps | AnchorProps) {
+  const { variant, size, children, icon, iconAfter, fullWidth, className, ...rest } = props;
+  const cn = classes({ variant, size, fullWidth, className, children });
+
+  if (typeof rest.href === "string") {
+    const anchor = rest as React.AnchorHTMLAttributes<HTMLAnchorElement> & { href: string };
     return (
       <a
-        href={href}
-        target={target}
-        rel={rel || (target === "_blank" ? "noopener noreferrer" : undefined)}
-        className={combinedClasses}
-        onClick={onClick as unknown as React.MouseEventHandler<HTMLAnchorElement>}
+        {...anchor}
+        className={cn}
+        rel={anchor.rel ?? (anchor.target === "_blank" ? "noopener noreferrer" : undefined)}
       >
-        {content}
+        <Content icon={icon} iconAfter={iconAfter}>
+          {children}
+        </Content>
       </a>
     );
   }
 
+  const button = rest as React.ButtonHTMLAttributes<HTMLButtonElement>;
   return (
-    <button className={combinedClasses} onClick={onClick} {...props}>
-      {content}
+    <button {...button} type={button.type ?? "button"} className={cn}>
+      <Content icon={icon} iconAfter={iconAfter}>
+        {children}
+      </Content>
     </button>
   );
 }

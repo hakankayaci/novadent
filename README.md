@@ -11,12 +11,44 @@ Edirne Merkez'de faaliyet gösteren **CanbazVet Veteriner Kliniği** (Veteriner 
 
 - **Framework:** Next.js 15 (App Router, React 19)
 - **Dil:** TypeScript (Strict Mode)
-- **Styling:** Tailwind CSS v3, Vanilla CSS Design System Tokens
+- **Styling:** Tailwind CSS v3, `tailwind.config.ts` içinde tanımlı tasarım token'ları
+- **Font:** Fira Sans — latin-ext + Kiril + Yunan alfabelerini taşır (4 dil için zorunlu)
 - **İkonlar:** Lucide React
-- **Görsel İşleme:** Next/Image + Sharp (WebP/AVIF optimizasyonu)
+- **Görsel İşleme:** Sharp ile build-time üretim + Next/Image (WebP/AVIF)
 - **SEO & Schema:** Next.js Metadata API, Schema.org `VeterinaryCare` JSON-LD
-- **Test:** Playwright (Smoke & Responsive overflow testleri)
+- **Test:** Playwright (63 test × 3 viewport projesi)
 - **Deployment:** Vercel
+
+---
+
+## 🌍 Dil desteği
+
+Türkçe (varsayılan), İngilizce, Bulgarca, Yunanca. Tüm metinler
+`src/data/translations.ts` içindeki tek bir `Copy` arayüzünde toplanır; bir dil eksik
+alan bırakırsa **derleme başarısız olur**, çalışma anında Türkçeye düşmez.
+
+Varsayılan dil her zaman Türkçe. `navigator.language` sezgisi bilinçli olarak
+kullanılmaz: ziyaretçilerin çoğu Edirneli ve pek çoğu telefonunu İngilizce
+kullanıyor — tarayıcı diline göre otomatik geçiş, yerel ziyaretçiye istemediği
+İngilizce sayfayı gösterirdi. Seçim header'daki dil düğmesiyle yapılır ve saklanır.
+
+---
+
+## 🖼 Görsel varlıkları
+
+`public/images/**` altındaki her türev görsel **üretilmiştir**, elle düzenlenmemiştir.
+Kaynaklar `resimler/` klasöründedir (repoya dahil değil) ve tek bir kez, tek geçişte
+kodlanır — önceki sürüm zaten kayıplı WebP kopyalarını yeniden kodladığı için klinik
+fotoğrafları yumuşak görünüyordu.
+
+```bash
+npm run assets      # logo, amblem, favicon, hekim portresi, klinik + sosyal kareler
+npm run assets:og   # 1200x630 OpenGraph kapağı (gerçek webfont ile render edilir)
+```
+
+Logo bir yeniden çizim değil: `canbazvet-logo.png` kliniğin gerçek tabela
+görselinden kırpılmıştır. Marka renkleri de bu dosyadan piksel örneklenmiştir
+(bkz. `design-system/MASTER.md`).
 
 ---
 
@@ -63,6 +95,9 @@ npm run test
 
 ```
 canbazvet/
+├── scripts/
+│   ├── build-assets.mjs     # resimler/ kaynaklarından tüm public/ görsellerini üretir
+│   └── build-og.mjs         # OpenGraph kapağını gerçek webfont ile render eder
 ├── design-system/
 │   └── MASTER.md            # Marka tasarım sistemi ve renk token'ları
 ├── docs/
@@ -81,12 +116,17 @@ canbazvet/
 ├── src/
 │   ├── app/                 # Next.js App Router (layout, page, robots, sitemap)
 │   ├── components/          # Layout, UI & Section bileşenleri
-│   ├── data/                # Merkezi veri kaynağı (site.ts)
-│   ├── lib/                 # Metadata, JSON-LD schema & analytics
+│   ├── data/                # site.ts (dilden bağımsız veriler), translations.ts (tüm metin), nav.ts
+│   ├── lib/                 # LanguageContext, metadata, JSON-LD schema, saatler, analytics
 │   └── types/               # TypeScript tip tanımları
 └── tests/
-    └── smoke.spec.ts        # Playwright test senaryoları
+    └── smoke.spec.ts        # Playwright: içerik, skip link, i18n, nav, harita, dürüst sosyal kanıt, layout
 ```
+
+**Ayrım kuralı:** `src/data/site.ts` yalnızca dilden bağımsız gerçekleri tutar (telefon,
+adres, koordinat, görsel yolları, ikon adları). İnsanın okuduğu **her** dize
+`src/data/translations.ts` içindedir. Böylece yeni bir dil yarı çevrilmiş bir sayfa
+bırakamaz.
 
 ---
 

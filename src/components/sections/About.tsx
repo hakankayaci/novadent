@@ -1,120 +1,81 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
-import { CheckCircle2, Heart, Instagram, Sparkles } from "lucide-react";
-import { siteData } from "@/data/site";
+import { Check, Instagram } from "lucide-react";
+import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Reveal } from "@/components/ui/Reveal";
 import { useLanguage } from "@/lib/LanguageContext";
 
 export function About() {
-  const { business } = siteData;
-  const { t } = useLanguage();
-
-  const highlights = [
-    "Açık ve anlaşılır hasta sahibi iletişimi",
-    "Steril muayene ve ameliyathane ortamı",
-    "Düzenli koruyucu aşı ve tedavi takibi",
-    "7/24 aktif acil iletişim desteği",
-  ];
+  const { c } = useLanguage();
+  const { veterinarian } = business;
 
   return (
-    <section id="hakkimizda" className="py-20 bg-white">
+    <section id="hakkimizda" className="scroll-mt-24 bg-white py-section">
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Image Column */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-teal-900/10">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal from="scale" className="relative">
+            <div className="relative aspect-[3/2] overflow-hidden rounded-panel bg-pine-50 shadow-lift">
               <Image
-                src="/images/team/berk-canbaz.webp"
-                alt="Veteriner Hekim Berk Canbaz"
+                src="/images/team/berk-canbaz-wide.webp"
+                alt={c.about.photoAlt}
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-top"
+                sizes="(max-width: 1024px) 92vw, 46vw"
+                className="object-cover object-[center_22%]"
               />
             </div>
 
-            {/* Overlapping Badge */}
-            <div className="absolute -bottom-6 -right-2 sm:right-6 p-5 rounded-2xl bg-brand-teal-950 text-white shadow-xl max-w-xs border border-brand-teal-800/40">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-brand-lime-500 text-brand-teal-950 font-bold shrink-0">
-                  <Sparkles className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-xs text-brand-lime-400 font-bold uppercase tracking-wider">
-                    Vet. Hekim Berk Canbaz
-                  </p>
-                  <a
-                    href={business.veterinarian.instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs font-bold text-white hover:text-brand-lime-400 mt-1"
-                  >
-                    <Instagram className="w-3.5 h-3.5 text-brand-lime-500" />
-                    <span>{business.veterinarian.handle}</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Text Content Column */}
-          <div className="lg:col-span-6 space-y-6">
-            <SectionHeading
-              badge={t("about_badge")}
-              title={`${t("about_title_1")} ${t("about_title_2")}`}
-              align="left"
-            />
-
-            <p className="text-base sm:text-lg text-text-secondary leading-relaxed">
-              {t("about_p1")}
-            </p>
-
-            <p className="text-base text-text-secondary leading-relaxed">
-              {t("about_p2")}
-            </p>
-
-            {/* Vet Instagram Banner */}
-            <div className="p-4 rounded-2xl bg-brand-surface-100 border border-brand-teal-900/10 flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <Instagram className="w-5 h-5 text-brand-teal-900 shrink-0" />
-                <div>
-                  <p className="text-xs font-bold text-brand-teal-950">
-                    {t("about_insta_label")}
-                  </p>
-                  <a
-                    href={business.veterinarian.instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-extrabold text-brand-teal-900 hover:text-brand-teal-950 hover:underline"
-                  >
-                    {business.veterinarian.handle}
-                  </a>
-                </div>
-              </div>
-
+            {/* Overlaps the photo corner instead of sitting in a nested card. */}
+            <div className="relative -mt-10 ml-5 mr-5 rounded-card border border-pine-950/8 bg-white p-5 shadow-lift sm:-mt-12 sm:ml-8 sm:mr-12">
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-leaf-700">
+                {c.about.instaLabel}
+              </p>
               <a
-                href={business.veterinarian.instagramUrl}
+                href={veterinarian.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3.5 py-1.5 rounded-xl bg-brand-teal-900 text-white text-xs font-bold hover:bg-brand-teal-950 transition-colors"
+                className="mt-1 inline-flex min-h-[44px] items-center gap-2 text-body-lg font-bold text-pine-800 transition-colors duration-200 hover:text-pine-600"
               >
-                Takip Et
+                <Instagram className="h-5 w-5 shrink-0 text-leaf-700" aria-hidden />
+                {veterinarian.handle}
+                <span className="sr-only">({c.a11y.newTab})</span>
               </a>
             </div>
+          </Reveal>
 
-            {/* Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-              {highlights.map((item, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-brand-lime-600 shrink-0" />
-                  <span className="text-sm font-semibold text-brand-teal-950">
-                    {item}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div>
+            <Reveal>
+              <div className="mb-5 flex items-center gap-3">
+                <span aria-hidden className="h-px w-8 bg-pine-700/30" />
+                <span className="text-label font-semibold text-pine-700">
+                  {c.about.badge}
+                </span>
+              </div>
+              <h2 className="text-display-lg font-bold text-pine-950">{c.about.title}</h2>
+            </Reveal>
+
+            {c.about.body.map((paragraph, index) => (
+              <Reveal key={index} delay={80 + index * 70}>
+                <p className="mt-5 max-w-prose text-body-lg text-ink-soft">{paragraph}</p>
+              </Reveal>
+            ))}
+
+            <Reveal delay={240}>
+              <ul className="mt-9 grid gap-x-8 gap-y-4 border-t border-pine-950/10 pt-8 sm:grid-cols-2">
+                {c.about.highlights.map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <span
+                      aria-hidden
+                      className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-leaf-100"
+                    >
+                      <Check className="h-3.5 w-3.5 text-leaf-800" />
+                    </span>
+                    <span className="text-body-sm font-medium text-pine-950">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           </div>
         </div>
       </Container>

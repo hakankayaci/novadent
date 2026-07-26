@@ -1,4 +1,4 @@
-import React from "react";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { EmergencyTopBar } from "@/components/layout/EmergencyTopBar";
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/sections/Hero";
@@ -17,15 +17,14 @@ import { MobileActionBar } from "@/components/layout/MobileActionBar";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col overflow-x-clip">
-      {/* Top Emergency Strip */}
-      <EmergencyTopBar />
+    <div className="flex min-h-screen flex-col overflow-x-clip">
+      {/* First focusable element in the document, by design. */}
+      <SkipLink />
 
-      {/* Main Sticky Navigation */}
+      <EmergencyTopBar />
       <Header />
 
-      {/* Main Content Area */}
-      <main id="main-content" className="flex-grow">
+      <main id="main-content" className="flex-1">
         <Hero />
         <TrustHighlights />
         <Services />
@@ -39,10 +38,7 @@ export default function Home() {
         <Contact />
       </main>
 
-      {/* Footer */}
       <Footer />
-
-      {/* Mobile Bottom Floating Action Bar */}
       <MobileActionBar />
     </div>
   );

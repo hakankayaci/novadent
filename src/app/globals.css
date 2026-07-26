@@ -2,87 +2,184 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * NOTE ON A PAST BUG (do not reintroduce):
+ * This file used to contain a bare `-webkit-tap-highlight-color: transparent;`
+ * declaration sitting directly inside `@layer base`, outside any selector. PostCSS
+ * passed it through, the CSS minifier then folded the duplicate `.sr-only` blocks into
+ * the one immediately after it, and the browser parsed
+ * `-webkit-tap-highlight-color:transparent;.sr-only { … }` as a single invalid
+ * qualified rule -- discarding `.sr-only` entirely in production. The skip link then
+ * rendered as a permanently visible full-width bar above the header. Every declaration
+ * in this file must live inside a selector.
+ */
+
 @layer base {
+  :root {
+    color-scheme: light;
+  }
+
   html {
+    -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
-    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-    color: #0E1F1B;
-    background-color: #FAFBF8;
+    /* Clears the sticky header when jumping to an in-page anchor. */
+    scroll-padding-top: 6.5rem;
   }
 
-  /* Accessibility focus styles */
+  body {
+    background-color: theme("colors.paper.DEFAULT");
+    color: theme("colors.ink.DEFAULT");
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Turkish, Bulgarian and Greek all run long; never let a heading break the viewport. */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
   :focus-visible {
-    outline: 3px solid #B9D63C;
+    outline: 3px solid theme("colors.leaf.500");
     outline-offset: 3px;
+    border-radius: 2px;
   }
 
-  /* Screen reader only utility class */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  /* Nothing may sit under the fixed mobile action bar. */
+  @media (max-width: 1023px) {
+    body {
+      padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    }
+  }
+}
+
+@layer components {
+  /*
+   * Skip link. Deliberately a single self-contained rule rather than a stack of
+   * `focus:` utilities, because that approach depends on Tailwind's emit order
+   * between the accessibility, position and padding plugins.
+   */
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: theme("zIndex.skip");
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.625rem 1.125rem;
+    border-radius: 0.875rem;
+    background-color: theme("colors.leaf.300");
+    color: theme("colors.pine.950");
+    font-size: 0.9375rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: theme("boxShadow.panel");
+    /* Parked just off-screen instead of clipped to 1px, so it animates in cleanly. */
+    transform: translateY(calc(-100% - 1.5rem));
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Remove tap highlight on mobile */
-  -webkit-tap-highlight-color: transparent;
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline-offset: 4px;
+  }
+
+  /* Glossy sweep across a button on hover. Purely decorative, hover-capable only. */
+  @media (hover: hover) {
+    .sheen {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .sheen::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      z-index: -1;
+      width: 45%;
+      background: linear-gradient(
+        90deg,
+        rgb(255 255 255 / 0) 0%,
+        rgb(255 255 255 / 0.38) 50%,
+        rgb(255 255 255 / 0) 100%
+      );
+      transform: translateX(-120%) skewX(-18deg);
+    }
+
+    .sheen:hover::after {
+      animation: sheen 0.75s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+  }
 }
 
 @layer utilities {
-  /* Shimmer glowing effect for premium buttons */
-  .btn-shimmer {
-    position: relative;
-    overflow: hidden;
+  /*
+   * Scroll reveals.
+   *
+   * The hidden start state only exists while an element is explicitly marked
+   * `data-reveal="pending"`, which the Reveal component applies on mount and only to
+   * elements that are still below the fold. Server-rendered markup carries no attribute
+   * at all, so a crawler, a print stylesheet, a headless screenshot or a visitor with JS
+   * disabled gets the fully visible page. A reveal enhances a visible default; it never
+   * gates it.
+   */
+  [data-reveal] {
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
   }
 
-  .btn-shimmer::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 50%;
-    height: 200%;
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.4) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    transform: rotate(25deg);
-    transition: all 0.6s ease;
+  [data-reveal="pending"] {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y, 1.75rem), 0) scale(var(--reveal-scale, 1));
+    will-change: opacity, transform;
   }
 
-  .btn-shimmer:hover::after {
-    left: 120%;
+  [data-reveal="in"] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
   }
 
-  /* Glowing pulsing shadows */
-  .glow-lime {
-    box-shadow: 0 0 20px rgba(185, 214, 60, 0.4);
+  .text-balance {
+    text-wrap: balance;
   }
 
-  .glow-red {
-    box-shadow: 0 0 25px rgba(226, 41, 46, 0.5);
+  /* Vertical mask so long photo columns fade into a dark section instead of hard-cutting. */
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 72%, transparent 100%);
   }
 }
 
-/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   html {
-    scroll-behavior: auto !important;
+    scroll-behavior: auto;
   }
-  
+
+  /* Reveals become an instant, un-transformed appearance rather than nothing at all. */
+  [data-reveal],
+  [data-reveal="pending"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

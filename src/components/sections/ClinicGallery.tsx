@@ -1,57 +1,64 @@
-import React from "react";
+"use client";
+
 import Image from "next/image";
-import { siteData } from "@/data/site";
+import { gallery } from "@/data/site";
 import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { useLanguage } from "@/lib/LanguageContext";
+
+/**
+ * Tile spans, so the mosaic has rhythm instead of eight equal squares. Rows are a fixed
+ * track height and the grid is `dense`, which is what keeps a two-row tile from punching
+ * a hole in the layout; images are object-cover so none of them distort.
+ */
+const SPAN: Record<string, string> = {
+  wide: "row-span-2 sm:col-span-2",
+  tall: "row-span-3 sm:row-span-4",
+  square: "row-span-2",
+};
 
 export function ClinicGallery() {
-  const { gallery } = siteData;
+  const { c } = useLanguage();
 
   return (
-    <section id="klinik" className="py-20 bg-brand-surface-100">
+    <section id="klinik" className="scroll-mt-24 bg-paper py-section">
       <Container>
         <SectionHeading
-          badge="Klinik Galerisi"
-          title="CanbazVet'i yakından tanıyın."
-          description="Edirne Şükrüpaşa'daki modern kliniğimizin muayene alanları, ameliyathanesi, yataklı hasta ünitesi ve bekleme salonundan kareler."
-          align="left"
+          kicker={c.gallery.badge}
+          title={c.gallery.title}
+          lede={c.gallery.desc}
           className="mb-12"
         />
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-flow-row-dense auto-rows-[6rem] grid-cols-1 gap-4 sm:grid-cols-2 sm:auto-rows-[7rem] lg:grid-cols-3 lg:auto-rows-[8rem] lg:gap-5">
           {gallery.map((item, index) => {
-            const isWide = index === 0 || index === 2;
-
+            const copy = c.gallery.items[item.id];
             return (
-              <div
-                key={index}
-                className={`group relative rounded-3xl overflow-hidden shadow-card border border-brand-teal-900/10 bg-white transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 ${
-                  isWide ? "md:col-span-2 lg:col-span-2 aspect-[16/10]" : "aspect-[4/3]"
-                }`}
+              <Reveal
+                as="li"
+                key={item.id}
+                from="scale"
+                delay={(index % 3) * 90}
+                className={`group relative overflow-hidden rounded-panel bg-pine-100 shadow-card transition-shadow duration-500 hover:shadow-lift ${SPAN[item.shape]}`}
               >
                 <Image
                   src={item.src}
-                  alt={item.alt}
+                  alt={copy.alt}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 31vw"
+                  className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
                 />
 
-                {/* Overlay Caption */}
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-teal-950/85 via-brand-teal-950/20 to-transparent opacity-90 transition-opacity p-6 flex flex-col justify-end">
-                  <span className="text-xs font-bold text-brand-lime-400 uppercase tracking-wider">
-                    {item.title}
-                  </span>
-                  <p className="text-sm font-medium text-white/90 mt-1 line-clamp-2">
-                    {item.alt}
-                  </p>
+                {/* Caption plate rather than a full-tile scrim, so the photograph stays readable. */}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-pine-950/85 via-pine-950/35 to-transparent p-5 pt-14">
+                  <h3 className="text-body font-semibold text-white">{copy.title}</h3>
                 </div>
-              </div>
+              </Reveal>
             );
           })}
-        </div>
+        </ul>
       </Container>
     </section>
   );

@@ -1,107 +1,97 @@
 "use client";
 
-import React from "react";
-import { PhoneCall, AlertCircle, ShieldAlert, HeartPulse } from "lucide-react";
-import { siteData } from "@/data/site";
+import { AlertCircle, PhoneCall } from "lucide-react";
+import { business } from "@/data/site";
 import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
+import { StatusPill } from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/lib/LanguageContext";
-
-const emergencyCases = [
-  "Trafik kazası ve yüksekten düşmeler",
-  "Şiddetli solunum güçlüğü ve boğulma riski",
-  "Zehirlenme veya yabancı cisim yutma şüphesi",
-  "Durmayan kanamalar ve ağır yaralanmalar",
-  "Ani şuur kaybı, felç ve nöbet geçirme",
-  "Doğum güçlüğü veya aniden gelişen hayati riski olan durumlar",
-];
+import { trackEvent } from "@/lib/analytics";
 
 export function EmergencySection() {
-  const { phone } = siteData.business;
-  const { t } = useLanguage();
+  const { c } = useLanguage();
+  const { phone } = business;
 
   return (
     <section
       id="acil-hat"
-      className="py-20 bg-gradient-to-br from-brand-teal-950 via-brand-teal-900 to-brand-teal-950 text-white relative overflow-hidden"
+      className="relative isolate scroll-mt-24 overflow-hidden bg-pine-950 py-section text-white"
     >
-      {/* Red accent glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-red-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/3 h-[38rem] w-[38rem] -translate-x-1/2 rounded-full bg-alert-600/14 blur-3xl"
+      />
 
-      <Container>
-        <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-red-600/20 border border-brand-red-500/40 text-brand-lime-400 text-xs sm:text-sm font-bold uppercase tracking-wider">
-            <ShieldAlert className="w-4 h-4 text-brand-red-500 animate-pulse" />
-            <span>{t("emergency_badge")}</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            {t("emergency_title_1")}{" "}
-            <span className="text-brand-lime-500">{t("emergency_title_2")}</span>
+      <Container size="prose" className="relative">
+        <Reveal className="text-center">
+          <StatusPill pulse>{c.emergency.badge}</StatusPill>
+          <h2 className="mt-6 text-display-lg font-bold text-white">
+            {c.emergency.titleLead}{" "}
+            <span className="text-leaf-300">{c.emergency.titleAccent}</span>
           </h2>
-
-          <p className="text-lg sm:text-xl text-brand-teal-100/90 leading-relaxed max-w-2xl mx-auto">
-            {t("emergency_desc")}
+          <p className="mx-auto mt-5 max-w-prose text-body-lg text-pine-100/85">
+            {c.emergency.desc}
           </p>
+        </Reveal>
 
-          {/* Emergency Call Action Card */}
-          <div className="p-8 sm:p-10 rounded-3xl bg-brand-teal-900/90 border-2 border-brand-red-600/50 shadow-2xl space-y-6">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <div className="p-4 rounded-2xl bg-brand-red-600 text-white animate-bounce">
-                <HeartPulse className="w-8 h-8" />
-              </div>
-              <div className="text-center sm:text-left">
-                <p className="text-xs font-bold text-brand-lime-400 uppercase tracking-widest">
-                  Acil Vaka Telefon Numarası
+        <Reveal delay={110} className="mt-10">
+          <div className="rounded-panel border border-alert-500/35 bg-pine-900/70 p-7 shadow-panel sm:p-10">
+            <div className="flex flex-col items-center gap-6 text-center">
+              <div>
+                <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-leaf-300">
+                  {c.emergency.numberLabel}
                 </p>
                 <a
                   href={phone.telLink}
-                  className="text-3xl sm:text-4xl lg:text-5xl font-black text-white hover:text-brand-lime-400 transition-colors tracking-tight"
+                  onClick={() => trackEvent("emergency_phone_click", { location: "section" })}
+                  className="mt-2 block text-[clamp(2rem,1.2rem+4vw,3.25rem)] font-bold leading-none tracking-tight tabular-nums text-white transition-colors duration-200 hover:text-leaf-300"
                 >
                   {phone.display}
                 </a>
               </div>
-            </div>
 
-            <div>
               <Button
                 variant="emergency"
                 size="lg"
                 href={phone.telLink}
-                icon={<PhoneCall className="w-6 h-6" />}
-                className="text-lg py-5 px-10"
+                onClick={() => trackEvent("emergency_phone_click", { location: "section_cta" })}
+                icon={<PhoneCall className="h-5 w-5" aria-hidden />}
+                className="w-full sm:w-auto"
               >
-                {t("emergency_call_btn")} ({phone.display})
+                {c.emergency.callCta}
               </Button>
-            </div>
 
-            <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-lime-300 font-medium bg-brand-teal-950/80 py-3 px-4 rounded-xl border border-brand-teal-800">
-              <AlertCircle className="w-4 h-4 text-brand-lime-400 shrink-0" />
-              <span>
-                <strong>Önemli:</strong> {t("emergency_notice")}
-              </span>
+              <p className="flex items-start gap-2.5 rounded-card border border-white/10 bg-pine-950/70 px-4 py-3 text-left text-body-sm text-leaf-100">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-leaf-300" aria-hidden />
+                <span>
+                  <strong className="font-semibold">{c.emergency.noticeLabel}:</strong>{" "}
+                  {c.emergency.notice}
+                </span>
+              </p>
             </div>
           </div>
+        </Reveal>
 
-          {/* Emergency Cases Grid */}
-          <div className="pt-6">
-            <h3 className="text-sm font-bold text-brand-teal-100/70 uppercase tracking-widest mb-6">
-              Öncelikli Acil Durum Örnekleri
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
-              {emergencyCases.map((c, i) => (
-                <div
-                  key={i}
-                  className="p-4 rounded-2xl bg-brand-teal-900/40 border border-brand-teal-800/40 text-xs sm:text-sm font-medium text-brand-teal-100 flex items-center gap-3"
-                >
-                  <span className="w-2 h-2 rounded-full bg-brand-red-500 shrink-0" />
-                  <span>{c}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <Reveal delay={180} className="mt-12">
+          <h3 className="text-center text-body font-semibold text-pine-100/70">
+            {c.emergency.casesTitle}
+          </h3>
+          <ul className="mt-6 grid gap-x-8 gap-y-1 sm:grid-cols-2">
+            {c.emergency.cases.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-3 border-b border-white/8 py-3.5 text-body-sm text-pine-100/85"
+              >
+                <span
+                  aria-hidden
+                  className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-alert-500"
+                />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </Container>
     </section>
   );

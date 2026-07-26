@@ -1,237 +1,149 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
-import {
-  Instagram,
-  Grid,
-  Film,
-  UserCheck,
-  CheckCircle2,
-  ExternalLink,
-  Heart,
-  MessageCircle,
-  Share2,
-} from "lucide-react";
-import { siteData } from "@/data/site";
+import { ExternalLink, Instagram } from "lucide-react";
+import { business, socialImages } from "@/data/site";
 import { Container } from "@/components/ui/Container";
+import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Button } from "@/components/ui/Button";
 import { useLanguage } from "@/lib/LanguageContext";
+import { weekdayRange } from "@/lib/hours";
 import { trackEvent } from "@/lib/analytics";
 
+/**
+ * A branded photo strip, not a replica of Instagram's interface.
+ *
+ * The previous version imitated the Instagram profile UI complete with a blue verified
+ * checkmark, follower/post counts and per-post like and comment numbers -- none of which
+ * came from Instagram. Everything shown here is either a real clinic photograph or a
+ * fact from src/data/site.ts.
+ */
 export function InstagramFeed() {
-  const { t } = useLanguage();
-  const { social, phone, veterinarian } = siteData.business;
-  const [isFollowing, setIsFollowing] = useState(false);
-
-  const posts = [
-    {
-      src: "/images/social/instagram-post-1.webp",
-      title: t("insta_post1"),
-      likes: 124,
-      comments: 18,
-    },
-    {
-      src: "/images/social/instagram-post-2.webp",
-      title: t("insta_post2"),
-      likes: 210,
-      comments: 32,
-    },
-    {
-      src: "/images/social/instagram-post-3.webp",
-      title: t("insta_post3"),
-      likes: 345,
-      comments: 47,
-    },
-    {
-      src: "/images/social/instagram-post-4.webp",
-      title: t("insta_post4"),
-      likes: 289,
-      comments: 29,
-    },
-  ];
+  const { c } = useLanguage();
+  const { social, phone, veterinarian } = business;
 
   return (
-    <section className="py-20 bg-white border-t border-brand-teal-900/10">
+    <section className="bg-paper py-section">
       <Container>
         <SectionHeading
-          badge="Instagram"
-          title={t("insta_title")}
-          description="CanbazVet'ten güncel klinik hayatı, tedavi duyuruları ve minik dostlarımızın hikâyeleri."
-          align="left"
+          kicker={c.instagram.badge}
+          title={c.instagram.title}
+          lede={c.instagram.desc}
           className="mb-12"
         />
 
-        {/* Realistic Instagram Profile Panel (Dark Instagram Theme UI) */}
-        <div className="max-w-4xl mx-auto rounded-3xl bg-[#121212] text-white shadow-2xl overflow-hidden border border-neutral-800">
-          {/* Top Profile Header */}
-          <div className="p-6 sm:p-10 border-b border-neutral-800">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-10">
-              {/* Profile Avatar */}
-              <div className="relative shrink-0">
-                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 shadow-xl">
-                  <div className="w-full h-full rounded-full bg-[#121212] p-1 overflow-hidden relative">
-                    <Image
-                      src="/images/clinic/canbazvet-dis-cephe-tabela.webp"
-                      alt="CanbazVet Instagram Profil Fotoğrafı"
-                      fill
-                      className="object-cover rounded-full"
-                    />
-                  </div>
-                </div>
-              </div>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-12">
+          <Reveal>
+            <div className="rounded-panel border border-pine-950/8 bg-white p-7 shadow-card">
+              <a
+                href={social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[44px] items-center gap-2 text-display-sm font-bold text-pine-950 transition-colors duration-200 hover:text-pine-700"
+              >
+                <Instagram className="h-5 w-5 shrink-0 text-leaf-700" aria-hidden />
+                @canbazvetedirne
+                <span className="sr-only">({c.a11y.newTab})</span>
+              </a>
 
-              {/* Profile Main Details */}
-              <div className="space-y-4 text-center sm:text-left flex-grow">
-                {/* Username & Actions */}
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4">
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                      canbazvetedirne
-                    </h3>
-                    <CheckCircle2 className="w-5 h-5 text-sky-500 fill-sky-500" />
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsFollowing(!isFollowing)}
-                      className={`px-5 py-1.5 rounded-xl text-xs font-bold transition-all min-h-[36px] ${
-                        isFollowing
-                          ? "bg-neutral-800 text-white border border-neutral-700"
-                          : "bg-blue-600 hover:bg-blue-500 text-white"
-                      }`}
-                    >
-                      {isFollowing ? "Takip Ediliyor" : t("insta_follow_btn")}
-                    </button>
-
-                    <a
-                      href={social.instagram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-4 py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold transition-all min-h-[36px] flex items-center justify-center"
-                    >
-                      {t("insta_message_btn")}
-                    </a>
-                  </div>
-                </div>
-
-                {/* Counter Stats */}
-                <div className="flex items-center justify-center sm:justify-start gap-6 sm:gap-10 text-sm border-y border-neutral-800/60 py-3 sm:border-0 sm:py-0">
-                  <div>
-                    <strong className="font-extrabold text-white">8</strong>{" "}
-                    <span className="text-neutral-400 text-xs sm:text-sm">gönderi</span>
-                  </div>
-                  <div>
-                    <strong className="font-extrabold text-white">549</strong>{" "}
-                    <span className="text-neutral-400 text-xs sm:text-sm">takipçi</span>
-                  </div>
-                  <div>
-                    <strong className="font-extrabold text-white">8</strong>{" "}
-                    <span className="text-neutral-400 text-xs sm:text-sm">takip</span>
-                  </div>
-                </div>
-
-                {/* Bio text */}
-                <div className="text-xs sm:text-sm text-neutral-300 space-y-1 leading-relaxed text-left">
-                  <p className="font-bold text-white">CanbazVet Veteriner Kliniği</p>
-                  <p className="text-neutral-300">
-                    Veteriner Hekimi{" "}
+              <dl className="mt-6 space-y-4 border-t border-pine-950/8 pt-6 text-body-sm">
+                <div>
+                  <dt className="text-ink-muted">{c.instagram.bioVetLabel}</dt>
+                  <dd className="font-semibold text-pine-950">
+                    {veterinarian.name}
                     <a
                       href={veterinarian.instagramUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-400 hover:underline font-semibold"
+                      className="ml-2 inline-flex min-h-[36px] items-center font-medium text-leaf-700 hover:underline"
                     >
                       {veterinarian.handle}
                     </a>
-                  </p>
-                  <p>Çalışma Saatleri 9.30-19.30</p>
-                  <p>7/24 Acil Hat: {phone.display}</p>
-                  <a
-                    href={social.linktree}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-blue-400 font-bold hover:underline"
-                  >
-                    <span>{t("insta_link")}</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                  </dd>
                 </div>
+                <div>
+                  <dt className="text-ink-muted">{c.instagram.bioHours}</dt>
+                  <dd className="mt-0.5 font-semibold tabular-nums text-pine-950">
+                    {weekdayRange}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-ink-muted">{c.instagram.bioEmergency}</dt>
+                  <dd>
+                    <a
+                      href={phone.telLink}
+                      className="inline-flex min-h-[40px] items-center font-semibold tabular-nums text-pine-950 hover:text-pine-700"
+                    >
+                      {phone.display}
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+
+              <div className="mt-7 flex flex-col gap-3">
+                <Button
+                  variant="pine"
+                  href={social.instagram}
+                  target="_blank"
+                  onClick={() => trackEvent("instagram_click", { location: "social" })}
+                  icon={<Instagram className="h-5 w-5" aria-hidden />}
+                  fullWidth
+                >
+                  {c.instagram.followCta}
+                </Button>
+                <Button
+                  variant="outline"
+                  href={social.linktree}
+                  target="_blank"
+                  iconAfter={<ExternalLink className="h-4 w-4" aria-hidden />}
+                  fullWidth
+                >
+                  {c.instagram.linkCta}
+                </Button>
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          {/* Grid Navigation Tabs */}
-          <div className="flex items-center justify-center border-b border-neutral-800 text-xs font-bold uppercase tracking-widest">
-            <button className="flex items-center gap-2 py-3 px-6 border-b-2 border-white text-white">
-              <Grid className="w-4 h-4" />
-              <span>GÖNDERİLER</span>
-            </button>
-            <button className="flex items-center gap-2 py-3 px-6 text-neutral-500 hover:text-neutral-300">
-              <Film className="w-4 h-4" />
-              <span>REELS</span>
-            </button>
-            <button className="flex items-center gap-2 py-3 px-6 text-neutral-500 hover:text-neutral-300">
-              <UserCheck className="w-4 h-4" />
-              <span>ETİKETLENENLER</span>
-            </button>
-          </div>
-
-          {/* 4 Real Post Image Cards Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 sm:gap-2 p-2 sm:p-4 bg-black">
-            {posts.map((post, idx) => (
-              <a
-                key={idx}
-                href={social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent("social_post_click", { index: idx })}
-                className="group relative aspect-square bg-neutral-900 overflow-hidden rounded-xl border border-neutral-800 block"
-              >
-                <Image
-                  src={post.src}
-                  alt={post.title}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-
-                {/* Hover Details Overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-3 text-center gap-2 text-white">
-                  <div className="flex items-center gap-4 text-xs font-bold">
-                    <span className="flex items-center gap-1">
-                      <Heart className="w-4 h-4 fill-white text-white" />
-                      {post.likes}
+          <div>
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {socialImages.map((item, index) => (
+                <Reveal
+                  as="li"
+                  key={item.id}
+                  from="scale"
+                  delay={(index % 3) * 80}
+                  className="group relative aspect-square overflow-hidden rounded-card bg-pine-100 shadow-card"
+                >
+                  <a
+                    href={social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent("instagram_click", { location: `grid_${item.id}` })}
+                    className="block h-full w-full"
+                  >
+                    <Image
+                      src={item.src}
+                      alt={c.instagram.gridAlt}
+                      fill
+                      loading="lazy"
+                      sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 20vw"
+                      className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.07]"
+                    />
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 grid place-items-center bg-pine-950/0 opacity-0 transition-all duration-300 group-hover:bg-pine-950/45 group-hover:opacity-100"
+                    >
+                      <Instagram className="h-7 w-7 text-white" />
                     </span>
-                    <span className="flex items-center gap-1">
-                      <MessageCircle className="w-4 h-4 fill-white text-white" />
-                      {post.comments}
-                    </span>
-                  </div>
-                  <p className="text-xs font-medium text-neutral-200 line-clamp-2">
-                    {post.title}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
+                  </a>
+                </Reveal>
+              ))}
+            </ul>
 
-          {/* Bottom Callout Banner */}
-          <div className="p-4 bg-neutral-900 text-center text-xs text-neutral-400 border-t border-neutral-800 flex items-center justify-center gap-2">
-            <Instagram className="w-4 h-4 text-rose-500" />
-            <span>
-              Tüm gönderiler ve güncel vakalar için{" "}
-              <a
-                href={social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white font-bold underline"
-              >
-                @canbazvetedirne
-              </a>{" "}
-              hesabımızı takip edin.
-            </span>
+            <Reveal delay={120}>
+              <p className="mt-5 text-body-sm text-ink-muted">{c.instagram.note}</p>
+            </Reveal>
           </div>
         </div>
       </Container>

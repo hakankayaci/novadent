@@ -9,25 +9,23 @@ interface LogoProps {
 }
 
 /**
- * Official Novadent logo lockup from logo.jpg for light surfaces.
+ * Unclipped Official Novadent logo lockup from logo.jpg for light surfaces.
  */
-export function Logo({ width = 180, className = "", alt }: LogoProps) {
+export function Logo({ className = "", alt }: LogoProps) {
   return (
     <div
       className={`inline-flex items-center select-none ${className}`}
       aria-label={alt}
       role="img"
     >
-      <div className="relative h-10 w-44 sm:h-11 sm:w-48">
-        <Image
-          src="/images/brand/novadent-official-lockup.png"
-          alt={alt}
-          fill
-          priority
-          sizes="200px"
-          className="object-contain object-left"
-        />
-      </div>
+      <Image
+        src="/images/brand/full-logo.png"
+        alt={alt}
+        width={180}
+        height={57}
+        priority
+        className="h-10 sm:h-12 w-auto object-contain object-left"
+      />
     </div>
   );
 }
@@ -75,14 +73,14 @@ export function LogoOnDark({ className = "", alt }: { className?: string; alt: s
       aria-label={alt}
       role="img"
     >
-      <div className="relative h-11 w-48 rounded-xl bg-white/95 p-1.5 backdrop-blur-md shadow-sm">
+      <div className="rounded-xl bg-white/95 px-3 py-1.5 backdrop-blur-md shadow-sm">
         <Image
-          src="/images/brand/novadent-official-lockup.png"
+          src="/images/brand/full-logo.png"
           alt={alt}
-          fill
+          width={180}
+          height={57}
           priority
-          sizes="200px"
-          className="object-contain object-center"
+          className="h-9 sm:h-10 w-auto object-contain object-center"
         />
       </div>
     </div>

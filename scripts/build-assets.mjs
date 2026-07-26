@@ -1,7 +1,3 @@
-/**
- * Regenerates derived images in public/ from resimler/.
- * Run: npm run assets
- */
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -18,8 +14,8 @@ for (const dir of ['images/brand', 'images/clinic', 'images/social', 'images/og'
 }
 
 const PHOTO = { quality: 90, effort: 6, smartSubsample: true };
-
 const written = [];
+
 async function report(file) {
   const meta = await sharp(file).metadata();
   written.push(
@@ -28,36 +24,85 @@ async function report(file) {
   );
 }
 
-const CLINIC = [
-  ['novadent_hero_clinic.jpg', 'novadent-clinic'],
-  ['novadent_reception_lounge.jpg', 'novadent-reception'],
-  ['novadent_treatment_room.jpg', 'novadent-treatment'],
-  ['novadent_equipment_suite.jpg', 'novadent-equipment'],
-];
+async function buildBrand() {
+  const logoSrc = src('_source-logo.png');
+
+  // Copy full high-res official logo card
+  await sharp(logoSrc).webp(PHOTO).toFile(pub('images/brand/novadent-logo.webp'));
+  await sharp(logoSrc).png({ compressionLevel: 9 }).toFile(pub('images/brand/novadent-logo.png'));
+  await report(pub('images/brand/novadent-logo.png'));
+
+  // Extract emblem (the stylized 'A' smile mark on the right side of NOVA)
+  // In the 1024x528 logo image, 'A' is roughly around x: 550 to 900, y: 150 to 450
+  const emblemCrop = await sharp(logoSrc)
+    .extract({ left: 550, top: 160, width: 340, height: 260 })
+    .toBuffer();
+
+  const iconBase = async (size) => {
+    return sharp(emblemCrop)
+      .resize(size, size, { fit: 'contain', background: '#021D45' })
+      .png({ compressionLevel: 9 })
+      .toBuffer();
+  };
+
+  fs.writeFileSync(pub('icon-512.png'), await iconBase(512));
+  fs.writeFileSync(pub('icon-192.png'), await iconBase(192));
+  fs.writeFileSync(pub('apple-touch-icon.png'), await iconBase(180));
+  fs.writeFileSync(pub('images/brand/canbazvet-icon.png'), await iconBase(512));
+  fs.writeFileSync(pub('images/brand/novadent-icon.png'), await iconBase(512));
+  fs.writeFileSync(pub('favicon.ico'), await iconBase(32));
+  await report(pub('icon-512.png'));
+}
 
 async function buildClinic() {
-  for (const [file, slug] of CLINIC) {
-    const out = pub('images/clinic', `${slug}.webp`);
-    if (fs.existsSync(src(file))) {
-      await sharp(src(file)).webp(PHOTO).toFile(out);
-      await report(out);
-    }
+  const reception = src('novadent-reception.png');
+  const treatment = src('novadent-treatment.jpg');
+
+  if (fs.existsSync(reception)) {
+    await sharp(reception).webp(PHOTO).toFile(pub('images/clinic/novadent-reception.webp'));
+    await sharp(reception).webp(PHOTO).toFile(pub('images/clinic/novadent-clinic.webp'));
+    await report(pub('images/clinic/novadent-reception.webp'));
+    await report(pub('images/clinic/novadent-clinic.webp'));
+  }
+
+  if (fs.existsSync(treatment)) {
+    await sharp(treatment).webp(PHOTO).toFile(pub('images/clinic/novadent-treatment.webp'));
+    await sharp(treatment).webp(PHOTO).toFile(pub('images/clinic/novadent-equipment.webp'));
+    await report(pub('images/clinic/novadent-treatment.webp'));
+    await report(pub('images/clinic/novadent-equipment.webp'));
   }
 }
 
 async function buildSocial() {
-  for (const [file, slug] of CLINIC) {
-    const out = pub('images/social', `${slug}.webp`);
-    if (fs.existsSync(src(file))) {
-      await sharp(src(file))
-        .resize(900, 900, { fit: 'cover', kernel: 'lanczos3' })
-        .webp(PHOTO)
-        .toFile(out);
-      await report(out);
-    }
+  const reception = src('novadent-reception.png');
+  const treatment = src('novadent-treatment.jpg');
+
+  if (fs.existsSync(reception)) {
+    await sharp(reception)
+      .resize(900, 900, { fit: 'cover', kernel: 'lanczos3' })
+      .webp(PHOTO)
+      .toFile(pub('images/social/novadent-reception.webp'));
+    await sharp(reception)
+      .resize(900, 900, { fit: 'cover', kernel: 'lanczos3' })
+      .webp(PHOTO)
+      .toFile(pub('images/social/novadent-clinic.webp'));
+    await report(pub('images/social/novadent-reception.webp'));
+  }
+
+  if (fs.existsSync(treatment)) {
+    await sharp(treatment)
+      .resize(900, 900, { fit: 'cover', kernel: 'lanczos3' })
+      .webp(PHOTO)
+      .toFile(pub('images/social/novadent-treatment.webp'));
+    await sharp(treatment)
+      .resize(900, 900, { fit: 'cover', kernel: 'lanczos3' })
+      .webp(PHOTO)
+      .toFile(pub('images/social/novadent-equipment.webp'));
+    await report(pub('images/social/novadent-treatment.webp'));
   }
 }
 
+await buildBrand();
 await buildClinic();
 await buildSocial();
 

@@ -4,6 +4,15 @@
  * half-translated page behind.
  */
 
+export interface BranchInfo {
+  id: string;
+  name: string;
+  city: string;
+  address: string;
+  mapsUrl: string;
+  phone: string;
+}
+
 export interface BusinessInfo {
   name: string;
   shortName: string;
@@ -33,7 +42,12 @@ export interface BusinessInfo {
     saturday: { opens: string; closes: string };
     sunday: { closed: true };
   };
-  social: { instagram: string };
+  social: {
+    instagram: string;
+    facebook: string;
+    linktree: string;
+  };
+  branches: BranchInfo[];
 }
 
 /** Treatment ids double as translation keys. */

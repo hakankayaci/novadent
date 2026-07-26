@@ -88,10 +88,30 @@ export function Contact() {
             <div className="flex h-full flex-col justify-between rounded-panel bg-navy-950 p-7 text-white shadow-panel sm:p-9">
               <div>
                 <h3 className="text-display-sm font-bold text-white">
-                  NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne
+                  NOVADENT Ağız ve Diş Sağlığı Poliklinikleri
                 </h3>
 
-                <dl className="mt-7 space-y-6">
+                <div className="mt-6 space-y-4">
+                  {business.branches.map((b) => (
+                    <div key={b.id} className="rounded-xl border border-white/12 bg-white/5 p-4 backdrop-blur-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="text-body font-bold text-cyan-400">{b.name}</span>
+                        <a
+                          href={b.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-bold text-cyan-300 hover:text-white"
+                        >
+                          <span>Haritada Aç</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </div>
+                      <p className="mt-1 text-xs text-navy-100/80">{b.address}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <dl className="mt-6 space-y-5">
                   <div className="flex gap-4">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-cyan-400">
                       <MapPin className="h-5 w-5" aria-hidden />

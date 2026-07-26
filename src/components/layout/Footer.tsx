@@ -28,9 +28,27 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Instagram (${c.a11y.newTab})`}
-                className="grid h-11 w-11 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
+                className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
               >
                 <Instagram className="h-5 w-5" aria-hidden />
+              </a>
+              <a
+                href={social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Facebook (${c.a11y.newTab})`}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
+              >
+                <span className="font-extrabold text-sm">f</span>
+              </a>
+              <a
+                href={social.linktree}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Linktree (${c.a11y.newTab})`}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
+              >
+                <ExternalLink className="h-4 w-4" aria-hidden />
               </a>
             </div>
           </div>
@@ -81,33 +99,30 @@ export function Footer() {
 
           <div>
             <h2 className="text-label font-bold uppercase tracking-[0.14em] text-cyan-400">
-              {c.contact.badge}
+              Şubelerimiz
             </h2>
-            <address className="mt-4 space-y-3 text-body-sm not-italic">
-              <p className="flex gap-2.5 text-navy-100/75">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" aria-hidden />
-                <span>
-                  {address.neighborhood}, {address.street}, {address.district} / {address.city}
-                </span>
-              </p>
-              <p className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0 text-cyan-400" aria-hidden />
-                <a
-                  href={phone.telLink}
-                  className="inline-flex min-h-[40px] items-center font-semibold tabular-nums text-white transition-colors duration-200 hover:text-cyan-400"
-                >
-                  {phone.display}
-                </a>
-              </p>
-            </address>
+            <div className="mt-4 space-y-3 text-body-sm">
+              {business.branches.map((b) => (
+                <div key={b.id}>
+                  <p className="font-bold text-white">{b.name}</p>
+                  <a
+                    href={b.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline"
+                  >
+                    <MapPin className="h-3 w-3" />
+                    <span>Harita Konumu</span>
+                  </a>
+                </div>
+              ))}
+            </div>
             <a
-              href={maps.directionsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-flex min-h-[36px] items-center gap-1.5 text-body-sm font-semibold text-cyan-400 transition-colors duration-200 hover:text-cyan-300"
+              href={phone.telLink}
+              className="mt-4 inline-flex min-h-[36px] items-center gap-1.5 text-body-sm font-bold text-white transition-colors duration-200 hover:text-cyan-400"
             >
-              {c.nav.directions}
-              <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+              <Phone className="h-4 w-4 text-cyan-400" />
+              <span>{phone.display}</span>
             </a>
           </div>
         </div>

@@ -12,7 +12,7 @@ const MAPS_SEARCH = `https://www.google.com/maps/search/?api=1&query=${MAPS_QUER
 const MAPS_EMBED = `https://www.google.com/maps?q=${MAPS_QUERY}&hl=tr&z=17&output=embed`;
 
 export const business: BusinessInfo = {
-  name: "NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne",
+  name: "NOVADENT Ağız ve Diş Sağlığı Polikliniği",
   shortName: "Novadent Clinics",
   category: "Diş Kliniği / Ağız ve Diş Sağlığı Polikliniği",
   rating: {
@@ -35,10 +35,10 @@ export const business: BusinessInfo = {
   },
   coordinates: { latitude: 41.6658, longitude: 26.5842 },
   maps: {
-    directionsUrl: MAPS_DIRECTIONS,
+    directionsUrl: "https://goo.gl/maps/nBrrpDStQkA4wGX16",
     searchUrl: MAPS_SEARCH,
     embedUrl: MAPS_EMBED,
-    reviewsUrl: MAPS_SEARCH,
+    reviewsUrl: "https://goo.gl/maps/nBrrpDStQkA4wGX16",
   },
   hours: {
     weekdays: { opens: "09:00", closes: "18:30" },
@@ -46,8 +46,28 @@ export const business: BusinessInfo = {
     sunday: { closed: true },
   },
   social: {
-    instagram: "https://www.instagram.com/novadentclinicsedirne/",
+    instagram: "https://www.instagram.com/novadentclinics/",
+    facebook: "https://www.facebook.com/novadentclinics",
+    linktree: "https://linktr.ee/novadentclinics",
   },
+  branches: [
+    {
+      id: "edirne",
+      name: "Novadent Edirne Şubesi",
+      city: "Edirne",
+      address: "Fatih Mahallesi, Tahsin Şipka Caddesi No:14/1, İç Kapı No:10, Edirne Merkez",
+      mapsUrl: "https://goo.gl/maps/nBrrpDStQkA4wGX16",
+      phone: "0501 130 15 22",
+    },
+    {
+      id: "tekirdag",
+      name: "Novadent Tekirdağ Şubesi",
+      city: "Tekirdağ",
+      address: "Tekirdağ Şubemiz",
+      mapsUrl: "https://goo.gl/maps/h2UH14UTeyYzG1pv9",
+      phone: "0501 130 15 22",
+    },
+  ],
 };
 
 export const treatments: TreatmentItem[] = [

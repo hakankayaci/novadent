@@ -82,14 +82,14 @@ export const treatments: TreatmentItem[] = [
 ];
 
 export const gallery: GalleryImage[] = [
-  { id: "novadent-reception", src: "/images/clinic/novadent-reception.webp", width: 1360, height: 1020, shape: "wide" },
-  { id: "novadent-treatment-room", src: "/images/clinic/novadent-treatment-room.webp", width: 1360, height: 1020, shape: "square" },
-  { id: "novadent-clinic-interior", src: "/images/clinic/novadent-clinic.webp", width: 1360, height: 1020, shape: "wide" },
-  { id: "novadent-dental-equipment", src: "/images/clinic/novadent-equipment.webp", width: 1360, height: 1020, shape: "square" },
+  { id: "novadent-reception", src: "/images/clinic/novadent-reception.webp", width: 866, height: 1020, shape: "wide" },
+  { id: "novadent-treatment-room", src: "/images/clinic/novadent-treatment.webp", width: 1020, height: 1020, shape: "square" },
+  { id: "novadent-clinic-interior", src: "/images/clinic/novadent-clinic.webp", width: 866, height: 1020, shape: "wide" },
+  { id: "novadent-dental-equipment", src: "/images/clinic/novadent-equipment.webp", width: 1020, height: 1020, shape: "square" },
 ];
 
 export const socialImages: SocialImage[] = [
-  { id: "novadent-hero-social", src: "/images/social/novadent-hero.webp" },
+  { id: "novadent-hero-social", src: "/images/social/novadent-clinic.webp" },
   { id: "novadent-reception-social", src: "/images/social/novadent-reception.webp" },
   { id: "novadent-treatment-social", src: "/images/social/novadent-treatment.webp" },
   { id: "novadent-equipment-social", src: "/images/social/novadent-equipment.webp" },

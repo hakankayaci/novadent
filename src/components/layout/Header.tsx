@@ -62,7 +62,7 @@ export function Header() {
             aria-label={c.a11y.logoAlt}
             className="-m-1 shrink-0 rounded-lg p-1 transition-transform duration-300 ease-out hover:scale-[1.02]"
           >
-            <Logo alt={c.a11y.logoAlt} priority width={192} />
+            <Logo alt={c.a11y.logoAlt} priority />
           </a>
 
           <nav aria-label={c.a11y.mainNav} className="ml-auto hidden xl:block">

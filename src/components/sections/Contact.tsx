@@ -36,6 +36,7 @@ export function Contact() {
 
   const [formSuccess, setFormSuccess] = useState(false);
   const [formError, setFormError] = useState("");
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +101,7 @@ export function Contact() {
                           href={b.mapsUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-xs font-bold text-cyan-300 hover:text-white"
+                          className="inline-flex min-h-[44px] items-center gap-1 px-1 text-xs font-bold text-cyan-300 hover:text-white"
                         >
                           <span>Haritada Aç</span>
                           <ExternalLink className="h-3 w-3" />
@@ -111,26 +112,26 @@ export function Contact() {
                   ))}
                 </div>
 
-                <dl className="mt-6 space-y-5">
+                <div className="mt-6 space-y-5">
                   <div className="flex gap-4">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-cyan-400">
                       <MapPin className="h-5 w-5" aria-hidden />
                     </span>
-                    <div>
+                    <dl>
                       <dt className="text-body-sm text-navy-100/65 font-medium">
                         {c.contact.addressLabel}
                       </dt>
                       <dd className="mt-1 text-body font-semibold text-white">
                         {address.neighborhood}, {address.street}, {address.district} / {address.city}
                       </dd>
-                    </div>
+                    </dl>
                   </div>
 
                   <div className="flex gap-4">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-cyan-400">
                       <Phone className="h-5 w-5" aria-hidden />
                     </span>
-                    <div>
+                    <dl>
                       <dt className="text-body-sm text-navy-100/65 font-medium">
                         {c.contact.phoneLabel}
                       </dt>
@@ -143,14 +144,14 @@ export function Contact() {
                           {phone.display}
                         </a>
                       </dd>
-                    </div>
+                    </dl>
                   </div>
 
                   <div className="flex gap-4">
                     <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-cyan-400">
                       <Clock className="h-5 w-5" aria-hidden />
                     </span>
-                    <div className="min-w-0 flex-1">
+                    <dl className="min-w-0 flex-1">
                       <dt className="text-body-sm text-navy-100/65 font-medium">
                         {c.contact.hoursLabel}
                       </dt>
@@ -168,9 +169,9 @@ export function Contact() {
                           <span className="font-bold text-cyan-400">{c.hours.closed}</span>
                         </span>
                       </dd>
-                    </div>
+                    </dl>
                   </div>
-                </dl>
+                </div>
               </div>
 
               <div className="mt-8 space-y-3 border-t border-white/12 pt-6">
@@ -356,20 +357,44 @@ export function Contact() {
                 href={maps.directionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-xs font-bold text-cyan-400 hover:text-cyan-300"
+                className="inline-flex min-h-[44px] items-center gap-1 px-1 text-xs font-bold text-cyan-400 hover:text-cyan-300"
               >
-                <span>Google Maps'te Aç</span>
+                <span>{c.contact.openInMaps}</span>
                 <ExternalLink className="h-3.5 w-3.5" />
               </a>
             </div>
             <div className="relative aspect-[16/9] md:aspect-[21/8] w-full min-h-[300px]">
-              <iframe
-                title={c.a11y.mapTitle}
-                src={maps.embedUrl}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0 h-full w-full border-0"
-              />
+              {mapLoaded ? (
+                <iframe
+                  title={c.a11y.mapTitle}
+                  src={maps.embedUrl}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="absolute inset-0 h-full w-full border-0"
+                />
+              ) : (
+                <div className="absolute inset-0 grid place-items-center bg-navy-50 p-6 text-center">
+                  <div className="max-w-sm">
+                    <span className="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-white text-cyan-700 shadow-card">
+                      <MapPin className="h-5 w-5" aria-hidden />
+                    </span>
+                    <p className="mt-4 text-body-sm font-semibold text-navy-950">
+                      {c.contact.mapDesc}
+                    </p>
+                    <Button
+                      type="button"
+                      variant="navy"
+                      size="sm"
+                      data-testid="map-load"
+                      onClick={() => setMapLoaded(true)}
+                      className="mt-4"
+                      icon={<Navigation className="h-4 w-4" aria-hidden />}
+                    >
+                      {c.contact.mapLoadCta}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Reveal>

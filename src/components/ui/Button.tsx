@@ -26,14 +26,14 @@ type AnchorProps = CommonProps &
 const BASE =
   "sheen group relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-xl " +
   "font-menu font-semibold leading-tight transition-[transform,box-shadow,background-color,color] duration-300 " +
-  "ease-out will-change-transform focus-visible:outline-offset-4 active:translate-y-0 active:scale-[0.98] " +
+  "ease-out focus-visible:outline-offset-4 active:translate-y-0 active:scale-[0.98] " +
   "text-center [text-wrap:balance]";
 
 const VARIANTS: Record<Variant, string> = {
   cyan: "bg-cyan-500 text-navy-950 shadow-card hover:-translate-y-0.5 hover:bg-cyan-400 hover:shadow-lift font-bold",
   navy: "bg-navy-800 text-white shadow-card hover:-translate-y-0.5 hover:bg-navy-700 hover:shadow-lift font-bold",
-  whatsapp: "bg-[#25D366] text-white shadow-card hover:-translate-y-0.5 hover:bg-[#20bd5a] hover:shadow-lift font-bold",
-  emergency: "bg-[#25D366] text-white shadow-card hover:-translate-y-0.5 hover:bg-[#20bd5a] hover:shadow-lift font-bold",
+  whatsapp: "bg-[#25D366] text-navy-950 shadow-card hover:-translate-y-0.5 hover:bg-[#20bd5a] hover:shadow-lift font-bold",
+  emergency: "bg-[#25D366] text-navy-950 shadow-card hover:-translate-y-0.5 hover:bg-[#20bd5a] hover:shadow-lift font-bold",
   leaf: "bg-cyan-500 text-navy-950 shadow-card hover:-translate-y-0.5 hover:bg-cyan-400 hover:shadow-lift font-bold",
   pine: "bg-navy-800 text-white shadow-card hover:-translate-y-0.5 hover:bg-navy-700 hover:shadow-lift font-bold",
   outline:

@@ -28,7 +28,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Instagram (${c.a11y.newTab})`}
-                className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
+                className="grid h-11 w-11 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
               >
                 <Instagram className="h-5 w-5" aria-hidden />
               </a>
@@ -37,7 +37,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Facebook (${c.a11y.newTab})`}
-                className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
+                className="grid h-11 w-11 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
               >
                 <span className="font-extrabold text-sm">f</span>
               </a>
@@ -46,7 +46,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Linktree (${c.a11y.newTab})`}
-                className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
+                className="grid h-11 w-11 place-items-center rounded-xl border border-white/12 bg-white/8 text-cyan-400 transition-colors duration-200 hover:bg-cyan-400 hover:text-navy-950"
               >
                 <ExternalLink className="h-4 w-4" aria-hidden />
               </a>
@@ -62,7 +62,7 @@ export function Footer() {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className="inline-flex min-h-[32px] items-center text-body-sm text-navy-100/75 transition-colors duration-200 hover:text-white"
+                    className="inline-flex min-h-[44px] items-center text-body-sm text-navy-100/75 transition-colors duration-200 hover:text-white"
                   >
                     {item.label(c)}
                   </a>
@@ -109,7 +109,7 @@ export function Footer() {
                     href={b.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-cyan-400 hover:underline"
+                    className="inline-flex min-h-[44px] items-center gap-1 text-xs text-cyan-400 hover:underline"
                   >
                     <MapPin className="h-3 w-3" />
                     <span>Harita Konumu</span>
@@ -119,7 +119,7 @@ export function Footer() {
             </div>
             <a
               href={phone.telLink}
-              className="mt-4 inline-flex min-h-[36px] items-center gap-1.5 text-body-sm font-bold text-white transition-colors duration-200 hover:text-cyan-400"
+              className="mt-4 inline-flex min-h-[44px] items-center gap-1.5 text-body-sm font-bold text-white transition-colors duration-200 hover:text-cyan-400"
             >
               <Phone className="h-4 w-4 text-cyan-400" />
               <span>{phone.display}</span>

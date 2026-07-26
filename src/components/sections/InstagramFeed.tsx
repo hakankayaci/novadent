@@ -57,7 +57,7 @@ export function InstagramFeed() {
                   <dd>
                     <a
                       href={phone.telLink}
-                      className="inline-flex min-h-[40px] items-center font-bold tabular-nums text-navy-950 hover:text-cyan-600"
+                      className="inline-flex min-h-[44px] items-center font-bold tabular-nums text-navy-950 hover:text-cyan-600"
                     >
                       {phone.display}
                     </a>

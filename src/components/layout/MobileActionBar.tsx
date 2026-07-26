@@ -19,6 +19,7 @@ export function MobileActionBar() {
 
   return (
     <nav
+      data-testid="mobile-action-bar"
       aria-label={c.a11y.mobileBar}
       className="fixed inset-x-0 bottom-0 z-sticky border-t border-white/10 bg-navy-950/95 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-xl lg:hidden"
     >
@@ -37,7 +38,7 @@ export function MobileActionBar() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => trackEvent("mobile_action_click", { action: "whatsapp" })}
-          className={`${tile} bg-[#25D366] text-white`}
+          className={`${tile} bg-[#25D366] text-navy-950`}
         >
           <MessageCircle className="h-4.5 w-4.5" aria-hidden />
           <span>WhatsApp</span>

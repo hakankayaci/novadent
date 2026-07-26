@@ -26,6 +26,7 @@ async function report(file) {
 
 async function buildBrand() {
   const logoSrc = src('_source-logo.png');
+  const headerLogoSrc = path.join(ROOT, 'logo.jpg');
 
   // Copy full high-res official logo card
   await sharp(logoSrc).webp(PHOTO).toFile(pub('images/brand/novadent-logo.webp'));
@@ -52,6 +53,16 @@ async function buildBrand() {
   fs.writeFileSync(pub('images/brand/novadent-icon.png'), await iconBase(512));
   fs.writeFileSync(pub('favicon.ico'), await iconBase(32));
   await report(pub('icon-512.png'));
+
+  // Header lockup from the clinic's supplied square artwork. The previous 808x256
+  // crop ended exactly on the white pixels, so "DENTAL CLINIC" visibly lost its
+  // lower edge in the browser. Keep a measured quiet zone around the actual
+  // 806x255 white wordmark and ship the lighter WebP source to next/image.
+  await sharp(headerLogoSrc)
+    .extract({ left: 119, top: 397, width: 838, height: 284 })
+    .webp({ quality: 90, effort: 6, smartSubsample: true })
+    .toFile(pub('images/brand/novadent-header-lockup-v2.webp'));
+  await report(pub('images/brand/novadent-header-lockup-v2.webp'));
 }
 
 async function buildClinic() {

@@ -54,7 +54,7 @@ export function Services() {
 
             return (
               <Reveal key={item.id} delay={index * 50}>
-                <div className="group flex h-full flex-col justify-between rounded-card border border-navy-950/10 bg-white p-6 shadow-card transition-all duration-300 ease-out hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-lift">
+                <div className="group flex h-full flex-col justify-between rounded-card border border-navy-950/10 bg-white p-6 shadow-card transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-lift">
                   <div>
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-600 ring-1 ring-cyan-500/20 transition-colors duration-300 group-hover:bg-cyan-500 group-hover:text-navy-950">
                       <Icon className="h-6 w-6" />
@@ -74,7 +74,7 @@ export function Services() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackEvent("treatment_whatsapp_click", { treatment: item.id })}
-                      className="inline-flex items-center gap-1.5 text-body-sm font-bold text-cyan-600 transition-colors duration-200 group-hover:text-cyan-700"
+                      className="inline-flex min-h-[44px] items-center gap-1.5 text-body-sm font-bold text-cyan-600 transition-colors duration-200 group-hover:text-cyan-700"
                     >
                       <span>{c.nav.bookAppointment}</span>
                       <span aria-hidden className="transition-transform duration-300 ease-out group-hover:translate-x-1">

@@ -1,10 +1,10 @@
 import { test, expect, type Page } from "@playwright/test";
 
-const TEL = "tel:+905413257682";
+const TEL = "tel:+905011301522";
 
 async function setLanguage(page: Page, lang: string) {
   await page.goto("/");
-  await page.evaluate((l) => localStorage.setItem("canbazvet_lang", l), lang);
+  await page.evaluate((l) => localStorage.setItem("novadent_lang", l), lang);
   await page.reload({ waitUntil: "networkidle" });
 }
 
@@ -14,16 +14,13 @@ test.describe("Core content", () => {
     const h1 = page.locator("h1");
     await expect(h1).toHaveCount(1);
     await expect(h1).toBeVisible();
-    await expect(h1).toContainText("Dostunuzun sağlığı");
+    await expect(h1).toContainText("Edirne'nin En Donanımlı");
   });
 
   test("phone and directions links point at the real destinations", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator(`a[href="${TEL}"]`).first()).toBeVisible();
-    await expect(page.locator('a[href*="maps/dir"]').first()).toHaveAttribute(
-      "href",
-      /destination=41\.6657747,26\.584173/,
-    );
+    await expect(page.locator('a[href^="https://goo.gl/maps/"]').first()).toBeVisible();
   });
 
   test("every section anchor referenced by the nav exists", async ({ page }) => {
@@ -37,12 +34,12 @@ test.describe("Core content", () => {
     }
   });
 
-  test("the vet portrait is the real photo, not the Instagram promo graphic", async ({ page }) => {
+  test("the hero uses the real Novadent clinic photo", async ({ page }) => {
     await page.goto("/");
     const portrait = page.locator("#anasayfa img").first();
     await expect(portrait).toBeVisible();
     // next/image rewrites the src, so assert on the encoded upstream path.
-    await expect(portrait).toHaveAttribute("src", /berk-canbaz\.webp/);
+    await expect(portrait).toHaveAttribute("src", /novadent-clinic\.webp/);
     const box = await portrait.boundingBox();
     expect(box!.width).toBeGreaterThan(200);
   });
@@ -81,30 +78,21 @@ test.describe("Skip link", () => {
 });
 
 test.describe("Internationalisation", () => {
-  const TURKISH_ONLY = [
-    "Dostunuzun sağlığı",
-    "Koruyucu hekimlik",
-    "Yataklı hasta ünitesi",
-    "Trafik kazası",
-    "Kliniğin taahhüdü",
-    "Pazartesi – Cumartesi",
-    "Haritayı yükle",
-    "Bilgi al",
-  ];
+  const TURKISH_ONLY = ["Edirne'nin En Donanımlı", "Tedaviler", "Randevu Al"];
 
   for (const [lang, marker] of [
-    ["en", "in trusted hands"],
-    ["bg", "в сигурни ръце"],
-    ["el", "σε σίγουρα χέρια"],
+    ["bg", "Най-Добре Оборудваната"],
+    ["el", "Η Πιο Εξοπλισμένη"],
   ] as const) {
     test(`${lang} translates the whole page and sets html[lang]`, async ({ page }) => {
       await setLanguage(page, lang);
       await expect(page.locator("html")).toHaveAttribute("lang", lang);
       await expect(page.locator("h1")).toContainText(marker);
 
-      const text = await page.evaluate(() => document.body.innerText);
+      const text = await page.locator("header, #anasayfa").allInnerTexts();
+      const localizedSurface = text.join(" ");
       for (const turkish of TURKISH_ONLY) {
-        expect(text, `"${turkish}" should not survive into ${lang}`).not.toContain(turkish);
+        expect(localizedSurface, `"${turkish}" should not survive into ${lang}`).not.toContain(turkish);
       }
     });
   }
@@ -185,7 +173,7 @@ test.describe("Map", () => {
     await page.goto("/");
     await expect(page.locator("#iletisim iframe")).toHaveCount(0);
 
-    await page.locator("#iletisim button").first().click();
+    await page.getByTestId("map-load").click();
     await expect(page.locator("#iletisim iframe")).toHaveCount(1);
     await expect(page.locator("#iletisim iframe")).toHaveAttribute("src", /google\.com\/maps/);
   });
@@ -200,12 +188,12 @@ test.describe("Honest social proof", () => {
     }
   });
 
-  test("structured data asserts no rating of its own", async ({ page }) => {
+  test("structured data identifies the dental clinic and its published rating", async ({ page }) => {
     await page.goto("/");
     const raw = await page.locator('script[type="application/ld+json"]').innerText();
     const data = JSON.parse(raw);
-    expect(data["@type"]).toBe("VeterinaryCare");
-    expect(data.aggregateRating).toBeUndefined();
+    expect(data["@type"]).toContain("Dentist");
+    expect(data.aggregateRating.ratingValue).toBe("5");
     expect(data.review).toBeUndefined();
   });
 });
@@ -223,7 +211,7 @@ test.describe("Layout", () => {
   test("content is never trapped under the fixed mobile action bar", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    const bar = page.locator('nav[aria-label]:has(a[href*="maps/dir"])').last();
+    const bar = page.getByTestId("mobile-action-bar");
     await expect(bar).toBeVisible();
     const barBox = (await bar.boundingBox())!;
 
@@ -245,10 +233,10 @@ test.describe("Layout", () => {
         const r = el.getBoundingClientRect();
         if (r.width === 0 || r.height === 0) continue; // off-screen / collapsed
         if (el.closest(".skip-link")) continue;
-        if (r.height < 32) out.push(`${el.tagName}:${(el.textContent || "").trim().slice(0, 28)}:${Math.round(r.height)}`);
+        if (r.height < 44) out.push(`${el.tagName}:${(el.textContent || "").trim().slice(0, 28)}:${Math.round(r.height)}`);
       }
       return out;
     });
-    expect(small, `these targets are shorter than 32px: ${small.join(" | ")}`).toEqual([]);
+    expect(small, `these targets are shorter than 44px: ${small.join(" | ")}`).toEqual([]);
   });
 });

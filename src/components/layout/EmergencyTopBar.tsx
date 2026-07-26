@@ -29,7 +29,7 @@ export function EmergencyTopBar() {
         <a
           href={business.phone.telLink}
           onClick={() => trackEvent("phone_click", { location: "topbar" })}
-          className="sheen -mr-1 flex min-h-[36px] shrink-0 items-center gap-2 rounded-lg bg-cyan-500 px-3 text-body-sm font-bold text-navy-950 transition-colors duration-200 hover:bg-cyan-400"
+          className="sheen -mr-1 flex min-h-[44px] shrink-0 items-center gap-2 rounded-lg bg-cyan-500 px-3 text-body-sm font-bold text-navy-950 transition-colors duration-200 hover:bg-cyan-400"
         >
           <Phone className="h-3.5 w-3.5 shrink-0" aria-hidden />
           <span className="tabular-nums">{business.phone.display}</span>

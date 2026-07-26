@@ -2,31 +2,27 @@ import React from "react";
 import Image from "next/image";
 
 interface LogoProps {
-  width?: number;
   className?: string;
   priority?: boolean;
   alt: string;
 }
 
 /**
- * Unclipped Official Novadent logo lockup from logo.jpg for light surfaces.
+ * Official Novadent lockup with a measured quiet zone from the supplied artwork.
  */
-export function Logo({ className = "", alt }: LogoProps) {
+export function Logo({ className = "", priority = false, alt }: LogoProps) {
   return (
-    <div
-      className={`inline-flex items-center select-none ${className}`}
-      aria-label={alt}
-      role="img"
-    >
+    <span className={`inline-flex items-center select-none ${className}`}>
       <Image
-        src="/images/brand/full-logo.png"
+        src="/images/brand/novadent-header-lockup-v2.webp"
         alt={alt}
-        width={180}
-        height={57}
-        priority
-        className="h-10 sm:h-12 w-auto object-contain object-left"
+        width={176}
+        height={60}
+        priority={priority}
+        sizes="(max-width: 639px) 132px, 176px"
+        className="h-auto w-[8.25rem] rounded-md object-contain sm:w-44"
       />
-    </div>
+    </span>
   );
 }
 
@@ -66,23 +62,28 @@ export function LogoMark({ size = 36, className = "", alt = "" }: LogoMarkProps)
 }
 
 /** Dark-surface lockup for dark headers and footer. */
-export function LogoOnDark({ className = "", alt }: { className?: string; alt: string }) {
+export function LogoOnDark({
+  className = "",
+  alt,
+  priority = false,
+}: {
+  className?: string;
+  alt: string;
+  priority?: boolean;
+}) {
   return (
-    <div
-      className={`inline-flex items-center select-none ${className}`}
-      aria-label={alt}
-      role="img"
-    >
-      <div className="rounded-xl bg-white/95 px-3 py-1.5 backdrop-blur-md shadow-sm">
+    <span className={`inline-flex items-center select-none ${className}`}>
+      <span className="rounded-xl bg-white/95 p-1.5 shadow-sm">
         <Image
-          src="/images/brand/full-logo.png"
+          src="/images/brand/novadent-header-lockup-v2.webp"
           alt={alt}
-          width={180}
-          height={57}
-          priority
-          className="h-9 sm:h-10 w-auto object-contain object-center"
+          width={160}
+          height={54}
+          priority={priority}
+          sizes="(max-width: 639px) 144px, 160px"
+          className="h-auto w-36 rounded-md object-contain sm:w-40"
         />
-      </div>
-    </div>
+      </span>
+    </span>
   );
 }

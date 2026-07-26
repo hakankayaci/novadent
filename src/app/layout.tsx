@@ -23,7 +23,7 @@ const firaSans = Fira_Sans({
  */
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700", "800"],
+  weight: "variable",
   variable: "--font-menu",
   display: "swap",
 });

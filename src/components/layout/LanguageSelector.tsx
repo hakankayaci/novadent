@@ -74,7 +74,7 @@ export function LanguageSelector({ tone = "light" }: { tone?: "light" | "dark" }
         type="button"
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={`${c.a11y.langPicker} — ${current.nativeName}`}
+        aria-label={`${current.code.toUpperCase()} — ${c.a11y.langPicker}: ${current.nativeName}`}
         onClick={() => setOpen((v) => !v)}
         onKeyDown={(event) => {
           if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {

@@ -1,11 +1,16 @@
+"use client";
+
 import React from "react";
-import { Instagram, Phone, ShieldCheck, Stethoscope } from "lucide-react";
+import Image from "next/image";
+import { Instagram, Phone, ShieldCheck } from "lucide-react";
 import { siteData } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function Veterinarian() {
   const { veterinarian, phone } = siteData.business;
+  const { t } = useLanguage();
 
   return (
     <section id="veteriner-hekim" className="py-20 bg-brand-teal-950 text-white relative overflow-hidden">
@@ -15,15 +20,15 @@ export function Veterinarian() {
       <Container>
         <div className="max-w-4xl mx-auto bg-brand-teal-900/60 rounded-3xl p-8 sm:p-12 border border-brand-teal-800/40 shadow-2xl relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            {/* Avatar / Icon Badge */}
+            {/* Real Photo Avatar */}
             <div className="relative shrink-0">
-              <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-tr from-brand-teal-950 to-brand-teal-800 p-1.5 shadow-2xl flex items-center justify-center border-2 border-brand-lime-500/50">
-                <div className="w-full h-full rounded-full bg-brand-teal-950 flex flex-col items-center justify-center text-center p-4">
-                  <Stethoscope className="w-12 h-12 text-brand-lime-500 mb-1" />
-                  <span className="text-xs font-bold text-brand-teal-100 uppercase tracking-wider">
-                    Vet. Hekim
-                  </span>
-                </div>
+              <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-gradient-to-tr from-brand-teal-950 to-brand-lime-500 p-1.5 shadow-2xl flex items-center justify-center relative overflow-hidden border-2 border-brand-lime-500">
+                <Image
+                  src="/images/team/berk-canbaz.webp"
+                  alt="Veteriner Hekim Berk Canbaz"
+                  fill
+                  className="object-cover object-top rounded-full"
+                />
               </div>
 
               {/* Verified badge */}
@@ -36,18 +41,18 @@ export function Veterinarian() {
             <div className="space-y-4 text-center md:text-left">
               <div>
                 <span className="text-xs font-extrabold text-brand-lime-400 uppercase tracking-widest">
-                  Sorumlu Veteriner Hekim
+                  {t("vet_badge")}
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-white mt-1">
                   {veterinarian.name}
                 </h2>
                 <p className="text-sm font-semibold text-brand-teal-100/80">
-                  {veterinarian.title} · CanbazVet Veteriner Kliniği
+                  {t("vet_title")}
                 </p>
               </div>
 
               <p className="text-base text-brand-teal-100/90 leading-relaxed">
-                Veteriner Hekim Berk Canbaz, CanbazVet Veteriner Kliniği'nde evcil dostların muayene, aşı, tedavi ve takip süreçlerini bizzat yürütmekte ve hasta sahipleriyle doğrudan açık iletişim kurmaktadır.
+                {t("vet_desc")}
               </p>
 
               {/* CTAs */}
@@ -58,7 +63,7 @@ export function Veterinarian() {
                   href={phone.telLink}
                   icon={<Phone className="w-4 h-4" />}
                 >
-                  Kliniği Ara ({phone.display})
+                  {t("vet_cta_call")} ({phone.display})
                 </Button>
 
                 <a

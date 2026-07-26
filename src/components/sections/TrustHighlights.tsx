@@ -1,31 +1,36 @@
+"use client";
+
 import React from "react";
 import { MapPin, UserCheck, CalendarCheck, PhoneCall, Star } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-
-const trustItems = [
-  {
-    icon: MapPin,
-    title: "Edirne Şükrüpaşa'da",
-    desc: "İlhami Ertem Caddesi 136. Sokak'ta kolay ulaşım ve otopark imkanı.",
-  },
-  {
-    icon: UserCheck,
-    title: "Vet. Hekim Berk Canbaz",
-    desc: "Evcil dostlarınız için doğrudan hekim iletişimi ve birebir takip.",
-  },
-  {
-    icon: CalendarCheck,
-    title: "Pazar Günü Açık",
-    desc: "Hafta sonu dahil (Pazar 12:00–17:00) kesintisiz klinik hizmeti.",
-  },
-  {
-    icon: PhoneCall,
-    title: "7/24 Acil Telefon Hattı",
-    desc: "Beklenmeyen durumlarda telefonla hızlı yönlendirme ve acil müdahale.",
-  },
-];
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function TrustHighlights() {
+  const { t } = useLanguage();
+
+  const trustItems = [
+    {
+      icon: MapPin,
+      title: t("trust_location_title"),
+      desc: t("trust_location_desc"),
+    },
+    {
+      icon: UserCheck,
+      title: t("trust_vet_title"),
+      desc: t("trust_vet_desc"),
+    },
+    {
+      icon: CalendarCheck,
+      title: t("trust_sunday_title"),
+      desc: t("trust_sunday_desc"),
+    },
+    {
+      icon: PhoneCall,
+      title: t("trust_emergency_title"),
+      desc: t("trust_emergency_desc"),
+    },
+  ];
+
   return (
     <section className="bg-brand-surface-100 py-12 border-b border-brand-teal-900/10">
       <Container>
@@ -62,7 +67,7 @@ export function TrustHighlights() {
               ))}
             </div>
             <span className="text-sm font-bold">
-              Google Değerlendirmeleri ve Hasta Sahibi Yorumları
+              {t("trust_reviews_title")}
             </span>
           </div>
 
@@ -72,7 +77,7 @@ export function TrustHighlights() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-brand-teal-900 hover:text-brand-teal-950 bg-brand-teal-50 hover:bg-brand-teal-100 px-4 py-2 rounded-xl transition-colors shrink-0"
           >
-            <span>Google Yorumlarını İnceleyin</span>
+            <span>{t("trust_reviews_cta")}</span>
             <span className="text-brand-lime-600 font-extrabold">→</span>
           </a>
         </div>

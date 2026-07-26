@@ -1,4 +1,5 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 
 interface SectionHeadingProps {
   badge?: string;
@@ -22,18 +23,19 @@ export function SectionHeading({
   return (
     <div
       className={`flex flex-col ${
-        align === "center" ? "items-center text-center mx-auto max-w-3xl" : "max-w-3xl"
+        align === "center" ? "items-center text-center mx-auto max-w-3xl" : "items-start text-left max-w-3xl"
       } ${className}`}
     >
       {badge && (
         <span
-          className={`inline-flex items-center px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 ${
+          className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest mb-4 shadow-sm backdrop-blur-md transition-all ${
             isDark
-              ? "bg-brand-lime-500/20 text-brand-lime-400 border border-brand-lime-500/30"
-              : "bg-brand-teal-900/10 text-brand-teal-900 border border-brand-teal-900/20"
+              ? "bg-brand-teal-900/90 text-brand-lime-400 border border-brand-lime-500/30"
+              : "bg-white text-brand-teal-950 border border-brand-teal-900/15 shadow-sm"
           }`}
         >
-          {badge}
+          <Sparkles className="w-3.5 h-3.5 text-brand-lime-500 shrink-0" />
+          <span>{badge}</span>
         </span>
       )}
       <h2

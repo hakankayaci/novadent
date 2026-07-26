@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import { Star, ExternalLink, MessageSquareHeart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const sampleReviewCategories = [
   {
@@ -20,6 +23,7 @@ const sampleReviewCategories = [
 ];
 
 export function Reviews() {
+  const { t } = useLanguage();
   const googleReviewsUrl =
     process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL ||
     "https://www.google.com/search?q=CanbazVet+Veteriner+Klini%C4%9Fi+Yorumlar";
@@ -28,7 +32,7 @@ export function Reviews() {
     <section id="yorumlar" className="py-20 bg-brand-surface-50">
       <Container>
         <SectionHeading
-          badge="Hasta Sahibi Deneyimleri"
+          badge={t("nav_reviews")}
           title="Dostlarımızın ailelerinden gelen değerlendirmeler."
           description="CanbazVet Veteriner Kliniği hakkında Google Haritalar üzerindeki hasta sahibi deneyimlerini doğrudan inceleyin."
           align="left"
@@ -88,7 +92,7 @@ export function Reviews() {
             icon={<ExternalLink className="w-5 h-5" />}
             className="shrink-0"
           >
-            Google Yorumlarını İncele
+            {t("trust_reviews_cta")}
           </Button>
         </div>
       </Container>

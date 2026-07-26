@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   ShieldCheck,
@@ -13,6 +15,7 @@ import { siteData } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   ShieldCheck,
@@ -27,14 +30,15 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export function Services() {
   const { services, business } = siteData;
+  const { t } = useLanguage();
 
   return (
     <section id="hizmetler" className="py-20 bg-brand-surface-50">
       <Container>
         <SectionHeading
-          badge="Hizmetlerimiz"
-          title="Dostunuzun sağlığının her aşamasında yanınızdayız."
-          description="Aşı ve koruyucu muayenelerden cerrahi müdahalelere, laboratuvar analizlerinden acil durumlara kadar Edirne'de kapsamlı veterinerlik hizmetleri sunuyoruz."
+          badge={t("services_badge")}
+          title={t("services_title")}
+          description={t("services_desc")}
           align="left"
           className="mb-14"
         />
@@ -78,8 +82,8 @@ export function Services() {
                     href={business.phone.telLink}
                     className="inline-flex items-center gap-2 text-xs font-bold text-brand-teal-900 hover:text-brand-teal-950 transition-colors"
                   >
-                    <span>Bilgi ve Randevu Al</span>
-                    <span className="text-brand-lime-600">→</span>
+                    <span>{t("services_cta")}</span>
+                    <span className="text-brand-lime-600 font-extrabold">→</span>
                   </a>
                 </div>
               </div>
@@ -88,13 +92,13 @@ export function Services() {
         </div>
 
         {/* Bottom Callout Banner */}
-        <div className="mt-14 p-8 rounded-3xl bg-brand-teal-950 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-14 p-8 rounded-3xl bg-brand-teal-950 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
           <div>
             <h4 className="text-2xl font-bold text-white">
-              Hangi hizmete ihtiyacınız olduğundan emin değil misiniz?
+              {t("services_banner_title")}
             </h4>
             <p className="text-base text-brand-teal-100/80 mt-2 max-w-2xl">
-              Hekimimizle doğrudan görüşmek ve durum değerlendirmesi almak için kliniğimizi telefonla arayabilirsiniz.
+              {t("services_banner_desc")}
             </p>
           </div>
           <Button

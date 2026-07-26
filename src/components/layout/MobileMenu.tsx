@@ -4,14 +4,17 @@ import React, { useEffect, useRef } from "react";
 import { X, Phone, MapPin, Instagram } from "lucide-react";
 import { siteData } from "@/data/site";
 import { Button } from "@/components/ui/Button";
+import { LanguageSelector } from "./LanguageSelector";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  navItems: { label: string; href: string }[];
+  navItems: { labelKey: string; href: string }[];
 }
 
 export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
+  const { t } = useLanguage();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,18 +50,23 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
       >
         {/* Top Header */}
         <div className="flex items-center justify-between border-b border-brand-teal-800/40 pb-5">
-          <div className="flex items-center gap-2.5">
-            <span className="font-extrabold text-xl text-white">Canbaz</span>
-            <span className="font-extrabold text-xl text-brand-lime-500">Vet</span>
+          <div className="flex items-center gap-3">
+            <span className="font-black text-2xl text-white tracking-tight">Canbaz</span>
+            <span className="font-black text-2xl text-brand-lime-500 tracking-tight">Vet</span>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Menüyü kapat"
-            className="p-2.5 rounded-xl bg-brand-teal-900/60 hover:bg-brand-teal-900 text-brand-teal-100 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand-lime-500"
-          >
-            <X className="w-6 h-6" />
-          </button>
+
+          <div className="flex items-center gap-2">
+            <LanguageSelector />
+
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Menüyü kapat"
+              className="p-2.5 rounded-xl bg-brand-teal-900/60 hover:bg-brand-teal-900 text-brand-teal-100 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-brand-lime-500"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
         </div>
 
         {/* Navigation Links */}
@@ -68,9 +76,9 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
               key={item.href}
               href={item.href}
               onClick={onClose}
-              className="block px-4 py-3 text-lg font-semibold text-brand-teal-100 hover:text-brand-lime-500 hover:bg-brand-teal-900/40 rounded-xl transition-colors min-h-[44px] flex items-center"
+              className="block px-4 py-3 text-lg font-bold text-brand-teal-100 hover:text-brand-lime-400 hover:bg-brand-teal-900/40 rounded-xl transition-colors min-h-[44px] flex items-center"
             >
-              {item.label}
+              {t(item.labelKey)}
             </a>
           ))}
         </nav>
@@ -84,7 +92,7 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
             href={siteData.business.phone.telLink}
             icon={<Phone className="w-5 h-5" />}
           >
-            7/24 Acil Ara ({siteData.business.phone.display})
+            {t("mobile_emergency")} ({siteData.business.phone.display})
           </Button>
 
           <Button
@@ -95,7 +103,7 @@ export function MobileMenu({ isOpen, onClose, navItems }: MobileMenuProps) {
             target="_blank"
             icon={<MapPin className="w-5 h-5" />}
           >
-            Yol Tarifi Al
+            {t("mobile_directions")}
           </Button>
 
           <a

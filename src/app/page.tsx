@@ -9,6 +9,7 @@ import { Veterinarian } from "@/components/sections/Veterinarian";
 import { ClinicGallery } from "@/components/sections/ClinicGallery";
 import { EmergencySection } from "@/components/sections/EmergencySection";
 import { Reviews } from "@/components/sections/Reviews";
+import { InstagramFeed } from "@/components/sections/InstagramFeed";
 import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/layout/Footer";
@@ -33,6 +34,7 @@ export default function Home() {
         <ClinicGallery />
         <EmergencySection />
         <Reviews />
+        <InstagramFeed />
         <FAQ />
         <Contact />
       </main>

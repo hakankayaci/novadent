@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { generateSiteMetadata } from "@/lib/metadata";
 import { generateVeterinaryCareSchema } from "@/lib/structured-data";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin", "latin-ext"],
@@ -31,7 +32,6 @@ export default function RootLayout({
   return (
     <html lang="tr" className={`${jakartaSans.variable} scroll-smooth`}>
       <head>
-
         {/* Structured Data / JSON-LD */}
         <script
           type="application/ld+json"
@@ -39,7 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased text-text-primary bg-brand-surface-50 min-h-screen flex flex-col selection:bg-brand-lime-500 selection:text-brand-teal-950">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

@@ -1,11 +1,15 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { Phone, MapPin, Clock, Instagram, ExternalLink } from "lucide-react";
 import { siteData } from "@/data/site";
 import { Container } from "@/components/ui/Container";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export function Footer() {
   const { business } = siteData;
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -50,42 +54,42 @@ export function Footer() {
           {/* Quick Links Column */}
           <div>
             <h3 className="text-base font-bold text-brand-lime-500 uppercase tracking-wider mb-4">
-              Hızlı Bağlantılar
+              {t("nav_services")}
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <a href="#anasayfa" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  Ana Sayfa
+                  {t("nav_home")}
                 </a>
               </li>
               <li>
                 <a href="#hizmetler" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  Hizmetlerimiz
+                  {t("nav_services")}
                 </a>
               </li>
               <li>
                 <a href="#hakkimizda" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  Hakkımızda
+                  {t("nav_about")}
                 </a>
               </li>
               <li>
                 <a href="#veteriner-hekim" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  Veteriner Hekim
+                  {t("nav_vet")}
                 </a>
               </li>
               <li>
                 <a href="#klinik" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  Klinik Galerisi
+                  {t("nav_clinic")}
                 </a>
               </li>
               <li>
                 <a href="#acil-hat" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  7/24 Acil Hat
+                  {t("nav_emergency")}
                 </a>
               </li>
               <li>
                 <a href="#sss" className="text-brand-teal-100/80 hover:text-white transition-colors">
-                  Sık Sorulan Sorulan
+                  {t("nav_faq")}
                 </a>
               </li>
             </ul>
@@ -94,7 +98,7 @@ export function Footer() {
           {/* Opening Hours Column */}
           <div>
             <h3 className="text-base font-bold text-brand-lime-500 uppercase tracking-wider mb-4">
-              Çalışma Saatleri
+              {t("contact_hours_label")}
             </h3>
             <div className="space-y-3 text-sm text-brand-teal-100/80">
               <div className="flex items-start gap-2.5">
@@ -112,7 +116,7 @@ export function Footer() {
                 </div>
               </div>
               <div className="pt-2 text-xs text-brand-lime-400 font-medium">
-                * 7/24 Telefon ile acil durum yönlendirme hattı aktiftir.
+                * {t("topbar_badge")}
               </div>
             </div>
           </div>
@@ -120,7 +124,7 @@ export function Footer() {
           {/* Contact & Address Column */}
           <div>
             <h3 className="text-base font-bold text-brand-lime-500 uppercase tracking-wider mb-4">
-              İletişim & Konum
+              {t("nav_contact")}
             </h3>
             <div className="space-y-3 text-sm text-brand-teal-100/80">
               <div className="flex items-start gap-2.5">

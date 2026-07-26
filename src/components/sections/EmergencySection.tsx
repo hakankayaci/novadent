@@ -1,8 +1,11 @@
+"use client";
+
 import React from "react";
 import { PhoneCall, AlertCircle, ShieldAlert, HeartPulse } from "lucide-react";
 import { siteData } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const emergencyCases = [
   "Trafik kazası ve yüksekten düşmeler",
@@ -15,6 +18,7 @@ const emergencyCases = [
 
 export function EmergencySection() {
   const { phone } = siteData.business;
+  const { t } = useLanguage();
 
   return (
     <section
@@ -29,16 +33,16 @@ export function EmergencySection() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-red-600/20 border border-brand-red-500/40 text-brand-lime-400 text-xs sm:text-sm font-bold uppercase tracking-wider">
             <ShieldAlert className="w-4 h-4 text-brand-red-500 animate-pulse" />
-            <span>7/24 Aktif İletişim Hattı</span>
+            <span>{t("emergency_badge")}</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-            Acil durumlarda bir telefon{" "}
-            <span className="text-brand-lime-500">uzağınızdayız.</span>
+            {t("emergency_title_1")}{" "}
+            <span className="text-brand-lime-500">{t("emergency_title_2")}</span>
           </h2>
 
           <p className="text-lg sm:text-xl text-brand-teal-100/90 leading-relaxed max-w-2xl mx-auto">
-            7/24 aktif acil telefon hattımız gerçek acil vakalarda hızlı hekim yönlendirmesi için hizmet vermektedir.
+            {t("emergency_desc")}
           </p>
 
           {/* Emergency Call Action Card */}
@@ -68,14 +72,14 @@ export function EmergencySection() {
                 icon={<PhoneCall className="w-6 h-6" />}
                 className="text-lg py-5 px-10"
               >
-                7/24 Acil Hattı Ara ({phone.display})
+                {t("emergency_call_btn")} ({phone.display})
               </Button>
             </div>
 
             <div className="flex items-center justify-center gap-2 text-xs sm:text-sm text-brand-lime-300 font-medium bg-brand-teal-950/80 py-3 px-4 rounded-xl border border-brand-teal-800">
               <AlertCircle className="w-4 h-4 text-brand-lime-400 shrink-0" />
               <span>
-                <strong>Önemli:</strong> Hastanın durumunu önceden bildirmek ve kliniği hazırlamak için gelmeden önce arayınız.
+                <strong>Önemli:</strong> {t("emergency_notice")}
               </span>
             </div>
           </div>

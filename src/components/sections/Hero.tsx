@@ -6,10 +6,12 @@ import { Phone, Navigation, ShieldCheck, MapPin, Star } from "lucide-react";
 import { siteData } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
 export function Hero() {
   const { business } = siteData;
+  const { t } = useLanguage();
 
   return (
     <section
@@ -25,39 +27,34 @@ export function Hero() {
           {/* Text Content Column */}
           <div className="lg:col-span-7 space-y-6 z-10">
             {/* Top Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-teal-900/90 border border-brand-lime-500/30 text-xs sm:text-sm font-semibold text-brand-lime-400">
-              <ShieldCheck className="w-4 h-4 text-brand-lime-500" />
-              <span>Edirne Şükrüpaşa'da Modern & Şefkatli Veteriner Bakımı</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-teal-900/90 border border-brand-lime-500/30 text-xs sm:text-sm font-semibold text-brand-lime-400 shadow-sm">
+              <ShieldCheck className="w-4 h-4 text-brand-lime-500 shrink-0" />
+              <span>{t("hero_badge")}</span>
             </div>
 
             {/* H1 Heading */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-[1.1]">
-              Dostunuzun sağlığı,{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-lime-400 to-brand-lime-500">
-                güvenilir ellerde.
+              {t("hero_title_1")}{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-lime-400 via-brand-lime-300 to-brand-lime-500">
+                {t("hero_title_2")}
               </span>
             </h1>
 
             {/* Subdescription */}
             <p className="text-lg sm:text-xl text-brand-teal-100/90 leading-relaxed max-w-2xl">
-              <strong className="text-white font-semibold">
-                CanbazVet Veteriner Kliniği
-              </strong>
-              , Veteriner Hekim Berk Canbaz'ın özenli ve bilimsel yaklaşımıyla
-              kedi ve köpeklerinizin muayene, aşı, tedavi ve acil değerlendirme
-              süreçlerinde Edirne'de yanınızda.
+              {t("hero_desc")}
             </p>
 
             {/* Key Micro Info Bar */}
             <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-brand-teal-100/80 pt-2 border-t border-brand-teal-800/40">
               <div className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4 text-brand-lime-500 shrink-0" />
-                <span>Şükrüpaşa Mah. 136. Sokak No:8 Edirne</span>
+                <span>{t("hero_address")}</span>
               </div>
               <span className="hidden sm:inline text-brand-teal-800">•</span>
               <div className="flex items-center gap-1.5 font-medium text-white">
                 <span className="w-2 h-2 rounded-full bg-brand-lime-500" />
-                <span>Pzt–Cmt 09:30–19:30 · Pazar 12:00–17:00</span>
+                <span>{t("hero_hours")}</span>
               </div>
             </div>
 
@@ -70,7 +67,7 @@ export function Hero() {
                 onClick={() => trackEvent("phone_click", { location: "hero" })}
                 icon={<Phone className="w-5 h-5" />}
               >
-                Hemen Ara ({business.phone.display})
+                {t("hero_cta_call")} ({business.phone.display})
               </Button>
 
               <Button
@@ -83,7 +80,7 @@ export function Hero() {
                 }
                 icon={<Navigation className="w-5 h-5" />}
               >
-                Yol Tarifi Al
+                {t("hero_cta_directions")}
               </Button>
 
               <Button
@@ -96,31 +93,31 @@ export function Hero() {
                 }
                 icon={<Star className="w-5 h-5 text-amber-400 fill-amber-400" />}
               >
-                Google Yorumları
+                {t("hero_cta_reviews")}
               </Button>
             </div>
           </div>
 
-          {/* Exterior Image Column */}
+          {/* Real Vet Photo Column */}
           <div className="lg:col-span-5 relative">
-            <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-teal-800/40">
+            <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-lime-500/30">
               <Image
-                src="/images/clinic/canbazvet-dis-cephe-tabela.webp"
-                alt="CanbazVet Veteriner Kliniği Edirne Dış Cephe Tabela"
+                src="/images/team/berk-canbaz.webp"
+                alt="Veteriner Hekim Berk Canbaz - CanbazVet"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
+                className="object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-teal-950/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-teal-950/90 via-transparent to-transparent" />
 
               {/* Floating Pill on Image */}
-              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-brand-teal-950/90 backdrop-blur-md border border-brand-teal-800/50 text-white flex items-center justify-between">
+              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-brand-teal-950/90 backdrop-blur-md border border-brand-teal-800/50 text-white flex items-center justify-between shadow-2xl">
                 <div>
                   <p className="text-xs text-brand-lime-400 font-bold uppercase tracking-wider">
                     Veteriner Hekim
                   </p>
-                  <p className="text-base font-bold text-white">
+                  <p className="text-base font-extrabold text-white">
                     Berk Canbaz
                   </p>
                 </div>

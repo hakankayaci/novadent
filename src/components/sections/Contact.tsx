@@ -6,18 +6,20 @@ import { siteData } from "@/data/site";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
 export function Contact() {
   const { business } = siteData;
+  const { t } = useLanguage();
   const [mapLoaded, setMapLoaded] = useState(false);
 
   return (
     <section id="iletisim" className="py-20 bg-brand-surface-100">
       <Container>
         <SectionHeading
-          badge="İletişim & Konum"
-          title="CanbazVet'e ulaşın."
+          badge={t("contact_badge")}
+          title={t("contact_title")}
           description="Edirne Merkez Şükrüpaşa Mahallesi'ndeki kliniğimize telefonla ulaşabilir veya navigasyon başlatabilirsiniz."
           align="left"
           className="mb-12"
@@ -42,7 +44,7 @@ export function Contact() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-brand-teal-100/70">Açık Adres</p>
+                  <p className="text-xs font-bold text-brand-teal-100/70">{t("contact_address_label")}</p>
                   <p className="text-sm sm:text-base font-semibold text-white mt-0.5 leading-relaxed">
                     {business.address.fullAddress}
                   </p>
@@ -56,7 +58,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-brand-teal-100/70">
-                    Telefon & Acil Hat
+                    {t("contact_phone_label")}
                   </p>
                   <a
                     href={business.phone.telLink}
@@ -78,7 +80,7 @@ export function Contact() {
                 </div>
                 <div>
                   <p className="text-xs font-bold text-brand-teal-100/70">
-                    Çalışma Saatleri
+                    {t("contact_hours_label")}
                   </p>
                   <p className="text-sm font-semibold text-white mt-0.5">
                     {business.openingHours.weekdays}
@@ -99,7 +101,7 @@ export function Contact() {
                 href={business.phone.telLink}
                 icon={<Phone className="w-5 h-5" />}
               >
-                Hemen Ara ({business.phone.display})
+                {t("hero_cta_call")} ({business.phone.display})
               </Button>
 
               <Button
@@ -145,7 +147,7 @@ export function Contact() {
                     }}
                     className="px-5 py-2.5 rounded-xl bg-brand-teal-900 text-white text-xs font-bold hover:bg-brand-teal-950 transition-colors"
                   >
-                    Haritayı Yükle
+                    {t("contact_map_load")}
                   </button>
                 </div>
               )}

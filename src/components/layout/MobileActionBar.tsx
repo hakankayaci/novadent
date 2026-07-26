@@ -3,10 +3,12 @@
 import React from "react";
 import { Phone, Navigation, AlertTriangle } from "lucide-react";
 import { siteData } from "@/data/site";
+import { useLanguage } from "@/lib/LanguageContext";
 import { trackEvent } from "@/lib/analytics";
 
 export function MobileActionBar() {
   const { phone, maps } = siteData.business;
+  const { t } = useLanguage();
 
   return (
     <aside
@@ -20,10 +22,10 @@ export function MobileActionBar() {
           onClick={() =>
             trackEvent("mobile_action_click", { action: "phone" })
           }
-          className="flex flex-col items-center justify-center py-2.5 px-1 bg-brand-teal-900 hover:bg-brand-teal-800 text-white rounded-xl transition-all active:scale-95 min-h-[48px] border border-brand-teal-700/30"
+          className="flex flex-col items-center justify-center py-2.5 px-1 bg-brand-teal-900 hover:bg-brand-teal-800 text-white rounded-xl transition-all active:scale-95 min-h-[48px] border border-brand-teal-700/30 btn-shimmer"
         >
           <Phone className="w-5 h-5 text-brand-lime-500 mb-1" />
-          <span className="text-xs font-bold tracking-tight">Hemen Ara</span>
+          <span className="text-xs font-bold tracking-tight whitespace-nowrap">{t("mobile_call")}</span>
         </a>
 
         {/* Directions CTA */}
@@ -34,10 +36,10 @@ export function MobileActionBar() {
           onClick={() =>
             trackEvent("mobile_action_click", { action: "directions" })
           }
-          className="flex flex-col items-center justify-center py-2.5 px-1 bg-brand-lime-500 hover:bg-brand-lime-400 text-brand-teal-950 rounded-xl transition-all active:scale-95 min-h-[48px] font-bold shadow-md"
+          className="flex flex-col items-center justify-center py-2.5 px-1 bg-gradient-to-r from-brand-lime-500 to-brand-lime-400 text-brand-teal-950 rounded-xl transition-all active:scale-95 min-h-[48px] font-bold shadow-md glow-lime btn-shimmer"
         >
           <Navigation className="w-5 h-5 mb-1" />
-          <span className="text-xs font-extrabold tracking-tight">Yol Tarifi</span>
+          <span className="text-xs font-extrabold tracking-tight whitespace-nowrap">{t("mobile_directions")}</span>
         </a>
 
         {/* Emergency CTA */}
@@ -46,10 +48,10 @@ export function MobileActionBar() {
           onClick={() =>
             trackEvent("mobile_action_click", { action: "emergency" })
           }
-          className="flex flex-col items-center justify-center py-2.5 px-1 bg-brand-red-600 hover:bg-brand-red-500 text-white rounded-xl transition-all active:scale-95 min-h-[48px] shadow-emergency"
+          className="flex flex-col items-center justify-center py-2.5 px-1 bg-gradient-to-r from-brand-red-600 to-brand-red-500 text-white rounded-xl transition-all active:scale-95 min-h-[48px] shadow-emergency glow-red btn-shimmer"
         >
           <AlertTriangle className="w-5 h-5 mb-1 animate-pulse" />
-          <span className="text-xs font-extrabold tracking-tight">7/24 Acil</span>
+          <span className="text-xs font-extrabold tracking-tight whitespace-nowrap">{t("mobile_emergency")}</span>
         </a>
       </div>
     </aside>

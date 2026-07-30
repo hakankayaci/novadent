@@ -1,18 +1,17 @@
+import type { Copy } from "@/data/content";
 import { business } from "@/data/site";
-import { copy } from "@/data/translations";
+import type { Language } from "@/lib/i18n";
 import { siteUrl } from "@/lib/site-url";
 
 export function serializeSchema(schema: unknown): string {
   return JSON.stringify(schema).replace(
     /[<>&]/g,
-    (ch) => "\\u" + ch.charCodeAt(0).toString(16).padStart(4, "0"),
+    (character) =>
+      `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`,
   );
 }
 
-/**
- * Schema.org Dentist / LocalBusiness Schema for NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne.
- */
-export function generateDentistCareSchema() {
+export function generateDentistSchema(language: Language, copy: Copy) {
   const { address, coordinates, hours, maps, phone, social, rating } = business;
 
   return {
@@ -22,14 +21,15 @@ export function generateDentistCareSchema() {
     name: business.name,
     alternateName: business.shortName,
     url: siteUrl,
-    logo: `${siteUrl}/images/brand/novadent-logo.png`,
+    logo: `${siteUrl}/images/novadent/brand/logo-lockup-navy.png`,
     image: [
       `${siteUrl}/images/og/novadent-og.jpg`,
-      `${siteUrl}/images/clinic/novadent-clinic.webp`,
+      `${siteUrl}/images/novadent/clinic/lounge.webp`,
+      `${siteUrl}/images/novadent/clinic/chair.webp`,
     ],
-    description: copy.tr.footer.tagline,
+    description: copy.metadata.description,
     telephone: phone.international,
-    inLanguage: ["tr", "el", "bg"],
+    inLanguage: ["tr", "en", "el", "bg"],
     currenciesAccepted: "TRY",
     address: {
       "@type": "PostalAddress",
@@ -44,11 +44,11 @@ export function generateDentistCareSchema() {
       latitude: coordinates.latitude,
       longitude: coordinates.longitude,
     },
-    hasMap: maps.searchUrl,
+    hasMap: maps.search,
     aggregateRating: {
       "@type": "AggregateRating",
-      ratingValue: String(rating.score),
-      reviewCount: String(rating.reviewCount),
+      ratingValue: String(rating.value),
+      ratingCount: String(rating.count),
       bestRating: "5",
       worstRating: "1",
     },
@@ -72,16 +72,16 @@ export function generateDentistCareSchema() {
         closes: hours.saturday.closes,
       },
     ],
-    availableService: Object.values(copy.tr.treatments.items).map((treatment) => ({
+    availableService: Object.values(copy.treatments.items).map((treatment) => ({
       "@type": "MedicalProcedure",
       name: treatment.title,
-      description: treatment.short,
+      description: treatment.summary,
     })),
     sameAs: [social.instagram],
     areaServed: [
       { "@type": "AdministrativeArea", name: "Edirne" },
-      { "@type": "AdministrativeArea", name: "Edirne Merkez" },
-      { "@type": "AdministrativeArea", name: "Fatih Mahallesi" },
+      { "@type": "Country", name: "Türkiye" },
     ],
+    identifier: language,
   };
 }

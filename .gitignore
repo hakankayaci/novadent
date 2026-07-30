@@ -8,6 +8,9 @@
 /playwright-report
 /test-results
 /scratch
+/.playwright-cli
+/output
+/.impeccable/mocks
 
 # next.js
 /.next/

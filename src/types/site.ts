@@ -1,31 +1,46 @@
-/**
- * Language-neutral shapes only. Anything a human reads lives in src/data/translations.ts
- * and is keyed by the ids declared here, so a new language can never leave a
- * half-translated page behind.
- */
+import type { Language } from "@/lib/i18n";
 
-export interface BranchInfo {
+export type { Language };
+
+export interface ClinicRating {
+  value: number;
+  count: number;
+  checkedAt: `${number}-${number}-${number}`;
+  sourceUrl: string;
+}
+
+export interface FeaturedReview {
   id: string;
-  name: string;
-  city: string;
-  address: string;
-  mapsUrl: string;
-  phone: string;
+  author: string;
+  rating: 5;
+  originalLanguage: "tr" | "en";
+  originalText: string;
+  translations: Record<Language, string>;
+}
+
+export interface ClinicImage {
+  id:
+    | "logo-wall"
+    | "lounge"
+    | "dental-unit"
+    | "chair"
+    | "scanner"
+    | "room-a"
+    | "room-b";
+  src: string;
+  width: number;
+  height: number;
+  featured?: boolean;
 }
 
 export interface BusinessInfo {
   name: string;
   shortName: string;
-  category: string;
-  rating: {
-    score: number;
-    reviewCount: number;
-  };
   phone: {
     display: string;
     international: string;
-    telLink: string;
-    whatsAppLink: string;
+    tel: string;
+    whatsapp: string;
   };
   address: {
     street: string;
@@ -33,56 +48,23 @@ export interface BusinessInfo {
     district: string;
     city: string;
     postalCode: string;
-    country: string;
+    country: "TR";
   };
   coordinates: { latitude: number; longitude: number };
-  maps: { directionsUrl: string; searchUrl: string; embedUrl: string; reviewsUrl: string };
   hours: {
     weekdays: { opens: string; closes: string };
     saturday: { opens: string; closes: string };
     sunday: { closed: true };
   };
+  maps: {
+    directions: string;
+    search: string;
+    embed: string;
+    reviews: string;
+  };
   social: {
     instagram: string;
     facebook: string;
-    linktree: string;
   };
-  branches: BranchInfo[];
-}
-
-/** Treatment ids double as translation keys. */
-export type TreatmentId =
-  | "implant-tedavisi"
-  | "gulus-tasarimi"
-  | "estetik-dis-hekimligi"
-  | "dis-beyazlatma"
-  | "kanal-tedavisi"
-  | "dis-eti-tedavileri"
-  | "cocuk-dis-hekimligi"
-  | "genel-dis-sagligi";
-
-export interface TreatmentItem {
-  id: TreatmentId;
-  iconName: string;
-  featured?: boolean;
-}
-
-/** Gallery ids double as translation keys. */
-export type GalleryId =
-  | "novadent-reception"
-  | "novadent-treatment-room"
-  | "novadent-clinic-interior"
-  | "novadent-dental-equipment";
-
-export interface GalleryImage {
-  id: GalleryId;
-  src: string;
-  width: number;
-  height: number;
-  shape: "wide" | "tall" | "square";
-}
-
-export interface SocialImage {
-  id: string;
-  src: string;
+  rating: ClinicRating;
 }

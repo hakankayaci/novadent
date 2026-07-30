@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-30T22:36:30.1395921+03:00",
+  "title": "Design System: NOVADENT",
+  "extensions": {
+    "colorMeta": {
+      "surgical-navy": {
+        "role": "primary",
+        "displayName": "Surgical Navy",
+        "canonical": "#06172E",
+        "tonalRamp": [
+          "oklch(15% 0.052 251)",
+          "oklch(25% 0.052 251)",
+          "oklch(36% 0.052 251)",
+          "oklch(48% 0.052 251)",
+          "oklch(61% 0.052 251)",
+          "oklch(74% 0.052 251)",
+          "oklch(86% 0.036 251)",
+          "oklch(95% 0.018 251)"
+        ]
+      },
+      "clinical-navy": {
+        "role": "primary",
+        "displayName": "Clinical Navy",
+        "canonical": "#0A2342",
+        "tonalRamp": [
+          "oklch(15% 0.057 252)",
+          "oklch(25% 0.057 252)",
+          "oklch(36% 0.057 252)",
+          "oklch(48% 0.057 252)",
+          "oklch(61% 0.057 252)",
+          "oklch(74% 0.050 252)",
+          "oklch(86% 0.032 252)",
+          "oklch(95% 0.016 252)"
+        ]
+      },
+      "navy-surface": {
+        "role": "primary",
+        "displayName": "Navy Surface",
+        "canonical": "#10325A",
+        "tonalRamp": [
+          "oklch(15% 0.065 251)",
+          "oklch(25% 0.065 251)",
+          "oklch(36% 0.065 251)",
+          "oklch(48% 0.065 251)",
+          "oklch(61% 0.060 251)",
+          "oklch(74% 0.048 251)",
+          "oklch(86% 0.030 251)",
+          "oklch(95% 0.015 251)"
+        ]
+      },
+      "navy-support": {
+        "role": "primary",
+        "displayName": "Navy Support",
+        "canonical": "#1A4774",
+        "tonalRamp": [
+          "oklch(15% 0.074 249)",
+          "oklch(25% 0.074 249)",
+          "oklch(36% 0.074 249)",
+          "oklch(48% 0.074 249)",
+          "oklch(61% 0.066 249)",
+          "oklch(74% 0.050 249)",
+          "oklch(86% 0.030 249)",
+          "oklch(95% 0.014 249)"
+        ]
+      },
+      "navy-text-light": {
+        "role": "neutral",
+        "displayName": "Navy Text Light",
+        "canonical": "#DDE8F2",
+        "tonalRamp": [
+          "oklch(15% 0.019 245)",
+          "oklch(25% 0.019 245)",
+          "oklch(36% 0.019 245)",
+          "oklch(48% 0.019 245)",
+          "oklch(61% 0.019 245)",
+          "oklch(74% 0.019 245)",
+          "oklch(86% 0.019 245)",
+          "oklch(95% 0.012 245)"
+        ]
+      },
+      "luminous-cyan": {
+        "role": "secondary",
+        "displayName": "Luminous Cyan",
+        "canonical": "#08B7D3",
+        "tonalRamp": [
+          "oklch(15% 0.122 210)",
+          "oklch(25% 0.122 210)",
+          "oklch(36% 0.122 210)",
+          "oklch(48% 0.122 210)",
+          "oklch(61% 0.122 210)",
+          "oklch(74% 0.100 210)",
+          "oklch(86% 0.058 210)",
+          "oklch(95% 0.026 210)"
+        ]
+      },
+      "cyan-action": {
+        "role": "secondary",
+        "displayName": "Cyan Action",
+        "canonical": "#007E9A",
+        "tonalRamp": [
+          "oklch(15% 0.104 215)",
+          "oklch(25% 0.104 215)",
+          "oklch(36% 0.104 215)",
+          "oklch(48% 0.104 215)",
+          "oklch(61% 0.100 215)",
+          "oklch(74% 0.078 215)",
+          "oklch(86% 0.045 215)",
+          "oklch(95% 0.020 215)"
+        ]
+      },
+      "cyan-mid": {
+        "role": "secondary",
+        "displayName": "Cyan Mid",
+        "canonical": "#009DBA",
+        "tonalRamp": [
+          "oklch(15% 0.112 213)",
+          "oklch(25% 0.112 213)",
+          "oklch(36% 0.112 213)",
+          "oklch(48% 0.112 213)",
+          "oklch(61% 0.108 213)",
+          "oklch(74% 0.084 213)",
+          "oklch(86% 0.048 213)",
+          "oklch(95% 0.021 213)"
+        ]
+      },
+      "cyan-highlight": {
+        "role": "secondary",
+        "displayName": "Cyan Highlight",
+        "canonical": "#39C9DF",
+        "tonalRamp": [
+          "oklch(15% 0.103 208)",
+          "oklch(25% 0.103 208)",
+          "oklch(36% 0.103 208)",
+          "oklch(48% 0.103 208)",
+          "oklch(61% 0.103 208)",
+          "oklch(74% 0.093 208)",
+          "oklch(86% 0.054 208)",
+          "oklch(95% 0.024 208)"
+        ]
+      },
+      "cyan-wash": {
+        "role": "secondary",
+        "displayName": "Cyan Wash",
+        "canonical": "#DDF7FA",
+        "tonalRamp": [
+          "oklch(15% 0.034 205)",
+          "oklch(25% 0.034 205)",
+          "oklch(36% 0.034 205)",
+          "oklch(48% 0.034 205)",
+          "oklch(61% 0.034 205)",
+          "oklch(74% 0.034 205)",
+          "oklch(86% 0.034 205)",
+          "oklch(95% 0.020 205)"
+        ]
+      },
+      "porcelain-calm": {
+        "role": "neutral",
+        "displayName": "Porcelain Calm",
+        "canonical": "#F8F6F1",
+        "tonalRamp": [
+          "oklch(15% 0.010 85)",
+          "oklch(25% 0.010 85)",
+          "oklch(36% 0.010 85)",
+          "oklch(48% 0.010 85)",
+          "oklch(61% 0.010 85)",
+          "oklch(74% 0.010 85)",
+          "oklch(86% 0.010 85)",
+          "oklch(95% 0.010 85)"
+        ]
+      },
+      "porcelain-light": {
+        "role": "neutral",
+        "displayName": "Porcelain Light",
+        "canonical": "#FCFBF8",
+        "tonalRamp": [
+          "oklch(15% 0.007 85)",
+          "oklch(25% 0.007 85)",
+          "oklch(36% 0.007 85)",
+          "oklch(48% 0.007 85)",
+          "oklch(61% 0.007 85)",
+          "oklch(74% 0.007 85)",
+          "oklch(86% 0.007 85)",
+          "oklch(95% 0.007 85)"
+        ]
+      },
+      "porcelain-warm": {
+        "role": "neutral",
+        "displayName": "Porcelain Warm",
+        "canonical": "#F3EFE7",
+        "tonalRamp": [
+          "oklch(15% 0.016 80)",
+          "oklch(25% 0.016 80)",
+          "oklch(36% 0.016 80)",
+          "oklch(48% 0.016 80)",
+          "oklch(61% 0.016 80)",
+          "oklch(74% 0.016 80)",
+          "oklch(86% 0.016 80)",
+          "oklch(95% 0.010 80)"
+        ]
+      },
+      "porcelain-line": {
+        "role": "neutral",
+        "displayName": "Porcelain Line",
+        "canonical": "#E4DDD0",
+        "tonalRamp": [
+          "oklch(15% 0.021 78)",
+          "oklch(25% 0.021 78)",
+          "oklch(36% 0.021 78)",
+          "oklch(48% 0.021 78)",
+          "oklch(61% 0.021 78)",
+          "oklch(74% 0.021 78)",
+          "oklch(86% 0.021 78)",
+          "oklch(95% 0.011 78)"
+        ]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Clinical Mist",
+        "canonical": "#E8F1F3",
+        "tonalRamp": [
+          "oklch(15% 0.015 210)",
+          "oklch(25% 0.015 210)",
+          "oklch(36% 0.015 210)",
+          "oklch(48% 0.015 210)",
+          "oklch(61% 0.015 210)",
+          "oklch(74% 0.015 210)",
+          "oklch(86% 0.015 210)",
+          "oklch(95% 0.010 210)"
+        ]
+      },
+      "copy": {
+        "role": "neutral",
+        "displayName": "Primary Copy",
+        "canonical": "#142033",
+        "tonalRamp": [
+          "oklch(15% 0.031 255)",
+          "oklch(25% 0.031 255)",
+          "oklch(36% 0.031 255)",
+          "oklch(48% 0.031 255)",
+          "oklch(61% 0.031 255)",
+          "oklch(74% 0.027 255)",
+          "oklch(86% 0.018 255)",
+          "oklch(95% 0.010 255)"
+        ]
+      },
+      "copy-soft": {
+        "role": "neutral",
+        "displayName": "Soft Copy",
+        "canonical": "#475569",
+        "tonalRamp": [
+          "oklch(15% 0.028 250)",
+          "oklch(25% 0.028 250)",
+          "oklch(36% 0.028 250)",
+          "oklch(48% 0.028 250)",
+          "oklch(61% 0.028 250)",
+          "oklch(74% 0.024 250)",
+          "oklch(86% 0.016 250)",
+          "oklch(95% 0.009 250)"
+        ]
+      },
+      "copy-muted": {
+        "role": "neutral",
+        "displayName": "Muted Copy",
+        "canonical": "#64748B",
+        "tonalRamp": [
+          "oklch(15% 0.030 250)",
+          "oklch(25% 0.030 250)",
+          "oklch(36% 0.030 250)",
+          "oklch(48% 0.030 250)",
+          "oklch(61% 0.030 250)",
+          "oklch(74% 0.026 250)",
+          "oklch(86% 0.016 250)",
+          "oklch(95% 0.009 250)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White Highlight",
+        "canonical": "#FFFFFF",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(25% 0 0)",
+          "oklch(36% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(61% 0 0)",
+          "oklch(74% 0 0)",
+          "oklch(86% 0 0)",
+          "oklch(100% 0 0)"
+        ]
+      },
+      "google-gold": {
+        "role": "tertiary",
+        "displayName": "Google Gold",
+        "canonical": "#F4B400",
+        "tonalRamp": [
+          "oklch(15% 0.155 86)",
+          "oklch(25% 0.155 86)",
+          "oklch(36% 0.155 86)",
+          "oklch(48% 0.155 86)",
+          "oklch(61% 0.155 86)",
+          "oklch(74% 0.142 86)",
+          "oklch(86% 0.078 86)",
+          "oklch(95% 0.032 86)"
+        ]
+      },
+      "whatsapp": {
+        "role": "tertiary",
+        "displayName": "WhatsApp Green",
+        "canonical": "#25D366",
+        "tonalRamp": [
+          "oklch(15% 0.142 147)",
+          "oklch(25% 0.142 147)",
+          "oklch(36% 0.142 147)",
+          "oklch(48% 0.142 147)",
+          "oklch(61% 0.142 147)",
+          "oklch(74% 0.125 147)",
+          "oklch(86% 0.068 147)",
+          "oklch(95% 0.028 147)"
+        ]
+      },
+      "whatsapp-text": {
+        "role": "neutral",
+        "displayName": "WhatsApp Text",
+        "canonical": "#062813",
+        "tonalRamp": [
+          "oklch(15% 0.057 145)",
+          "oklch(25% 0.057 145)",
+          "oklch(36% 0.057 145)",
+          "oklch(48% 0.057 145)",
+          "oklch(61% 0.052 145)",
+          "oklch(74% 0.040 145)",
+          "oklch(86% 0.024 145)",
+          "oklch(95% 0.012 145)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Commissioner Display",
+        "purpose": "Short opening statements with the brand flare and volume axes."
+      },
+      "headline": {
+        "displayName": "Commissioner Headline",
+        "purpose": "Major section transitions and proof statements."
+      },
+      "title": {
+        "displayName": "Commissioner Title",
+        "purpose": "Subsections and information-panel headings."
+      },
+      "lead": {
+        "displayName": "Commissioner Lead",
+        "purpose": "Calm explanatory introductions at a readable measure."
+      },
+      "body": {
+        "displayName": "Commissioner Body",
+        "purpose": "Multilingual explanations, reviews, and supporting information."
+      },
+      "label": {
+        "displayName": "Commissioner Label",
+        "purpose": "Short uppercase eyebrows and compact evidence labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "surface-ambient",
+        "value": "0 12px 36px -24px rgba(6, 23, 46, 0.32)",
+        "purpose": "Gentle separation for small lifted surfaces."
+      },
+      {
+        "name": "panel-lift",
+        "value": "0 24px 64px -32px rgba(6, 23, 46, 0.42)",
+        "purpose": "Major map, menu, and information panels only."
+      },
+      {
+        "name": "header-drift",
+        "value": "0 12px 30px -26px rgba(6, 23, 46, 0.45)",
+        "purpose": "Compact sticky navigation separation."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for navigation, disclosure, hover, and reveal states."
+      },
+      {
+        "name": "state",
+        "value": "300ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Compact hover, menu, and control-state transitions."
+      },
+      {
+        "name": "reveal",
+        "value": "700ms opacity, 800ms transform cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "One-pass below-fold reveal with content visible by default."
+      },
+      {
+        "name": "floss-draw",
+        "value": "1.35s cubic-bezier(0.16, 1, 0.3, 1) 120ms, then one 1.6s tooth glint",
+        "purpose": "The single authored identity motion resolves the hero into a smile and is disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "2xl",
+        "value": "1536px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "WhatsApp Primary Button",
+      "kind": "button",
+      "refersTo": "button-whatsapp",
+      "description": "The primary appointment action, reserved for a real WhatsApp destination.",
+      "html": "<button class=\"ds-btn-whatsapp\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M17.5 6.5A7.7 7.7 0 0 0 5.4 15.8L4.3 20l4.3-1.1a7.7 7.7 0 0 0 11.7-6.6 7.7 7.7 0 0 0-2.8-5.8Zm-5.2 12a6.3 6.3 0 0 1-3.2-.9l-.2-.1-2.6.7.7-2.5-.2-.3a6.3 6.3 0 1 1 5.5 3.1Zm3.5-4.7c-.2-.1-1.1-.6-1.3-.6-.2-.1-.3-.1-.5.1l-.6.7c-.1.1-.2.1-.4 0a5.1 5.1 0 0 1-2.6-2.3c-.1-.2 0-.3.1-.4l.3-.4.2-.4c.1-.1 0-.3 0-.4l-.6-1.4c-.1-.3-.3-.3-.4-.3h-.4c-.2 0-.4.1-.5.3-.2.2-.7.7-.7 1.6 0 1 .7 1.9.8 2 .1.2 1.4 2.2 3.4 3 .5.2.8.3 1.1.4.5.2.9.1 1.2.1.4-.1 1.1-.5 1.3-.9.2-.5.2-.9.1-1-.1-.1-.2-.1-.5-.2Z\"/></svg><span>WhatsApp'tan Randevu İste</span></button>",
+      "css": ".ds-btn-whatsapp { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border: 0; border-radius: 12px; background: #25D366; color: #062813; font: 700 16px/1.2 Commissioner, Arial, sans-serif; transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-whatsapp svg { width: 20px; height: 20px; } .ds-btn-whatsapp:hover { transform: translateY(-2px); filter: brightness(0.98); } .ds-btn-whatsapp:active { transform: translateY(0); } .ds-btn-whatsapp:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; }"
+    },
+    {
+      "name": "Navy Primary Button",
+      "kind": "button",
+      "refersTo": "button-navy",
+      "description": "A high-confidence internal or public-evidence action on a light field.",
+      "html": "<button class=\"ds-btn-navy\"><span>Devam Et</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h13M13 7l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-navy { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border: 0; border-radius: 12px; background: #06172E; color: #FFFFFF; font: 700 16px/1.2 Commissioner, Arial, sans-serif; transition: background 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-navy svg { width: 16px; height: 16px; } .ds-btn-navy:hover { background: #10325A; transform: translateY(-2px); } .ds-btn-navy:active { transform: translateY(0); } .ds-btn-navy:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; }"
+    },
+    {
+      "name": "Dark Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline-dark",
+      "description": "A secondary action that remains subordinate on a navy field.",
+      "html": "<div class=\"ds-dark-canvas\"><button class=\"ds-btn-outline\">Tedaviler <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12h13M13 7l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button></div>",
+      "css": ".ds-dark-canvas { display: inline-block; padding: 16px; background: #06172E; } .ds-btn-outline { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; background: transparent; color: #FFFFFF; font: 600 16px/1.2 Commissioner, Arial, sans-serif; transition: background 300ms cubic-bezier(0.16, 1, 0.3, 1), border-color 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-outline svg { width: 16px; height: 16px; } .ds-btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.38); } .ds-btn-outline:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; }"
+    },
+    {
+      "name": "Language Trigger",
+      "kind": "button",
+      "refersTo": "language-trigger",
+      "description": "A compact flag-plus-code control that keeps the active language explicit.",
+      "html": "<button class=\"ds-language\" aria-expanded=\"false\"><svg viewBox=\"0 0 24 16\" aria-hidden=\"true\"><rect width=\"24\" height=\"16\" rx=\"2\" fill=\"#E30A17\"/><circle cx=\"10\" cy=\"8\" r=\"4\" fill=\"#fff\"/><circle cx=\"11.2\" cy=\"8\" r=\"3.2\" fill=\"#E30A17\"/><path d=\"m14.6 8 1.7-.55-.65 1.65V6.9l.65 1.65Z\" fill=\"#fff\"/></svg><span>TR</span><svg class=\"ds-language-chevron\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m7 10 5 5 5-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-language { min-height: 44px; display: inline-flex; align-items: center; gap: 6px; padding: 8px; border: 1px solid rgba(6,23,46,0.1); border-radius: 12px; background: #FCFBF8; color: #06172E; font: 600 14px/1.2 Commissioner, Arial, sans-serif; transition: border-color 300ms cubic-bezier(0.16, 1, 0.3, 1), background 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-language > svg:first-child { width: 24px; height: 16px; } .ds-language-chevron { width: 16px; height: 16px; } .ds-language:hover { border-color: #08B7D3; background: #FFFFFF; } .ds-language:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; }"
+    },
+    {
+      "name": "Google Proof Badge",
+      "kind": "chip",
+      "refersTo": "google-proof",
+      "description": "A sourced score-and-count proof surface using the official multicolor G and Google Gold stars.",
+      "html": "<a class=\"ds-google-proof\" href=\"#\"><svg class=\"ds-google-g\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path fill=\"#4285F4\" d=\"M23.49 12.275c0-.79-.07-1.55-.204-2.275H12v4.51h6.45a5.51 5.51 0 0 1-2.393 3.514v2.927h3.877c2.27-2.09 3.556-5.174 3.556-8.676Z\"/><path fill=\"#34A853\" d=\"M12 24c3.24 0 5.957-1.073 7.934-2.91l-3.877-3.066c-1.073.72-2.443 1.146-4.057 1.146-3.126 0-5.774-2.112-6.72-4.95H1.274v3.16A11.996 11.996 0 0 0 12 24Z\"/><path fill=\"#FBBC05\" d=\"M5.28 14.22A7.216 7.216 0 0 1 4.904 12c0-.77.132-1.519.376-2.22V6.62H1.274A12.004 12.004 0 0 0 0 12c0 1.935.463 3.768 1.274 5.38l4.006-3.16Z\"/><path fill=\"#EA4335\" d=\"M12 4.83c1.763 0 3.344.605 4.588 1.79l3.43-3.43C17.95 1.26 15.235 0 12 0 7.31 0 3.252 2.69 1.274 6.62L5.28 9.78C6.226 6.942 8.874 4.83 12 4.83Z\"/></svg><span class=\"ds-stars\" aria-label=\"5 yıldız\">★★★★★</span><strong>Google'da 5,0 · 141 değerlendirme</strong></a>",
+      "css": ".ds-google-proof { min-height: 44px; display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid rgba(6,23,46,0.12); border-radius: 12px; background: #FCFBF8; color: #06172E; text-decoration: none; font: 600 14px/1.3 Commissioner, Arial, sans-serif; transition: border-color 300ms cubic-bezier(0.16, 1, 0.3, 1), background 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-google-g { width: 20px; height: 20px; } .ds-stars { color: #F4B400; letter-spacing: 1px; } .ds-google-proof:hover { border-color: #08B7D3; background: #FFFFFF; } .ds-google-proof:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; }"
+    },
+    {
+      "name": "Treatment Editorial Row",
+      "kind": "custom",
+      "description": "An open information row that avoids turning every treatment into an isolated card.",
+      "html": "<article class=\"ds-treatment-row\"><span class=\"ds-treatment-index\">01</span><div><h3>İmplant Tedavisi</h3><p>Muayene ve görüntüleme sonrasında kişiye özel seçenekler değerlendirilir.</p><a href=\"#\">Bilgi al <span aria-hidden=\"true\">↗</span></a></div></article>",
+      "css": ".ds-treatment-row { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 24px 0; border-top: 1px solid rgba(6,23,46,0.15); background: transparent; color: #06172E; font-family: Commissioner, Arial, sans-serif; } .ds-treatment-index { color: #007E9A; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; } .ds-treatment-row h3 { margin: 0; font-size: 20px; line-height: 1.2; } .ds-treatment-row p { margin: 8px 0 0; color: #475569; font-size: 14px; line-height: 1.7; } .ds-treatment-row a { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; color: #007E9A; font-size: 14px; font-weight: 700; text-decoration: none; transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-treatment-row a:hover { color: #06172E; } .ds-treatment-row a:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; border-radius: 4px; }"
+    },
+    {
+      "name": "Dark Information Panel",
+      "kind": "card",
+      "refersTo": "dark-panel",
+      "description": "A major contact or map companion panel with earned elevation and clear internal rules.",
+      "html": "<section class=\"ds-dark-panel\"><p class=\"ds-panel-label\">KONUM</p><h3>Edirne merkezde, doğrudan ulaşılabilir.</h3><div class=\"ds-panel-rule\"></div><p>Fatih Mahallesi, Tahsin Şıpka Caddesi No:14/1</p><button>Yol Tarifi Al</button></section>",
+      "css": ".ds-dark-panel { max-width: 480px; padding: 32px; border-radius: 24px; background: #06172E; color: #FFFFFF; box-shadow: 0 24px 64px -32px rgba(6,23,46,0.42); font-family: Commissioner, Arial, sans-serif; } .ds-panel-label { margin: 0 0 12px; color: #39C9DF; font-size: 12px; font-weight: 700; letter-spacing: .22em; } .ds-dark-panel h3 { margin: 0; font-size: 28px; line-height: 1.12; letter-spacing: -.022em; } .ds-panel-rule { height: 1px; margin: 24px 0; background: rgba(255,255,255,.15); } .ds-dark-panel > p:not(.ds-panel-label) { color: #DDE8F2; line-height: 1.65; } .ds-dark-panel button { min-height: 48px; margin-top: 20px; padding: 12px 20px; border: 1px solid rgba(255,255,255,.2); border-radius: 12px; background: transparent; color: #FFFFFF; font-weight: 600; transition: background 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-dark-panel button:hover { background: rgba(255,255,255,.1); } .ds-dark-panel button:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; }"
+    },
+    {
+      "name": "FAQ Disclosure",
+      "kind": "custom",
+      "description": "A rule-led disclosure that keeps information open and editorial rather than card-like.",
+      "html": "<div class=\"ds-faq\"><button aria-expanded=\"true\"><span>İlk randevuda ne olur?</span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m7 10 5 5 5-5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button><div class=\"ds-faq-panel\">İhtiyaçlar değerlendirilir ve uygun seçenekler açıklanır.</div></div>",
+      "css": ".ds-faq { border-top: 1px solid rgba(6,23,46,.1); border-bottom: 1px solid rgba(6,23,46,.1); color: #06172E; font-family: Commissioner, Arial, sans-serif; } .ds-faq button { min-height: 68px; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; border: 0; background: transparent; color: inherit; text-align: left; font-size: 18px; font-weight: 600; transition: color 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-faq button svg { width: 20px; height: 20px; transform: rotate(180deg); } .ds-faq button:hover { color: #007E9A; } .ds-faq button:focus-visible { outline: 3px solid #08B7D3; outline-offset: 3px; border-radius: 4px; } .ds-faq-panel { max-width: 72ch; padding: 0 0 24px; color: #475569; font-size: 16px; line-height: 1.75; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Luminous Shade Guide",
+    "overview": "NOVADENT balances the quiet luminosity of porcelain with the confidence of a precise clinical core. Warm light fields make information feel calm and hospitable; surgical-navy regions create focus without becoming cold. Real clinic photography carries the evidence, while the identity is integrated into the architecture instead of being framed as a decorative badge.\n\nThe system is refined and direct rather than ornamental. One cyan floss route is the reusable authored gesture: it guides attention, suggests continuity, and then yields to clear typography and photography. Density stays editorial, motion stays restrained, and every interaction should make the next action obvious.",
+    "keyCharacteristics": [
+      "Warm porcelain reading fields against decisive surgical navy.",
+      "One-family Commissioner typography with expressive variable display settings.",
+      "Real photography, asymmetric editorial grids, and generous negative space.",
+      "A single luminous cyan guide instead of repeated decorative effects.",
+      "Ambient depth, restrained corners, visible focus, and complete reduced-motion behavior."
+    ],
+    "rules": [
+      {
+        "name": "The Porcelain-and-Navy Rule",
+        "body": "Alternate quiet light reading fields with decisive navy regions; do not flatten the experience into continuous blue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Single Cyan Guide Rule",
+        "body": "Cyan guides focus and action, but it never washes every surface or competes with photography.",
+        "section": "colors"
+      },
+      {
+        "name": "The Evidence Gold Rule",
+        "body": "Gold belongs only to Google star evidence and is never a general decorative accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The One-Family Rule",
+        "body": "Use Commissioner for every language and role; hierarchy comes from scale, weight, spacing, and controlled variable axes rather than extra font families.",
+        "section": "typography"
+      },
+      {
+        "name": "The Short-Display Rule",
+        "body": "Display lines are promises or anchors, not paragraphs; supporting nuance belongs in lead or body text below.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ambient-Only Rule",
+        "body": "A shadow may clarify layer or state, but it must never become the visual subject.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Section content rests flat; lift is earned by navigation, disclosure, or a genuinely elevated panel.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do establish each view with one clear hierarchy before adding supporting detail.",
+      "Do let real clinic photography and sourced public evidence carry trust.",
+      "Do keep platform marks local, official in form, and attached only to platform actions.",
+      "Do preserve the porcelain-versus-navy rhythm across new surfaces.",
+      "Do keep all four scripts in the same Commissioner hierarchy and test long translated labels.",
+      "Do keep content visible without JavaScript and make every animated state reduced-motion safe."
+    ],
+    "donts": [
+      "Don't use gold outside Google stars or turn cyan into a full-page wash.",
+      "Don't introduce gradient text, glossy glass-card stacks, or repeated decorative motion.",
+      "Don't place long or essential copy directly over photography on mobile.",
+      "Don't replace editorial rows with a grid of identical rounded cards.",
+      "Don't use stock patients, fabricated counts, or decorative trust claims.",
+      "Don't solve responsive overflow by clipping the page."
+    ]
+  }
+}

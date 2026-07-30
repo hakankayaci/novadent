@@ -1,87 +1,58 @@
 # Product
 
-## Register
+## Product and audience
 
-brand
+NOVADENT is an oral and dental health clinic in central Edirne. The site serves:
 
-## Users
+1. Local patients comparing clinics and looking for a clear way to call, get directions, or request an appointment.
+2. Visitors from Greece, Bulgaria, and elsewhere who need the same information in English, Greek, or Bulgarian.
+3. Mobile visitors arriving from Google, Instagram, or a shared WhatsApp link and deciding within seconds whether the clinic feels credible.
 
-Pet owners in and around Edirne, most often reaching the page on a phone, frequently
-while something is already wrong: a cat that stopped eating, a dog hit by a car, a
-vaccination that is overdue. A smaller second audience crosses the Bulgarian or Greek
-border and needs the same information in a language they read.
+The primary action is a WhatsApp appointment request. Calling and directions remain reachable at every viewport.
 
-The job is nearly always one of three things, in this order of urgency:
+## Product purpose
 
-1. Get the clinic on the phone right now.
-2. Get directions to the door.
-3. Decide whether this is the right clinic at all — who the vet is, what the rooms
-   look like, whether anyone will pick up at 2am.
+The site turns verified clinic evidence into a calm, direct appointment path:
 
-Everything else on the page is secondary to those three.
+- real interior and equipment photography;
+- an accurate address, phone number, hours, and map destination;
+- the current Google aggregate rating and sourced public review excerpts;
+- concise treatment information that does not diagnose or promise outcomes;
+- explicit support for Turkish, English, Greek, and Bulgarian.
 
-## Product Purpose
+Success means a first-time visitor understands what NOVADENT is, sees the real clinic, and can act without searching through long copy.
 
-A single-page site for CanbazVet Veteriner Kliniği (Şükrüpaşa, Edirne), run by
-veterinarian Berk Canbaz. It exists to convert a worried owner into a phone call or a
-navigation start, and to rank for local veterinary searches in Edirne.
+## Brand personality
 
-Success looks like: a visitor on a 320px phone can call the clinic without scrolling,
-understands within one screen who will treat their animal, and can see the actual
-rooms before handing over their pet.
+Precise, reassuring, contemporary, and hospitable.
 
-## Brand Personality
+NOVADENT should feel premium because the photography, hierarchy, typography, and interaction are carefully resolved—not because the copy makes superlative or medical-outcome claims. The voice is concise, informative, and human.
 
-Clinical, warm, plain-spoken.
+## Truth and content rules
 
-Not "premium", not playful, not corporate-medical. The voice is a competent vet
-explaining something at the table without jargon and without rushing: *"Operasyonlar
-muayene odasında değil, kendi ameliyathanesinde yapılır."* Concrete claims, no
-adjectives doing the work.
+- Never invent ratings, review counts, follower counts, treatment results, awards, staff credentials, prices, or response times.
+- Google rating data includes a source URL and a last-checked date. Recheck it before every release that changes the number.
+- Review cards use short excerpts from public Google reviews, retain the displayed reviewer name, and mark translated excerpts.
+- Instagram is a curated link panel. It does not imitate live engagement, likes, follower counts, or verified state.
+- The supplied clinic images remain the visual evidence. The generated opening portrait is decorative art direction and is never presented as a patient, testimonial, or treatment result.
+- Treatment text is informational and does not replace examination, diagnosis, or professional advice.
 
-The emotional target is relief, not delight. A worried owner should feel that someone
-sensible is on the other end of the phone.
+## Design principles
 
-## Anti-references
+1. **The first viewport establishes the clinic.** A branded clinic plate resolves into a clearly decorative smile portrait beside a short promise, Google evidence, and appointment actions.
+2. **The logo is part of the architecture.** The NOVA dental-floss stroke becomes a single cyan route through the opening rather than a framed raster badge.
+3. **Porcelain and clinical navy create the world.** Warm porcelain supports reading; deep navy carries decisive regions; cyan signals action; gold is reserved for Google stars.
+4. **Show more than you claim.** Clinic photography and sourced reviews do the trust work.
+5. **One authored motion moment.** The floss path draws once, resolves in a brief tooth glint, and fades; everything else uses restrained state transitions.
+6. **Four complete languages.** `/`, `/en`, `/el`, and `/bg` are statically rendered with correct metadata and no automatic locale detection.
 
-- **Fabricated trust.** No invented star ratings, no review "themes" nobody wrote, no
-  fake verified badges, no follower counts pulled from nowhere. Reviews live on Google;
-  the page links there and asserts nothing of its own. This is a load-bearing rule, not
-  a stylistic preference — a clinic that fakes its reviews is lying about medicine.
-- **Stock-photo veterinary.** Generic smiling-vet-with-golden-retriever imagery. The
-  clinic's own rooms are the asset; use them.
-- **SaaS landing page grammar.** Hero metric row, eight identical icon+heading+text
-  cards, a small uppercase eyebrow above every section, gradient text.
-- **Editorial-magazine cosplay.** Display serif + italic + drop caps + ruled columns.
-  This is a neighbourhood clinic, not a quarterly.
-- **Turkish-first as an excuse.** Bulgarian and Greek are either done properly — real
-  glyphs, every string, correct `lang` — or not offered.
+## Accessibility and performance
 
-## Design Principles
+Target WCAG 2.2 AA:
 
-1. **The phone number is the product.** Every screen, every width, every language has a
-   reachable call action. Nothing decorative may push it below the fold on mobile.
-2. **Show the rooms.** Trust in a clinic is built by photographs of the actual
-   operating table, not by claims about sterility. Real imagery beats copy.
-3. **Say only what is true.** Every number on the page traces to something verifiable
-   in `src/data/site.ts` or to the clinic's own commitment, explicitly labelled as
-   such. If it cannot be sourced, it does not ship.
-4. **Four languages or none.** Copy lives in one typed contract; a missing translation
-   is a build error, not a silent fallback to Turkish.
-5. **Motion enhances, never gates.** Content is visible by default. A reveal that fails
-   to fire must leave a readable page, not a blank one.
-
-## Accessibility & Inclusion
-
-Target: **WCAG 2.2 AA**, verified rather than asserted.
-
-- Contrast audited numerically; the palette carries explicit rules about which greens
-  may be text (see `design-system/MASTER.md`).
-- Skip link is the first focusable element, keyboard-only, animated in.
-- Full keyboard paths for the language menu, mobile drawer and FAQ accordion, including
-  focus trapping and focus restoration.
-- Touch targets ≥ 44px, asserted by Playwright at 320px, 390px and desktop.
-- `prefers-reduced-motion` resolves reveals instantly instead of hiding content.
-- Turkish, Bulgarian and Greek all render in a font that actually contains their
-  alphabets; `<html lang>` follows the active language for screen-reader pronunciation.
-- The page must remain fully readable with JavaScript disabled.
+- keyboard-complete header, language menu, mobile drawer, FAQ, and map consent;
+- visible focus, 44px touch targets, correct accessible names, and reduced-motion support;
+- no content hidden when JavaScript is unavailable;
+- no horizontal clipping from 320px to 1920px or at 200% text zoom;
+- explicit image dimensions and responsive `sizes`;
+- Core Web Vitals targets: LCP under 2.5s, CLS under 0.1, INP under 200ms.

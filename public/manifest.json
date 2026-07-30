@@ -1,14 +1,14 @@
 {
   "name": "NOVADENT Ağız ve Diş Sağlığı Polikliniği Edirne",
   "short_name": "Novadent Clinics",
-  "description": "Novadent Clinics Edirne; implant tedavisi, gülüş tasarımı, estetik diş hekimliği ve ağız-diş sağlığı hizmetleri.",
+  "description": "Edirne Merkez'de ağız ve diş sağlığı muayenesi ve kişiye özel tedavi planlaması.",
   "lang": "tr",
   "dir": "ltr",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#F7FAFC",
-  "theme_color": "#021D45",
+  "background_color": "#F8F6F1",
+  "theme_color": "#06172E",
   "icons": [
     {
       "src": "/icon-192.png",

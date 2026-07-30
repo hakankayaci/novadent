@@ -1,17 +1,88 @@
-import { test, expect, type Page } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 const TEL = "tel:+905011301522";
+const INSTAGRAM = "https://www.instagram.com/novadentclinicsedirne/";
+const LOCALES = [
+  {
+    path: "/",
+    lang: "tr",
+    ogLocale: "tr_TR",
+    title: /NOVADENT Edirne/,
+    heading: /Diş bakımında netlik/,
+  },
+  {
+    path: "/en",
+    lang: "en",
+    ogLocale: "en_GB",
+    title: /NOVADENT Edirne/,
+    heading: /Clarity in dental care/,
+  },
+  {
+    path: "/el",
+    lang: "el",
+    ogLocale: "el_GR",
+    title: /NOVADENT Αδριανούπολη|NOVADENT Edirne/,
+    heading: /Σαφήνεια στην οδοντιατρική φροντίδα/,
+  },
+  {
+    path: "/bg",
+    lang: "bg",
+    ogLocale: "bg_BG",
+    title: /NOVADENT Одрин/,
+    heading: /Яснота в денталната грижа/,
+  },
+] as const;
 
-async function setLanguage(page: Page, lang: string) {
-  await page.goto("/");
-  await page.evaluate((l) => localStorage.setItem("novadent_lang", l), lang);
-  await page.reload({ waitUntil: "networkidle" });
+async function revealAll(page: Page) {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(80);
+  await page.evaluate(() => window.scrollTo(0, 0));
 }
 
-test.describe("Core content", () => {
-  test("social sharing metadata exposes a large NOVADENT preview image", async ({ page }) => {
-    await page.goto("/");
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+});
 
+test.describe("Locale routes and metadata", () => {
+  for (const locale of LOCALES) {
+    test(`${locale.path} is complete and self-canonical`, async ({ page }) => {
+      await page.goto(locale.path);
+
+      await expect(page.locator("html")).toHaveAttribute("lang", locale.lang);
+      await expect(page).toHaveTitle(locale.title);
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.locator("h1")).toContainText(locale.heading);
+      await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+        "content",
+        locale.ogLocale,
+      );
+
+      const expectedCanonical =
+        locale.path === "/"
+          ? "https://novadent-psi.vercel.app"
+          : `https://novadent-psi.vercel.app${locale.path}`;
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+        "href",
+        expectedCanonical,
+      );
+
+      for (const language of ["tr", "en", "el", "bg", "x-default"]) {
+        await expect(
+          page.locator(`link[rel="alternate"][hreflang="${language}"]`),
+        ).toHaveCount(1);
+      }
+    });
+  }
+
+  test("Turkish is the non-redirecting default", async ({ page }) => {
+    await page.goto("/");
+    expect(new URL(page.url()).pathname).toBe("/");
+    await expect(page.locator("html")).toHaveAttribute("lang", "tr");
+  });
+
+  test("social preview is a 1200x630 large card", async ({ page }) => {
+    await page.goto("/");
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
       "content",
       "https://novadent-psi.vercel.app/images/og/novadent-og.jpg",
@@ -29,258 +100,347 @@ test.describe("Core content", () => {
       "summary_large_image",
     );
   });
+});
 
-  test("home page renders a single H1 with the brand promise", async ({ page }) => {
+test.describe("Brand, proof and content", () => {
+  test("hero uses the art-directed clinic image and separate mobile copy", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    const h1 = page.locator("h1");
-    await expect(h1).toHaveCount(1);
-    await expect(h1).toBeVisible();
-    await expect(h1).toContainText("Edirne'nin En Donanımlı");
+
+    const image = page.locator("#anasayfa picture img").first();
+    const smileImage = page.locator("#anasayfa picture img").nth(1);
+    const heading = page.locator("#anasayfa h1");
+    await expect(image).toBeVisible();
+    await expect(image).toHaveAttribute("src", /hero-desktop\.webp/);
+    await expect(smileImage).toBeVisible();
+    await expect(smileImage).toHaveAttribute("src", /hero-smile-desktop\.webp/);
+
+    const imageBox = await image.boundingBox();
+    const headingBox = await heading.boundingBox();
+    expect(imageBox).not.toBeNull();
+    expect(headingBox).not.toBeNull();
+    expect(imageBox!.y + imageBox!.height).toBeLessThanOrEqual(headingBox!.y + 2);
   });
 
-  test("phone and directions links point at the real destinations", async ({ page }) => {
+  test("Google proof shows 5.0, 141, three excerpts and derived 138", async ({
+    page,
+  }) => {
     await page.goto("/");
-    await expect(page.locator(`a[href="${TEL}"]`).first()).toBeVisible();
-    await expect(page.locator('a[href^="https://goo.gl/maps/"]').first()).toBeVisible();
+    const reviews = page.locator("#yorumlar");
+    await expect(reviews).toContainText("141 Google değerlendirmesi");
+    await expect(reviews.locator("figure")).toHaveCount(3);
+    await expect(
+      reviews.getByRole("link", {
+        name: /Google'daki diğer 138 yorumu gör/,
+      }),
+    ).toHaveAttribute("href", /LocalPoiReviews/);
+    await expect(reviews.locator('[data-brand-icon="google"]')).toHaveCount(2);
+    const verified = reviews.getByTestId("verified-google-reviews");
+    await expect(verified).toContainText("Google yorumları doğrulanmıştır.");
+    await expect(verified.locator("svg")).toHaveCount(1);
   });
 
-  test("every section anchor referenced by the nav exists", async ({ page }) => {
+  test("structured data publishes aggregate rating but no review schema", async ({
+    page,
+  }) => {
     await page.goto("/");
-    const hrefs = await page.locator('a[href^="#"]').evaluateAll((links) =>
-      [...new Set(links.map((l) => l.getAttribute("href")!).filter((h) => h.length > 1))],
-    );
-    expect(hrefs.length).toBeGreaterThan(5);
-    for (const href of hrefs) {
-      await expect(page.locator(href), `${href} should resolve to an element`).toHaveCount(1);
+    const raw = await page
+      .locator('script[type="application/ld+json"]')
+      .innerText();
+    const data = JSON.parse(raw);
+    expect(data["@type"]).toContain("Dentist");
+    expect(data.aggregateRating.ratingValue).toBe("5");
+    expect(data.aggregateRating.ratingCount).toBe("141");
+    expect(data.review).toBeUndefined();
+  });
+
+  test("Instagram is a curated six-image panel without invented counts", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    const panel = page.locator("#instagram");
+    await expect(panel).toContainText("@novadentclinicsedirne");
+    await expect(panel.locator('a[href="' + INSTAGRAM + '"] img')).toHaveCount(6);
+    await expect(panel.locator('[data-brand-icon="instagram"]')).toHaveCount(8);
+
+    const text = await panel.innerText();
+    for (const invented of ["takipçi", "beğeni", "549", "REELS"]) {
+      expect(text).not.toContain(invented);
     }
   });
 
-  test("the hero uses the real Novadent clinic photo", async ({ page }) => {
+  test("platform actions use their recognizable local SVG marks", async ({
+    page,
+  }) => {
     await page.goto("/");
-    const portrait = page.locator("#anasayfa img").first();
-    await expect(portrait).toBeVisible();
-    // next/image rewrites the src, so assert on the encoded upstream path.
-    await expect(portrait).toHaveAttribute("src", /novadent-clinic\.webp/);
-    const box = await portrait.boundingBox();
-    expect(box!.width).toBeGreaterThan(200);
+    await expect(page.locator('[data-brand-icon="google"]').first()).toBeVisible();
+    await expect(
+      page.locator('[data-brand-icon="instagram"]').first(),
+    ).toBeVisible();
+    await expect(
+      page.locator('[data-brand-icon="whatsapp"]').first(),
+    ).toBeVisible();
+    await expect(page.locator("[data-flag]")).toHaveCount(5);
+  });
+
+  test("all clinic images decode successfully", async ({ page }) => {
+    await page.goto("/");
+    await revealAll(page);
+
+    const images = page.locator("img");
+    const count = await images.count();
+    for (let index = 0; index < count; index += 1) {
+      await images.nth(index).scrollIntoViewIfNeeded();
+    }
+
+    await expect
+      .poll(async () =>
+        images.evaluateAll((nodes) =>
+          nodes
+            .filter(
+              (node): node is HTMLImageElement =>
+                node instanceof HTMLImageElement &&
+                node.complete &&
+                node.naturalWidth === 0,
+            )
+            .map((node) => node.getAttribute("src")),
+        ),
+      )
+      .toEqual([]);
+
+    const dentalUnitTile = page
+      .locator('#klinik img[src*="dental-unit"]')
+      .first()
+      .locator("xpath=../..");
+    await expect(dentalUnitTile).toHaveClass(/row-span-2/);
   });
 });
 
-test.describe("Skip link", () => {
-  // Regression: an invalid declaration in globals.css destroyed the .sr-only rule during
-  // minification, so this link rendered as a permanently visible full-width bar.
-  test("is hidden until it receives keyboard focus", async ({ page }) => {
+test.describe("Keyboard and interaction", () => {
+  test("skip link is first and becomes visible on focus", async ({ page }) => {
     await page.goto("/");
     const skip = page.locator("a.skip-link");
-    await expect(skip).toHaveCount(1);
-
     const parked = await skip.boundingBox();
     expect(parked!.y).toBeLessThan(0);
-  });
 
-  test("is the first thing Tab reaches, and slides into view", async ({ page }) => {
-    await page.goto("/");
     await page.keyboard.press("Tab");
-    const focused = await page.evaluate(() => document.activeElement?.className ?? "");
-    expect(focused).toContain("skip-link");
-
-    await page.waitForTimeout(450);
-    const shown = await page.locator("a.skip-link").boundingBox();
-    expect(shown!.y).toBeGreaterThanOrEqual(0);
+    await expect(skip).toBeFocused();
+    await expect
+      .poll(async () => (await skip.boundingBox())!.y)
+      .toBeGreaterThanOrEqual(0);
   });
 
-  test("stays hidden after a mouse click", async ({ page }) => {
+  test("language menu opens from the keyboard and Escape restores focus", async ({
+    page,
+  }) => {
     await page.goto("/");
-    await page.locator("a.skip-link").dispatchEvent("click");
-    await page.waitForTimeout(450);
-    const box = await page.locator("a.skip-link").boundingBox();
-    expect(box!.y).toBeLessThan(0);
-  });
-});
-
-test.describe("Internationalisation", () => {
-  const TURKISH_ONLY = ["Edirne'nin En Donanımlı", "Tedaviler", "Randevu Al"];
-
-  for (const [lang, marker] of [
-    ["bg", "Най-Добре Оборудваната"],
-    ["el", "Η Πιο Εξοπλισμένη"],
-  ] as const) {
-    test(`${lang} translates the whole page and sets html[lang]`, async ({ page }) => {
-      await setLanguage(page, lang);
-      await expect(page.locator("html")).toHaveAttribute("lang", lang);
-      await expect(page.locator("h1")).toContainText(marker);
-
-      const text = await page.locator("header, #anasayfa").allInnerTexts();
-      const localizedSurface = text.join(" ");
-      for (const turkish of TURKISH_ONLY) {
-        expect(localizedSurface, `"${turkish}" should not survive into ${lang}`).not.toContain(turkish);
-      }
-    });
-  }
-
-  test("the language button shows one code, not a duplicated flag fallback", async ({ page }) => {
-    await page.goto("/");
-    const label = await page
-      .locator('button[aria-haspopup="menu"]')
-      .first()
-      .innerText();
-    expect(label.trim()).toBe("TR");
-  });
-
-  test("the language menu is keyboard operable", async ({ page }) => {
-    await page.goto("/");
-    const trigger = page.locator('button[aria-haspopup="menu"]').first();
+    const trigger = page.locator('button[aria-haspopup="menu"]');
     await trigger.focus();
     await page.keyboard.press("ArrowDown");
     await expect(page.locator('[role="menu"]')).toBeVisible();
+    await expect(page.locator('[role="menuitem"]').first()).toBeFocused();
     await page.keyboard.press("Escape");
     await expect(page.locator('[role="menu"]')).toHaveCount(0);
     await expect(trigger).toBeFocused();
   });
-});
 
-test.describe("Navigation affordances", () => {
-  test("mobile header uses a warm pearl surface distinct from the navy hero", async ({ page }) => {
+  test("mobile navigation opens, closes with Escape and restores focus", async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-
-    const colors = await page.evaluate(() => ({
-      header: getComputedStyle(document.querySelector("header")!).backgroundColor,
-      hero: getComputedStyle(document.querySelector("#anasayfa")!).backgroundColor,
-    }));
-
-    expect(colors.header).toBe("rgb(244, 240, 232)");
-    expect(colors.header).not.toBe(colors.hero);
+    const trigger = page.locator('button[aria-controls="mobile-navigation"]');
+    await trigger.click();
+    const mobileNavigation = page.locator("#mobile-navigation");
+    await expect(mobileNavigation).toBeVisible();
+    await expect(mobileNavigation).not.toContainText("↗");
+    await page.keyboard.press("Escape");
+    await expect(page.locator("#mobile-navigation")).toBeHidden();
+    await expect(trigger).toBeFocused();
   });
 
-  test("WhatsApp actions use the recognizable WhatsApp mark", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-
-    const mark = page
-      .getByTestId("mobile-action-bar")
-      .locator('a[href^="https://wa.me/"] [data-icon="whatsapp"]');
-    await expect(mark).toBeVisible();
-  });
-
-  // Regression: the inline nav was hidden below 1280px while the trigger only appeared
-  // below 768px, so 768-1279px had no navigation at all. Exactly one of the two must be
-  // present at any width, and the trigger must actually open the drawer.
-  test("exactly one navigation affordance is present, and it works", async ({ page }) => {
-    await page.goto("/");
-    const inlineNav = page.locator("header nav ul li").first();
-    const trigger = page.locator('button[aria-controls="mobile-menu"]');
-
-    const inlineVisible = await inlineNav.isVisible();
-    const triggerVisible = await trigger.isVisible();
-    expect(inlineVisible || triggerVisible).toBe(true);
-    expect(inlineVisible && triggerVisible).toBe(false);
-
-    if (triggerVisible) {
-      await trigger.click();
-      await expect(page.locator("#mobile-menu")).toBeVisible();
+  test("one navigation affordance exists at desktop and tablet widths", async ({
+    page,
+  }) => {
+    for (const width of [1024, 1440]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto("/");
+      const desktopNav = page.locator("header > div nav").first();
+      const mobileTrigger = page.locator(
+        'button[aria-controls="mobile-navigation"]',
+      );
+      const states = [
+        await desktopNav.isVisible(),
+        await mobileTrigger.isVisible(),
+      ].filter(Boolean);
+      expect(states).toHaveLength(1);
     }
   });
 
-  test("the mobile drawer traps focus and restores it on close", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
+  test("FAQ uses an accessible, reversible disclosure", async ({ page }) => {
     await page.goto("/");
-    const button = page.locator('button[aria-controls="mobile-menu"]');
-    await button.click();
-    const drawer = page.locator("#mobile-menu");
-    await expect(drawer).toBeVisible();
-    await expect(drawer).toHaveAttribute("aria-modal", "true");
-
-    await page.keyboard.press("Escape");
-    await expect(drawer).toHaveCount(0);
-    await expect(button).toBeFocused();
-  });
-});
-
-test.describe("FAQ", () => {
-  test("accordion toggles aria-expanded and reveals the answer", async ({ page }) => {
-    await page.goto("/");
-    const first = page.locator("#faq-button-0");
+    const first = page.locator("#sss button").first();
     await expect(first).toHaveAttribute("aria-expanded", "true");
+    const panelId = await first.getAttribute("aria-controls");
+    await expect(page.locator(`#${panelId}`)).toBeVisible();
     await first.click();
     await expect(first).toHaveAttribute("aria-expanded", "false");
-    await first.click();
-    await expect(first).toHaveAttribute("aria-expanded", "true");
-    await expect(page.locator("#faq-panel-0")).toBeVisible();
+    await expect(page.locator(`#${panelId}`)).toBeHidden();
   });
-});
 
-test.describe("Map", () => {
-  // Regression: the iframe rendered unconditionally behind a "load the map" button, so
-  // the third-party request fired on every page view and the button did nothing.
-  test("the Google iframe is only requested after the button is pressed", async ({ page }) => {
+  test("Google map is consent-lazy", async ({ page }) => {
     await page.goto("/");
     await expect(page.locator("#iletisim iframe")).toHaveCount(0);
-
     await page.getByTestId("map-load").click();
     await expect(page.locator("#iletisim iframe")).toHaveCount(1);
-    await expect(page.locator("#iletisim iframe")).toHaveAttribute("src", /google\.com\/maps/);
+    await expect(page.locator("#iletisim iframe")).toHaveAttribute(
+      "src",
+      /google\.com\/maps/,
+    );
+  });
+
+  test("mobile action bar appears only after leaving the hero", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await expect(page.getByTestId("mobile-action-bar")).toHaveCount(0);
+
+    await page.locator("#tedaviler").scrollIntoViewIfNeeded();
+    await expect(page.getByTestId("mobile-action-bar")).toBeVisible();
+    await expect(
+      page.getByTestId("mobile-action-bar").locator(`a[href="${TEL}"]`),
+    ).toBeVisible();
+    await expect(
+      page.getByTestId("mobile-action-bar").locator(`a[href="${TEL}"]`),
+    ).toHaveCSS("background-color", "rgb(252, 251, 248)");
+    await expect(
+      page
+        .getByTestId("mobile-action-bar")
+        .locator('[data-brand-icon="whatsapp"]'),
+    ).toBeVisible();
   });
 });
 
-test.describe("Honest social proof", () => {
-  test("no fabricated ratings, counts or verified badges", async ({ page }) => {
-    await page.goto("/");
-    const text = await page.evaluate(() => document.body.innerText);
-    for (const banned of ["549", "takipçi", "gönderi", "Takip Ediliyor", "REELS"]) {
-      expect(text, `"${banned}" is invented engagement data`).not.toContain(banned);
+test.describe("Responsive and accessibility matrix", () => {
+  test("all target widths and languages have no horizontal overflow", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "Desktop Chrome");
+    const widths = [320, 360, 390, 430, 768, 1024, 1279, 1280, 1440, 1920];
+
+    for (const locale of LOCALES) {
+      for (const width of widths) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(locale.path);
+        const dimensions = await page.evaluate(() => ({
+          scrollWidth: document.documentElement.scrollWidth,
+          clientWidth: document.documentElement.clientWidth,
+        }));
+        expect(
+          dimensions.scrollWidth,
+          `${locale.path} overflowed at ${width}px`,
+        ).toBeLessThanOrEqual(dimensions.clientWidth + 1);
+      }
     }
   });
 
-  test("structured data identifies the dental clinic and its published rating", async ({ page }) => {
+  test("mobile header is porcelain and distinct from the navy hero", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/");
-    const raw = await page.locator('script[type="application/ld+json"]').innerText();
-    const data = JSON.parse(raw);
-    expect(data["@type"]).toContain("Dentist");
-    expect(data.aggregateRating.ratingValue).toBe("5");
-    expect(data.review).toBeUndefined();
+    const colors = await page.evaluate(() => ({
+      header: getComputedStyle(document.querySelector("header")!)
+        .backgroundColor,
+      hero: getComputedStyle(document.querySelector("#anasayfa")!)
+        .backgroundColor,
+    }));
+    expect(colors.header).not.toBe(colors.hero);
+    expect(colors.header).not.toBe("rgb(6, 23, 46)");
+  });
+
+  test("long localized copy remains contained at 200 percent text size", async ({
+    page,
+  }, testInfo) => {
+    test.skip(testInfo.project.name !== "Desktop Chrome");
+    for (const locale of LOCALES) {
+      await page.setViewportSize({ width: 320, height: 900 });
+      await page.goto(locale.path);
+      await page.evaluate(() => {
+        document.documentElement.style.fontSize = "200%";
+      });
+      const dimensions = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+      }));
+      expect(
+        dimensions.scrollWidth,
+        `${locale.path} overflowed at 200% text`,
+      ).toBeLessThanOrEqual(dimensions.clientWidth + 1);
+    }
+  });
+
+  test("visible interactive targets are at least 44px tall", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+    await revealAll(page);
+    const tooSmall = await page.evaluate(() => {
+      const failures: string[] = [];
+      for (const element of document.querySelectorAll<HTMLElement>(
+        "a[href], button",
+      )) {
+        const rect = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        if (
+          rect.width === 0 ||
+          rect.height === 0 ||
+          style.visibility === "hidden" ||
+          style.display === "none"
+        ) {
+          continue;
+        }
+        if (rect.height < 44) {
+          failures.push(
+            `${element.tagName}:${(element.textContent || "").trim().slice(0, 24)}:${Math.round(rect.height)}`,
+          );
+        }
+      }
+      return failures;
+    });
+    expect(tooSmall).toEqual([]);
+  });
+
+  test("reduced motion leaves every reveal readable", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+    const hidden = await page.locator("[data-reveal]").evaluateAll((nodes) =>
+      nodes.filter((node) => getComputedStyle(node).opacity === "0").length,
+    );
+    expect(hidden).toBe(0);
+    await expect(page.locator(".floss-path")).toHaveCSS(
+      "animation-name",
+      "none",
+    );
+    await expect(page.locator(".tooth-glint")).toHaveCSS("display", "none");
   });
 });
 
-test.describe("Layout", () => {
-  test("no horizontal overflow", async ({ page }) => {
-    await page.goto("/");
-    const { scrollWidth, clientWidth } = await page.evaluate(() => ({
-      scrollWidth: document.documentElement.scrollWidth,
-      clientWidth: document.documentElement.clientWidth,
-    }));
-    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
+test.describe("Public endpoints", () => {
+  test("sitemap lists all four locale URLs", async ({ request }) => {
+    const response = await request.get("/sitemap.xml");
+    expect(response.ok()).toBeTruthy();
+    const xml = await response.text();
+    for (const path of ["", "/en", "/el", "/bg"]) {
+      expect(xml).toContain(`https://novadent-psi.vercel.app${path}`);
+    }
   });
 
-  test("content is never trapped under the fixed mobile action bar", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-    const bar = page.getByTestId("mobile-action-bar");
-    await expect(bar).toBeVisible();
-    const barBox = (await bar.boundingBox())!;
-
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-    await page.waitForTimeout(300);
-
-    const padding = await page.evaluate(() =>
-      parseFloat(getComputedStyle(document.body).paddingBottom),
+  test("robots points at the production sitemap", async ({ request }) => {
+    const response = await request.get("/robots.txt");
+    expect(response.ok()).toBeTruthy();
+    expect(await response.text()).toContain(
+      "Sitemap: https://novadent-psi.vercel.app/sitemap.xml",
     );
-    expect(padding).toBeGreaterThanOrEqual(barBox.height - 8);
-  });
-
-  test("interactive targets are at least 44px tall", async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
-    const small = await page.evaluate(() => {
-      const out: string[] = [];
-      for (const el of document.querySelectorAll<HTMLElement>("a[href], button")) {
-        const r = el.getBoundingClientRect();
-        if (r.width === 0 || r.height === 0) continue; // off-screen / collapsed
-        if (el.closest(".skip-link")) continue;
-        if (r.height < 44) out.push(`${el.tagName}:${(el.textContent || "").trim().slice(0, 28)}:${Math.round(r.height)}`);
-      }
-      return out;
-    });
-    expect(small, `these targets are shorter than 44px: ${small.join(" | ")}`).toEqual([]);
   });
 });

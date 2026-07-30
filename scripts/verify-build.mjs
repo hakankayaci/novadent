@@ -27,14 +27,20 @@ const fail = (msg) => {
  * ------------------------------------------------------------------ */
 function checkCss() {
   console.log('\nCSS integrity');
-  const dir = '.next/static/css';
-  if (!fs.existsSync(dir)) return fail(`${dir} missing -- run \`npm run build\` first`);
+  const staticDir = '.next/static';
+  if (!fs.existsSync(staticDir)) {
+    return fail(`${staticDir} missing -- run \`npm run build\` first`);
+  }
 
-  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.css'));
+  const files = fs
+    .readdirSync(staticDir, { recursive: true })
+    .filter((file) => typeof file === 'string' && file.endsWith('.css'))
+    .map((file) => path.join(staticDir, file));
   if (!files.length) return fail('no stylesheet emitted');
 
   for (const file of files) {
-    const css = fs.readFileSync(path.join(dir, file), 'utf8');
+    const css = fs.readFileSync(file, 'utf8');
+    const cssFile = path.relative(staticDir, file);
 
     // A declaration at the top level, where a selector belongs.
     const dangling = [...css.matchAll(/[;}]\s*-?[a-zA-Z-]+\s*:\s*[^;{}]+;\s*[.#@a-zA-Z[]/g)].filter(
@@ -44,32 +50,31 @@ function checkCss() {
       },
     );
     if (dangling.length) {
-      fail(`${file}: declaration outside any selector -> ${JSON.stringify(dangling[0][0].slice(0, 90))}`);
+      fail(`${cssFile}: declaration outside any selector -> ${JSON.stringify(dangling[0][0].slice(0, 90))}`);
     } else {
-      pass(`${file}: no declaration sits outside a selector`);
+      pass(`${cssFile}: no declaration sits outside a selector`);
     }
 
     // The rules accessibility depends on must survive minification, and must not be
     // preceded by anything that would swallow them.
-    for (const [needle, label] of [
-      ['.sr-only{', 'sr-only utility'],
+    for (const [needle, ruleLabel] of [
       ['.skip-link{', 'skip-link base rule'],
       ['.skip-link:focus-visible{', 'skip-link focus-visible rule'],
     ]) {
       const i = css.indexOf(needle);
       if (i === -1) {
-        fail(`${file}: ${label} is missing (${needle})`);
+        fail(`${cssFile}: ${ruleLabel} is missing (${needle})`);
         continue;
       }
       const prev = css.slice(Math.max(0, i - 80), i).trimEnd().slice(-1);
-      if (['}', '{', '', ','].includes(prev)) pass(`${file}: ${label} intact`);
-      else fail(`${file}: ${label} is preceded by ${JSON.stringify(prev)} -- browser will drop it`);
+      if (['}', '{', '', ','].includes(prev)) pass(`${cssFile}: ${ruleLabel} intact`);
+      else fail(`${cssFile}: ${ruleLabel} is preceded by ${JSON.stringify(prev)} -- browser will drop it`);
     }
 
     const opens = (css.match(/\{/g) || []).length;
     const closes = (css.match(/\}/g) || []).length;
-    if (opens === closes) pass(`${file}: braces balanced`);
-    else fail(`${file}: unbalanced braces (${opens} open, ${closes} close)`);
+    if (opens === closes) pass(`${cssFile}: braces balanced`);
+    else fail(`${cssFile}: unbalanced braces (${opens} open, ${closes} close)`);
   }
 }
 

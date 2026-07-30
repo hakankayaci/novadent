@@ -1,145 +1,87 @@
 import type { Config } from "tailwindcss";
 
-/**
- * Every colour below is sampled directly from the clinic's real signboard logo
- * (public/images/brand/canbazvet-logo.png), not eyeballed:
- *
- *   pine.700  #016351  the "Canbaz" ink
- *   leaf.500  #8DCA36  the "Vet" leaf green
- *   leaf.300  #BCEA30  the emblem highlight
- *   alert.600 #C10E1F  the red "ACİL" badge on the signboard
- *
- * Contrast rules that the palette is built around (audited, sRGB):
- *   - leaf.500 is NEVER text on a light surface (1.97:1). Use leaf.700 for green
- *     text on white, or put leaf.500 on pine.900/950 where it reaches 6.7:1+.
- *   - leaf.300 is the safe accent on pine.700 (5.15:1); leaf.500 there is 3.66:1
- *     and therefore large-text only.
- *   - ink.muted is the lightest permitted body colour (5.15:1 on paper).
- */
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
-        navy: {
-          950: "#021D45",
-          900: "#03285C",
-          800: "#043474",
-          700: "#054394",
-          600: "#0757BE",
-          500: "#0B6EEA",
-          100: "#E6F0FC",
-          50: "#F0F6FE",
-        },
-        cyan: {
-          800: "#007A96",
-          700: "#009BBF",
-          600: "#00B7DF",
-          500: "#00B7DF",
-          400: "#33C5E5",
-          300: "#70D7ED",
-          200: "#A8E8F5",
-          100: "#DDF8FD",
-          50: "#F0FCFE",
-        },
-        alert: {
-          700: "#96101A",
-          600: "#C10E1F",
-          500: "#D9202B",
-          100: "#FCE7E8",
-        },
-        paper: {
-          DEFAULT: "#F7FAFC",
-          warm: "#F1F5F9",
-        },
-        surface: {
-          pearl: "#F4F0E8",
-          "pearl-line": "#D8D0C2",
-        },
         ink: {
-          DEFAULT: "#0F172A",
-          soft: "#334155",
+          950: "#06172E",
+          900: "#0A2342",
+          800: "#10325A",
+          700: "#1A4774",
+          100: "#DDE8F2",
+          50: "#F0F5F9",
+        },
+        aqua: {
+          700: "#007E9A",
+          600: "#009DBA",
+          500: "#08B7D3",
+          400: "#39C9DF",
+          200: "#A5E7F0",
+          100: "#DDF7FA",
+          50: "#F1FCFD",
+        },
+        porcelain: {
+          DEFAULT: "#F8F6F1",
+          50: "#FCFBF8",
+          100: "#F3EFE7",
+          200: "#E4DDD0",
+        },
+        mist: "#E8F1F3",
+        gold: "#F4B400",
+        copy: {
+          DEFAULT: "#142033",
+          soft: "#475569",
           muted: "#64748B",
         },
+        whatsapp: "#25D366",
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        menu: ["var(--font-menu)", "var(--font-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-commissioner)", "Arial", "sans-serif"],
       },
       fontSize: {
-        // Fluid scale, ratio >= 1.25 between steps. Display ceiling stays under 6rem.
-        "display-xl": ["clamp(2.5rem, 1.6rem + 4.2vw, 5.25rem)", { lineHeight: "1.04", letterSpacing: "-0.032em" }],
-        "display-lg": ["clamp(2rem, 1.4rem + 2.8vw, 3.75rem)", { lineHeight: "1.08", letterSpacing: "-0.028em" }],
-        "display-md": ["clamp(1.625rem, 1.25rem + 1.7vw, 2.5rem)", { lineHeight: "1.15", letterSpacing: "-0.022em" }],
-        "display-sm": ["clamp(1.25rem, 1.1rem + 0.8vw, 1.625rem)", { lineHeight: "1.25", letterSpacing: "-0.014em" }],
-        "body-lg": ["clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem)", { lineHeight: "1.65" }],
-        "body": ["1rem", { lineHeight: "1.65" }],
-        "body-sm": ["0.9375rem", { lineHeight: "1.6" }],
-        "label": ["0.8125rem", { lineHeight: "1.4", letterSpacing: "0.02em" }],
+        hero: [
+          "clamp(2.5rem, 1.75rem + 3.4vw, 5.35rem)",
+          { lineHeight: "0.98", letterSpacing: "-0.035em" },
+        ],
+        display: [
+          "clamp(2rem, 1.45rem + 2.25vw, 3.85rem)",
+          { lineHeight: "1.04", letterSpacing: "-0.03em" },
+        ],
+        title: [
+          "clamp(1.5rem, 1.25rem + 1.15vw, 2.35rem)",
+          { lineHeight: "1.12", letterSpacing: "-0.022em" },
+        ],
+        lead: ["clamp(1.05rem, 0.98rem + 0.3vw, 1.2rem)", { lineHeight: "1.65" }],
+      },
+      maxWidth: {
+        page: "86rem",
+        prose: "72ch",
       },
       spacing: {
-        section: "clamp(4rem, 3rem + 5vw, 7.5rem)",
-        "section-sm": "clamp(2.5rem, 2rem + 3vw, 4.5rem)",
+        section: "clamp(4rem, 3rem + 4vw, 7rem)",
       },
       borderRadius: {
-        card: "1.25rem",
-        panel: "1.75rem",
+        surface: "1rem",
+        panel: "1.5rem",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(4, 35, 26, 0.04), 0 8px 24px -12px rgba(4, 35, 26, 0.10)",
-        lift: "0 2px 4px rgba(4, 35, 26, 0.05), 0 18px 40px -16px rgba(4, 35, 26, 0.18)",
-        panel: "0 30px 70px -30px rgba(4, 35, 26, 0.42)",
-        alert: "0 10px 30px -10px rgba(193, 14, 31, 0.45)",
+        surface: "0 12px 36px -24px rgba(6, 23, 46, 0.32)",
+        lift: "0 24px 64px -32px rgba(6, 23, 46, 0.42)",
+        header: "0 12px 30px -26px rgba(6, 23, 46, 0.45)",
       },
       transitionTimingFunction: {
-        // Exponential ease-out only: no bounce, no elastic.
         out: "cubic-bezier(0.16, 1, 0.3, 1)",
-        "out-quart": "cubic-bezier(0.25, 1, 0.5, 1)",
       },
       zIndex: {
-        // Semantic scale. Nothing in the codebase may use a raw z value.
-        base: "0",
-        raised: "10",
-        sticky: "20",
-        header: "30",
+        sticky: "30",
         overlay: "40",
         drawer: "50",
         skip: "60",
-      },
-      maxWidth: {
-        prose: "68ch",
-      },
-      keyframes: {
-        "rise-in": {
-          from: { opacity: "0", transform: "translate3d(0, 1.25rem, 0)" },
-          to: { opacity: "1", transform: "translate3d(0, 0, 0)" },
-        },
-        "fade-in": {
-          from: { opacity: "0" },
-          to: { opacity: "1" },
-        },
-        "scale-in": {
-          from: { opacity: "0", transform: "scale(0.97)" },
-          to: { opacity: "1", transform: "scale(1)" },
-        },
-        "pulse-ring": {
-          "0%": { transform: "scale(0.85)", opacity: "0.7" },
-          "70%, 100%": { transform: "scale(1.9)", opacity: "0" },
-        },
-        "sheen": {
-          from: { transform: "translateX(-120%) skewX(-18deg)" },
-          to: { transform: "translateX(260%) skewX(-18deg)" },
-        },
-      },
-      animation: {
-        "rise-in": "rise-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both",
-        "fade-in": "fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both",
-        "scale-in": "scale-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both",
-        "pulse-ring": "pulse-ring 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite",
       },
     },
   },

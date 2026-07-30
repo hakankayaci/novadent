@@ -308,12 +308,20 @@ test.describe("Keyboard and interaction", () => {
 
     await page.locator("#tedaviler").scrollIntoViewIfNeeded();
     await expect(page.getByTestId("mobile-action-bar")).toBeVisible();
-    await expect(
-      page.getByTestId("mobile-action-bar").locator(`a[href="${TEL}"]`),
-    ).toBeVisible();
-    await expect(
-      page.getByTestId("mobile-action-bar").locator(`a[href="${TEL}"]`),
-    ).toHaveCSS("background-color", "rgb(252, 251, 248)");
+    const mobileBar = page.getByTestId("mobile-action-bar");
+    const callAction = mobileBar.locator(`a[href="${TEL}"]`);
+    const glassSurface = mobileBar.locator(".mobile-liquid-glass");
+    await expect(callAction).toBeVisible();
+    await expect(callAction).toHaveClass(/mobile-liquid-action--call/);
+    await expect(glassSurface).toHaveCount(1);
+    expect(
+      await glassSurface.evaluate(
+        (element) => getComputedStyle(element).backdropFilter,
+      ),
+    ).toContain("blur");
+    await callAction.focus();
+    await expect(callAction).toHaveCSS("outline-color", "rgb(6, 23, 46)");
+    expect((await callAction.boundingBox())?.height).toBeGreaterThanOrEqual(48);
     await expect(
       page
         .getByTestId("mobile-action-bar")
@@ -327,6 +335,7 @@ test.describe("Responsive and accessibility matrix", () => {
     page,
   }, testInfo) => {
     test.skip(testInfo.project.name !== "Desktop Chrome");
+    test.setTimeout(90_000);
     const widths = [320, 360, 390, 430, 768, 1024, 1279, 1280, 1440, 1920];
 
     for (const locale of LOCALES) {
@@ -422,7 +431,7 @@ test.describe("Responsive and accessibility matrix", () => {
       "animation-name",
       "none",
     );
-    await expect(page.locator(".tooth-glint")).toHaveCSS("display", "none");
+    await expect(page.locator(".tooth-shimmer")).toHaveCSS("display", "none");
   });
 });
 

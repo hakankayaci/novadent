@@ -116,6 +116,23 @@ test.describe("Brand, proof and content", () => {
     await expect(image).toHaveAttribute("src", /hero-desktop\.webp/);
     await expect(smileImage).toBeVisible();
     await expect(smileImage).toHaveAttribute("src", /hero-smile-desktop\.webp/);
+    const enamelGlint = page.locator(".tooth-shimmer__enamel");
+    await expect(enamelGlint).toHaveCount(1);
+    await expect(page.locator(".tooth-shimmer__spark")).toHaveCount(0);
+    await expect(enamelGlint).toHaveCSS(
+      "animation-name",
+      "enamel-final-glint",
+    );
+    await expect(enamelGlint).toHaveCSS("animation-iteration-count", "1");
+    expect(
+      await enamelGlint.evaluate((element) => getComputedStyle(element).maskImage),
+    ).toContain("teeth-mask-mobile.png");
+    expect(
+      await enamelGlint.evaluate(
+        (element) =>
+          getComputedStyle(element, "::before").animationIterationCount,
+      ),
+    ).toBe("1");
 
     const imageBox = await image.boundingBox();
     const headingBox = await heading.boundingBox();

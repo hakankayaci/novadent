@@ -365,9 +365,6 @@ export function HomePage({ language, copy }: HomePageProps) {
               <FlossLine />
               <span aria-hidden className="tooth-shimmer">
                 <span className="tooth-shimmer__enamel" />
-                <span className="tooth-shimmer__spark tooth-shimmer__spark--primary" />
-                <span className="tooth-shimmer__spark tooth-shimmer__spark--secondary" />
-                <span className="tooth-shimmer__spark tooth-shimmer__spark--micro" />
               </span>
             </div>
           </div>

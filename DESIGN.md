@@ -268,7 +268,7 @@ Real clinic images use object-cover, explicit dimensions, responsive sizes, and 
 
 ### Luminous Floss Guide
 
-The cyan route draws once over 1.35s while the branded clinic plate resolves into the generated smile portrait. A soft cyan glow and white-core light pulse travel along the same route, then disappear completely. Its endpoint lands on the upper teeth, becomes a brief porcelain-light sweep clipped to the scalloped silhouette of the visible tooth row, and resolves into three restrained enamel spark points before fading. No ellipse, ring, or ambient halo may surround the mouth. The effect plays only once. This is the sole authored motion signature; reduced motion shows the final portrait immediately with no shimmer.
+The cyan route draws once over 1.35s while the branded clinic plate resolves into the generated smile portrait. A soft cyan glow and white-core light pulse travel along the same route, then disappear completely. After the endpoint reaches the upper teeth, one short porcelain glint crosses the real tooth-pixel mask and fades. No star, ellipse, ring, or ambient halo may appear outside the teeth, and the glint never repeats. This is the sole authored motion signature; reduced motion shows the final portrait immediately with no shimmer.
 
 ### Mobile Liquid Actions
 

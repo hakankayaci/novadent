@@ -322,6 +322,18 @@ test.describe("Keyboard and interaction", () => {
     await callAction.focus();
     await expect(callAction).toHaveCSS("outline-color", "rgb(6, 23, 46)");
     expect((await callAction.boundingBox())?.height).toBeGreaterThanOrEqual(48);
+    const callBounds = await callAction.boundingBox();
+    expect(callBounds).not.toBeNull();
+    await page.mouse.move(
+      callBounds!.x + callBounds!.width / 2,
+      callBounds!.y + callBounds!.height / 2,
+    );
+    await page.mouse.down();
+    await expect(callAction).toHaveCSS(
+      "border-top-color",
+      "rgba(6, 23, 46, 0.14)",
+    );
+    await page.mouse.up();
     await expect(
       page
         .getByTestId("mobile-action-bar")
@@ -429,6 +441,14 @@ test.describe("Responsive and accessibility matrix", () => {
     expect(hidden).toBe(0);
     await expect(page.locator(".floss-path")).toHaveCSS(
       "animation-name",
+      "none",
+    );
+    await expect(page.locator(".floss-path-glow")).toHaveCSS(
+      "animation-name",
+      "none",
+    );
+    await expect(page.locator(".floss-path-pulse")).toHaveCSS(
+      "display",
       "none",
     );
     await expect(page.locator(".tooth-shimmer")).toHaveCSS("display", "none");

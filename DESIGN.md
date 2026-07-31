@@ -268,11 +268,11 @@ Real clinic images use object-cover, explicit dimensions, responsive sizes, and 
 
 ### Luminous Floss Guide
 
-The cyan route draws once over 1.35s while the branded clinic plate resolves into the generated smile portrait. Its endpoint lands on the upper teeth, becomes a brief porcelain-light sweep across the full visible tooth row, and resolves into three staggered enamel spark points before fading. The effect stays bounded to the smile and plays only once. This is the sole authored motion signature; reduced motion shows the final portrait immediately with no shimmer.
+The cyan route draws once over 1.35s while the branded clinic plate resolves into the generated smile portrait. A soft cyan glow and white-core light pulse travel along the same route, then disappear completely. Its endpoint lands on the upper teeth, becomes a brief porcelain-light sweep clipped to the scalloped silhouette of the visible tooth row, and resolves into three restrained enamel spark points before fading. No ellipse, ring, or ambient halo may surround the mouth. The effect plays only once. This is the sole authored motion signature; reduced motion shows the final portrait immediately with no shimmer.
 
 ### Mobile Liquid Actions
 
-After the opening leaves the viewport, the persistent call and WhatsApp actions share one floating, translucent porcelain shell. Blur, saturation, a single specular edge, and platform-correct color make the material legible as a functional foreground layer rather than a stack of decorative glass cards. Each action keeps a 48px target, high-contrast text, visible focus, and a solid-color fallback when backdrop filtering is unavailable.
+After the opening leaves the viewport, the persistent call and WhatsApp actions share one floating, translucent porcelain shell. Blur, saturation, a single specular edge, and platform-correct color make the material legible as a functional foreground layer rather than a stack of decorative glass cards. Pressed actions retain their platform surface and use a small depth shift without a white rim or browser tap flash. Each action keeps a 48px target, high-contrast text, visible keyboard focus, and a solid-color fallback when backdrop filtering is unavailable.
 
 ## Do's and Don'ts
 

@@ -96,6 +96,13 @@ const treatmentIds: TreatmentId[] = [
   "genel-dis-sagligi",
 ];
 
+const treatmentImages: Record<TreatmentId, string> = Object.fromEntries(
+  treatmentIds.map((id) => [
+    id,
+    `/images/novadent/treatments/${id}.webp`,
+  ]),
+) as Record<TreatmentId, string>;
+
 function whatsappUrl(message: string) {
   return `${business.phone.whatsapp}?text=${encodeURIComponent(message)}`;
 }
@@ -376,8 +383,8 @@ export function HomePage({ language, copy }: HomePageProps) {
           aria-labelledby="treatments-title"
         >
           <div className="page-shell">
-            <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:gap-16">
-              <div data-reveal>
+            <div className="grid gap-8 lg:grid-cols-[1fr_0.55fr] lg:items-end lg:gap-16">
+              <div data-reveal className="max-w-3xl">
                 <p className="mb-4 text-xs font-bold uppercase tracking-[0.22em] text-aqua-700">
                   {copy.treatments.eyebrow}
                 </p>
@@ -390,57 +397,70 @@ export function HomePage({ language, copy }: HomePageProps) {
                 <p className="mt-5 text-lead text-copy-soft">
                   {copy.treatments.body}
                 </p>
-                <p className="mt-7 border-l-2 border-aqua-500 pl-4 text-sm leading-6 text-copy-muted">
+              </div>
+
+              <p
+                data-reveal
+                className="flex items-start gap-3 border-t border-ink-950/15 pt-5 text-sm leading-6 text-copy-muted"
+              >
+                <CheckCircle2
+                  aria-hidden
+                  className="mt-0.5 h-4 w-4 shrink-0 text-aqua-700"
+                />
+                <span>
                   {copy.treatments.disclaimer}
-                </p>
-              </div>
+                </span>
+              </p>
+            </div>
 
-              <div className="grid gap-x-8 sm:grid-cols-2">
-                {treatmentIds.map((id, index) => {
-                  const treatment = copy.treatments.items[id];
-                  const message = copy.whatsapp.treatmentMessageTemplate.replace(
-                    "{treatment}",
-                    treatment.title,
-                  );
+            <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {treatmentIds.map((id, index) => {
+                const treatment = copy.treatments.items[id];
+                const message = copy.whatsapp.treatmentMessageTemplate.replace(
+                  "{treatment}",
+                  treatment.title,
+                );
 
-                  return (
-                    <article
-                      key={id}
-                      data-reveal
-                      style={
-                        {
-                          "--reveal-delay": `${(index % 2) * 80}ms`,
-                        } as CSSProperties
-                      }
-                      className="border-t border-ink-950/15 py-6"
+                return (
+                  <article
+                    key={id}
+                    data-reveal
+                    data-treatment-id={id}
+                    style={
+                      {
+                        "--reveal-delay": `${(index % 4) * 60}ms`,
+                      } as CSSProperties
+                    }
+                    className="group flex min-w-0 flex-col rounded-surface border border-ink-950/10 bg-white p-5 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-1 hover:border-aqua-500/55 focus-within:border-aqua-500"
+                  >
+                    <OptimizedImage
+                      src={treatmentImages[id]}
+                      alt=""
+                      width={480}
+                      height={480}
+                      pictureClassName="block h-24 w-24 overflow-hidden rounded-[0.875rem] bg-mist"
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]"
+                    />
+
+                    <h3 className="mt-5 text-xl font-bold leading-snug text-ink-950">
+                      {treatment.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-copy-soft">
+                      {treatment.summary}
+                    </p>
+                    <a
+                      href={whatsappUrl(message)}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${copy.treatments.itemCta}: ${treatment.title}`}
+                      className="mt-auto inline-flex min-h-11 items-center gap-2 pt-6 text-sm font-bold text-aqua-700 transition-colors hover:text-ink-950"
                     >
-                      <div className="flex items-start gap-4">
-                        <span className="font-display text-sm font-bold tabular-nums text-aqua-700">
-                          {String(index + 1).padStart(2, "0")}
-                        </span>
-                        <div className="min-w-0">
-                          <h3 className="text-xl font-bold text-ink-950">
-                            {treatment.title}
-                          </h3>
-                          <p className="mt-2 text-sm leading-6 text-copy-soft">
-                            {treatment.summary}
-                          </p>
-                          <a
-                            href={whatsappUrl(message)}
-                            target="_blank"
-                            rel="noreferrer"
-                            aria-label={`${copy.treatments.itemCta}: ${treatment.title}`}
-                            className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-aqua-700 transition-colors hover:text-ink-950"
-                          >
-                            {copy.treatments.itemCta}
-                            <ArrowUpRight aria-hidden className="h-4 w-4" />
-                          </a>
-                        </div>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
+                      {copy.treatments.itemCta}
+                      <ArrowUpRight aria-hidden className="h-4 w-4" />
+                    </a>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

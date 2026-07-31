@@ -266,6 +266,10 @@ Use the official multicolor Google G, gold stars, the sourced score and count, a
 
 Real clinic images use object-cover, explicit dimensions, responsive sizes, and a subtle hover scale. A dark-to-transparent caption veil is acceptable for legibility; logos, follower counts, and artificial social metrics are not overlaid.
 
+### Treatment Cards
+
+The treatment section begins with one full-width editorial introduction and a separate examination note, followed by eight flat porcelain cards. Each card uses one small, treatment-specific clinical still life with no patient, treatment result, or outcome claim. Cards reflow from one column on mobile to two on medium screens and four only at wide desktop sizes, preserving long Greek and Bulgarian titles. Photography leads, concise information supports it, and the treatment-specific WhatsApp action stays aligned at the card foot.
+
 ### Luminous Floss Guide
 
 The cyan route draws once over 1.35s while the branded clinic plate resolves into the generated smile portrait. A soft cyan glow and white-core light pulse travel along the same route, then disappear completely. After the endpoint reaches the upper teeth, one short porcelain glint crosses the real tooth-pixel mask and resolves into one small four-point white star on a central tooth. The star is clipped by the same mask, never renders outside the teeth, and never repeats. No ellipse, ring, or ambient halo may surround the mouth. This is the sole authored motion signature; reduced motion shows the final portrait immediately with no shimmer.

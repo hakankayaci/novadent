@@ -145,6 +145,41 @@ test.describe("Brand, proof and content", () => {
     expect(imageBox!.y + imageBox!.height).toBeLessThanOrEqual(headingBox!.y + 2);
   });
 
+  test("treatment cards use eight distinct optimized images", async ({ page }) => {
+    await page.goto("/");
+
+    const section = page.locator("#tedaviler");
+    const cards = section.locator("[data-treatment-id]");
+    const images = cards.locator("img");
+    const avifSources = cards.locator('source[type="image/avif"]');
+
+    await expect(cards).toHaveCount(8);
+    await expect(images).toHaveCount(8);
+    await expect(avifSources).toHaveCount(8);
+    await section.scrollIntoViewIfNeeded();
+
+    const sources = await images.evaluateAll((nodes) =>
+      nodes.map((node) => node.getAttribute("src") ?? ""),
+    );
+    expect(new Set(sources).size).toBe(8);
+    for (const source of sources) {
+      expect(source).toMatch(/^\/images\/novadent\/treatments\/.+\.webp$/);
+    }
+
+    await expect
+      .poll(() =>
+        images.evaluateAll((nodes) =>
+          nodes.every(
+            (node) =>
+              node instanceof HTMLImageElement &&
+              node.complete &&
+              node.naturalWidth > 0,
+          ),
+        ),
+      )
+      .toBe(true);
+  });
+
   test("Google proof shows 5.0, 141, three excerpts and derived 138", async ({
     page,
   }) => {

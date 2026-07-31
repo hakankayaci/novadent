@@ -20,6 +20,14 @@ const requiredSources = [
   "clinic-room-b.png",
   "clinic-lounge.png",
   "clinic-dental-unit.png",
+  "treatments/implant-tedavisi.webp",
+  "treatments/gulus-tasarimi.webp",
+  "treatments/estetik-dis-hekimligi.webp",
+  "treatments/dis-beyazlatma.webp",
+  "treatments/kanal-tedavisi.webp",
+  "treatments/dis-eti-tedavileri.webp",
+  "treatments/cocuk-dis-hekimligi.webp",
+  "treatments/genel-dis-sagligi.webp",
 ];
 
 for (const file of requiredSources) {
@@ -33,6 +41,7 @@ for (const directory of [
   "images/novadent/hero",
   "images/novadent/clinic",
   "images/novadent/social",
+  "images/novadent/treatments",
 ]) {
   fs.mkdirSync(output(...directory.split("/")), { recursive: true });
 }
@@ -167,6 +176,31 @@ async function buildSocial() {
         withoutEnlargement: true,
       });
     await writeAvifAndWebp(image, "social", name);
+  }
+}
+
+const treatmentImages = [
+  "implant-tedavisi",
+  "gulus-tasarimi",
+  "estetik-dis-hekimligi",
+  "dis-beyazlatma",
+  "kanal-tedavisi",
+  "dis-eti-tedavileri",
+  "cocuk-dis-hekimligi",
+  "genel-dis-sagligi",
+];
+
+async function buildTreatments() {
+  for (const name of treatmentImages) {
+    const image = sharp(source(`treatments/${name}.webp`))
+      .rotate()
+      .resize(480, 480, {
+        fit: "cover",
+        position: "centre",
+        kernel: sharp.kernel.lanczos3,
+        withoutEnlargement: true,
+      });
+    await writeAvifAndWebp(image, "treatments", name);
   }
 }
 
@@ -408,5 +442,6 @@ await buildBrand();
 await buildHero();
 await buildClinic();
 await buildSocial();
+await buildTreatments();
 
 console.log(`Wrote:\n${written.map((line) => `  ${line}`).join("\n")}`);

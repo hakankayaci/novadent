@@ -119,20 +119,24 @@ test.describe("Brand, proof and content", () => {
     const enamelGlint = page.locator(".tooth-shimmer__enamel");
     await expect(enamelGlint).toHaveCount(1);
     await expect(page.locator(".tooth-shimmer__spark")).toHaveCount(0);
-    await expect(enamelGlint).toHaveCSS(
-      "animation-name",
-      "enamel-final-glint",
-    );
-    await expect(enamelGlint).toHaveCSS("animation-iteration-count", "1");
+    await expect(enamelGlint).toHaveCSS("animation-name", "none");
     expect(
       await enamelGlint.evaluate((element) => getComputedStyle(element).maskImage),
     ).toContain("teeth-mask-mobile.png");
     expect(
-      await enamelGlint.evaluate(
-        (element) =>
-          getComputedStyle(element, "::before").animationIterationCount,
-      ),
-    ).toBe("1");
+      await enamelGlint.evaluate((element) => ({
+        sweepName: getComputedStyle(element, "::before").animationName,
+        sweepCount: getComputedStyle(element, "::before")
+          .animationIterationCount,
+        starName: getComputedStyle(element, "::after").animationName,
+        starCount: getComputedStyle(element, "::after").animationIterationCount,
+      })),
+    ).toEqual({
+      sweepName: "enamel-sweep",
+      sweepCount: "1",
+      starName: "enamel-star",
+      starCount: "1",
+    });
 
     const imageBox = await image.boundingBox();
     const headingBox = await heading.boundingBox();

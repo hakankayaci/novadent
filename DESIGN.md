@@ -268,7 +268,11 @@ Real clinic images use object-cover, explicit dimensions, responsive sizes, and 
 
 ### Treatment Cards
 
-The treatment section begins with one full-width editorial introduction and a separate examination note, followed by eight flat porcelain cards. Each card uses one small, treatment-specific clinical still life with no patient, treatment result, or outcome claim. Cards reflow from one column on mobile to two on medium screens and four only at wide desktop sizes, preserving long Greek and Bulgarian titles. Photography leads, concise information supports it, and the treatment-specific WhatsApp action stays aligned at the card foot.
+The treatment section begins with one full-width editorial introduction and a separate examination note, followed by eight flat porcelain cards. Each card uses one compact, full-width treatment-specific clinical crop with no patient, treatment result, or outcome claim; the media band spans the card so the top composition remains balanced at every column width. Cards reflow from one column on mobile to two on medium screens and four only at wide desktop sizes, preserving long Greek and Bulgarian titles. Photography leads, concise information supports it, and the treatment-specific WhatsApp action stays aligned at the card foot.
+
+### Other Branch Panel
+
+The Tekirdağ branch appears once at the end of the main content, after the Edirne contact section and before the footer. It is a compact solid-cyan panel rather than a second contact section: the proper branch name leads, while Google Maps and the branch website are the only two actions. This keeps the alternate location discoverable without confusing it with NOVADENT Edirne's primary phone, hours, or appointment path.
 
 ### Luminous Floss Guide
 

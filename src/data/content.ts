@@ -156,6 +156,11 @@ export interface Copy {
       successMessage: string;
     };
   };
+  otherBranch: {
+    eyebrow: string;
+    mapsCta: string;
+    websiteCta: string;
+  };
   footer: {
     tagline: string;
     medicalDisclaimer: string;
@@ -465,6 +470,11 @@ const tr: Copy = {
       successMessage: "Talebiniz WhatsApp'ta gönderime hazırlandı.",
     },
   },
+  otherBranch: {
+    eyebrow: "Diğer Şubemiz",
+    mapsCta: "Google Maps'te Gör",
+    websiteCta: "Web Sitesini Aç",
+  },
   footer: {
     tagline: "Edirne'de açık iletişim ve kişiye özel planlamayla ağız ve diş sağlığı hizmeti.",
     medicalDisclaimer: "Bu sitedeki bilgiler genel bilgilendirme amaçlıdır; hekim muayenesi, tanı veya tedavi planının yerine geçmez.",
@@ -713,6 +723,11 @@ const en: Copy = {
       consentError: "Please accept the information notice to continue.",
       successMessage: "Your request is ready to send in WhatsApp.",
     },
+  },
+  otherBranch: {
+    eyebrow: "Our Other Branch",
+    mapsCta: "View on Google Maps",
+    websiteCta: "Visit Website",
   },
   footer: {
     tagline: "Dental care in Edirne with clear communication and individual planning.",
@@ -963,6 +978,11 @@ const el: Copy = {
       successMessage: "Το αίτημά σας είναι έτοιμο για αποστολή στο WhatsApp.",
     },
   },
+  otherBranch: {
+    eyebrow: "Το άλλο ιατρείο μας",
+    mapsCta: "Προβολή στο Google Maps",
+    websiteCta: "Επίσκεψη στην ιστοσελίδα",
+  },
   footer: {
     tagline: "Οδοντιατρική φροντίδα στην Αδριανούπολη με σαφή επικοινωνία και εξατομικευμένο σχεδιασμό.",
     medicalDisclaimer: "Οι πληροφορίες της ιστοσελίδας είναι γενικές και δεν αντικαθιστούν εξέταση, διάγνωση ή σχέδιο θεραπείας από οδοντίατρο.",
@@ -1211,6 +1231,11 @@ const bg: Copy = {
       consentError: "Приемете уведомлението, за да продължите.",
       successMessage: "Заявката ви е готова за изпращане в WhatsApp.",
     },
+  },
+  otherBranch: {
+    eyebrow: "Другият ни кабинет",
+    mapsCta: "Вижте в Google Maps",
+    websiteCta: "Посетете уебсайта",
   },
   footer: {
     tagline: "Дентална грижа в Одрин с ясна комуникация и индивидуално планиране.",

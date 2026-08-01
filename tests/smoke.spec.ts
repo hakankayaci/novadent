@@ -2,6 +2,9 @@ import { expect, test, type Page } from "@playwright/test";
 
 const TEL = "tel:+905011301522";
 const INSTAGRAM = "https://www.instagram.com/novadentclinicsedirne/";
+const OTHER_BRANCH_MAPS =
+  "https://www.google.com/maps/place/Tekirda%C4%9F+Di%C5%9F+Hekimi+Ahmet+Fatih+Erg%C3%BCn/@41.0935087,26.4434673,9z/data=!4m6!3m5!1s0x14b4f553ea8584eb:0x8ed21bcfb97ff07b!8m2!3d40.9836546!4d27.5695212!16s%2Fg%2F11h18w4y_c?entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D";
+const OTHER_BRANCH_WEBSITE = "https://www.afatihergun.com/";
 const LOCALES = [
   {
     path: "/",
@@ -9,6 +12,7 @@ const LOCALES = [
     ogLocale: "tr_TR",
     title: /NOVADENT Edirne/,
     heading: /Diş bakımında netlik/,
+    branchEyebrow: "Diğer Şubemiz",
   },
   {
     path: "/en",
@@ -16,6 +20,7 @@ const LOCALES = [
     ogLocale: "en_GB",
     title: /NOVADENT Edirne/,
     heading: /Clarity in dental care/,
+    branchEyebrow: "Our Other Branch",
   },
   {
     path: "/el",
@@ -23,6 +28,7 @@ const LOCALES = [
     ogLocale: "el_GR",
     title: /NOVADENT Αδριανούπολη|NOVADENT Edirne/,
     heading: /Σαφήνεια στην οδοντιατρική φροντίδα/,
+    branchEyebrow: "Το άλλο ιατρείο μας",
   },
   {
     path: "/bg",
@@ -30,6 +36,7 @@ const LOCALES = [
     ogLocale: "bg_BG",
     title: /NOVADENT Одрин/,
     heading: /Яснота в денталната грижа/,
+    branchEyebrow: "Другият ни кабинет",
   },
 ] as const;
 
@@ -53,6 +60,9 @@ test.describe("Locale routes and metadata", () => {
       await expect(page).toHaveTitle(locale.title);
       await expect(page.locator("h1")).toHaveCount(1);
       await expect(page.locator("h1")).toContainText(locale.heading);
+      await expect(page.getByTestId("other-branch")).toContainText(
+        locale.branchEyebrow,
+      );
       await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
         "content",
         locale.ogLocale,
@@ -178,6 +188,45 @@ test.describe("Brand, proof and content", () => {
         ),
       )
       .toBe(true);
+
+    const mediaGeometry = await cards.evaluateAll((nodes) =>
+      nodes.map((card) => {
+        const picture = card.querySelector("picture");
+        return {
+          cardWidth: card.getBoundingClientRect().width,
+          pictureWidth: picture?.getBoundingClientRect().width ?? 0,
+          pictureHeight: picture?.getBoundingClientRect().height ?? 0,
+        };
+      }),
+    );
+    for (const geometry of mediaGeometry) {
+      expect(geometry.pictureWidth).toBeGreaterThanOrEqual(
+        geometry.cardWidth - 42,
+      );
+      expect(geometry.pictureWidth).toBeGreaterThan(geometry.pictureHeight);
+    }
+  });
+
+  test("other Tekirdağ branch is linked at the end of the page", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const branchPanel = page.getByTestId("other-branch");
+    const branch = branchPanel.getByRole("heading", {
+      name: "Tekirdağ Diş Hekimi Ahmet Fatih Ergün",
+    });
+    await expect(branch).toBeVisible();
+    await expect(
+      branchPanel.getByRole("link", { name: /Google Maps'te Gör/ }),
+    ).toHaveAttribute("href", OTHER_BRANCH_MAPS);
+    await expect(
+      branchPanel.getByRole("link", { name: /Web Sitesini Aç/ }),
+    ).toHaveAttribute("href", OTHER_BRANCH_WEBSITE);
+    await expect(page.locator("main > section").last()).toHaveAttribute(
+      "data-testid",
+      "other-branch",
+    );
   });
 
   test("Google proof shows 5.0, 141, three excerpts and derived 138", async ({

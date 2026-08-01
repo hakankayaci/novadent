@@ -9,6 +9,13 @@ const MAPS_QUERY =
 
 export const googleReviewsUrl = GOOGLE_REVIEWS_URL;
 
+export const otherBranch = {
+  name: "Tekirdağ Diş Hekimi Ahmet Fatih Ergün",
+  mapsUrl:
+    "https://www.google.com/maps/place/Tekirda%C4%9F+Di%C5%9F+Hekimi+Ahmet+Fatih+Erg%C3%BCn/@41.0935087,26.4434673,9z/data=!4m6!3m5!1s0x14b4f553ea8584eb:0x8ed21bcfb97ff07b!8m2!3d40.9836546!4d27.5695212!16s%2Fg%2F11h18w4y_c?entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D",
+  websiteUrl: "https://www.afatihergun.com/",
+} as const;
+
 export const business: BusinessInfo = {
   name: "NOVADENT Ağız ve Diş Sağlığı Polikliniği",
   shortName: "NOVADENT",

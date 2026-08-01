@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   CheckCircle2,
   Clock3,
+  Globe2,
   Languages,
   MapPin,
   MessageCircle,
@@ -30,7 +31,7 @@ import {
   type GalleryImageId,
   type TreatmentId,
 } from "@/data/content";
-import { business } from "@/data/site";
+import { business, otherBranch } from "@/data/site";
 import {
   languages,
   localeRoots,
@@ -438,7 +439,7 @@ export function HomePage({ language, copy }: HomePageProps) {
                       alt=""
                       width={480}
                       height={480}
-                      pictureClassName="block h-24 w-24 overflow-hidden rounded-[0.875rem] bg-mist"
+                      pictureClassName="block aspect-[16/9] w-full overflow-hidden rounded-[0.875rem] bg-mist"
                       className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.035]"
                     />
 
@@ -932,6 +933,54 @@ export function HomePage({ language, copy }: HomePageProps) {
                 title={copy.a11y.mapTitle}
                 buttonLabel={copy.contact.mapCta}
               />
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-testid="other-branch"
+          className="bg-white pb-16 sm:pb-20"
+          aria-labelledby="other-branch-title"
+        >
+          <div className="page-shell">
+            <div
+              data-reveal
+              className="mx-auto grid max-w-5xl gap-5 rounded-panel bg-aqua-500 p-5 text-ink-950 sm:p-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center"
+            >
+              <div className="min-w-0">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-800">
+                  {copy.otherBranch.eyebrow}
+                </p>
+                <h2
+                  id="other-branch-title"
+                  className="mt-2 text-xl font-bold leading-snug sm:text-2xl"
+                >
+                  {otherBranch.name}
+                </h2>
+              </div>
+
+              <div className="flex flex-col gap-2.5 sm:flex-row">
+                <a
+                  href={otherBranch.mapsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-ink-950 px-4 py-2.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
+                >
+                  <GoogleIcon className="h-4 w-4 rounded-full bg-white p-px" />
+                  {copy.otherBranch.mapsCta}
+                  <ArrowUpRight aria-hidden className="h-4 w-4" />
+                </a>
+                <a
+                  href={otherBranch.websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-bold text-ink-950 transition-transform hover:-translate-y-0.5"
+                >
+                  <Globe2 aria-hidden className="h-4 w-4" />
+                  {copy.otherBranch.websiteCta}
+                  <ArrowUpRight aria-hidden className="h-4 w-4" />
+                </a>
+              </div>
             </div>
           </div>
         </section>
